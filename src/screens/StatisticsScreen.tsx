@@ -1,9 +1,10 @@
-import { Text, SafeAreaView } from 'react-native';
+import { Text } from 'react-native';
+import { SafeAreaCard } from '../components/UI/SafeAreaCard';
 
 export const StatisticsScreen = () => {
     return (
-        <SafeAreaView>
+        <SafeAreaCard>
             <Text>StatisticsScreen</Text>
-        </SafeAreaView>
+        </SafeAreaCard>
     );
 };

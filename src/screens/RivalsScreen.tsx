@@ -1,9 +1,10 @@
 import { SafeAreaView, Text } from 'react-native';
+import { SafeAreaCard } from '../components/UI/SafeAreaCard';
 
 export const RivalsScreen = () => {
     return (
-        <SafeAreaView>
-            <Text style={{ fontSize: 24 }}>Text</Text>
-        </SafeAreaView>
+        <SafeAreaCard>
+            <Text>RIVALS SCREEN</Text>
+        </SafeAreaCard>
     );
 };

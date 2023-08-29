@@ -1,16 +1,12 @@
 import { Text, StyleSheet } from 'react-native';
 import { SafeAreaCard } from '../components/UI/SafeAreaCard';
 
-export const UserProfileScreen = () => {
+export const SettingsScreen = () => {
     return (
         <SafeAreaCard>
-            <Text>USER PROFILE SCREEN</Text>
+            <Text>UserProfileScreen</Text>
         </SafeAreaCard>
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-});
+const styles = StyleSheet.create({});

@@ -9,6 +9,7 @@ import { TimerScreen } from './TimerScreen';
 import { StatisticsScreen } from './StatisticsScreen';
 import { getColor } from '../utils/getColor';
 import { NavigationIcon } from '../components/NavigationIcon';
+import { SettingsScreen } from './SettingsScreen';
 
 export const Navigation = ({ onReady }: { onReady: () => void }) => {
     const BottomTabs = createBottomTabNavigator();
@@ -26,28 +27,13 @@ export const Navigation = ({ onReady }: { onReady: () => void }) => {
                         tabBarInactiveTintColor: getColor(isDarkTheme, 'gray400'),
                         tabBarShowLabel: false,
                         tabBarStyle: {
+                            borderTopWidth: 0,
                             backgroundColor: getColor(isDarkTheme, 'gray800'),
                             alignItems: 'center',
                             height: 70,
                         },
                     }}
                 >
-                    <BottomTabs.Screen
-                        name="TimerScreen"
-                        component={TimerScreen}
-                        options={{
-                            title: 'Timer',
-                            tabBarIcon: ({ size, color, focused }) => (
-                                <NavigationIcon
-                                    size={size}
-                                    color={color}
-                                    icon="timer-outline"
-                                    isActive={focused}
-                                    bgActiveColor={getColor(isDarkTheme, 'primary')}
-                                />
-                            ),
-                        }}
-                    />
                     <BottomTabs.Screen
                         name="RivalsScreen"
                         component={RivalsScreen}
@@ -59,7 +45,8 @@ export const Navigation = ({ onReady }: { onReady: () => void }) => {
                                     color={color}
                                     icon="trophy-outline"
                                     isActive={focused}
-                                    bgActiveColor={getColor(isDarkTheme, 'primary')}
+                                    bgActiveColor={getColor(isDarkTheme, 'primary500')}
+                                    bgInactiveColor={getColor(isDarkTheme, 'gray800')}
                                 />
                             ),
                         }}
@@ -75,7 +62,26 @@ export const Navigation = ({ onReady }: { onReady: () => void }) => {
                                     color={color}
                                     icon="stats-chart-outline"
                                     isActive={focused}
-                                    bgActiveColor={getColor(isDarkTheme, 'primary')}
+                                    bgActiveColor={getColor(isDarkTheme, 'primary500')}
+                                    bgInactiveColor={getColor(isDarkTheme, 'gray800')}
+                                />
+                            ),
+                        }}
+                    />
+                    <BottomTabs.Screen
+                        name="TimerScreen"
+                        component={TimerScreen}
+                        options={{
+                            title: 'Timer',
+                            tabBarIcon: ({ size, color, focused }) => (
+                                <NavigationIcon
+                                    size={size}
+                                    color={color}
+                                    icon="timer-outline"
+                                    isActive={focused}
+                                    bgActiveColor={getColor(isDarkTheme, 'primary500')}
+                                    bgInactiveColor={getColor(isDarkTheme, 'gray800')}
+                                    isMiddleIcon={true}
                                 />
                             ),
                         }}
@@ -91,7 +97,25 @@ export const Navigation = ({ onReady }: { onReady: () => void }) => {
                                     color={color}
                                     icon="md-person-outline"
                                     isActive={focused}
-                                    bgActiveColor={getColor(isDarkTheme, 'primary')}
+                                    bgActiveColor={getColor(isDarkTheme, 'primary500')}
+                                    bgInactiveColor={getColor(isDarkTheme, 'gray800')}
+                                />
+                            ),
+                        }}
+                    />
+                    <BottomTabs.Screen
+                        name="SettingsScreen"
+                        component={SettingsScreen}
+                        options={{
+                            title: 'Settings',
+                            tabBarIcon: ({ size, color, focused }) => (
+                                <NavigationIcon
+                                    size={size}
+                                    color={color}
+                                    icon="settings-outline"
+                                    isActive={focused}
+                                    bgActiveColor={getColor(isDarkTheme, 'primary500')}
+                                    bgInactiveColor={getColor(isDarkTheme, 'gray800')}
                                 />
                             ),
                         }}

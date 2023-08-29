@@ -1,9 +1,12 @@
-import { Text, SafeAreaView } from 'react-native';
+import { Text, StyleSheet } from 'react-native';
+import { SafeAreaCard } from '../components/UI/SafeAreaCard';
 
 export const TimerScreen = () => {
     return (
-        <SafeAreaView>
-            <Text>TimerScreen</Text>
-        </SafeAreaView>
+        <SafeAreaCard>
+            <Text>TIMER SCREEN</Text>
+        </SafeAreaCard>
     );
 };
+
+const styles = StyleSheet.create({});
