@@ -8,7 +8,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { MainScreen } from './src/screens/MainScreen';
 import { CubeAnimation } from './src/components/CubeAnimation';
-import { AppContextProvider } from './src/store/app-context';
+import { ThemeContextProvider } from './src/store/theme-context';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -62,7 +62,7 @@ export default function App() {
 
     return (
         <>
-            <AppContextProvider>
+            <ThemeContextProvider>
                 <StatusBar />
                 {fontsReady && (
                     <NavigationContainer onReady={onApplicationReady}>
@@ -89,7 +89,7 @@ export default function App() {
                         <CubeAnimation progress={animationProgress.current} />
                     </View>
                 )}
-            </AppContextProvider>
+            </ThemeContextProvider>
         </>
     );
 }
