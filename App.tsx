@@ -1,14 +1,11 @@
 import { useCallback, useState, useRef, useEffect } from 'react';
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Animated, Easing } from 'react-native';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { MainScreen } from './src/screens/MainScreen';
 import { CubeAnimation } from './src/components/CubeAnimation';
 import { ThemeContextProvider } from './src/store/theme-context';
+import { Navigation } from './src/screens/Navigation';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -22,8 +19,6 @@ export default function App() {
     const [fontsReady, setFontsReady] = useState(false);
     const [isAppReady, setAppReady] = useState(false);
     const animationProgress = useRef(new Animated.Value(0));
-
-    const BottomTabs = createBottomTabNavigator();
 
     useEffect(() => {
         const loadFonts = async () => {
@@ -61,36 +56,27 @@ export default function App() {
     const showAnimation = !(isAppReady && isLayoutReady && fontsReady);
 
     return (
-        <>
-            <ThemeContextProvider>
-                <StatusBar />
-                {fontsReady && (
-                    <NavigationContainer onReady={onApplicationReady}>
-                        <BottomTabs.Navigator screenOptions={{ headerShown: false }}>
-                            <BottomTabs.Screen name="MainScreen" component={MainScreen} options={{}} />
-                        </BottomTabs.Navigator>
-                    </NavigationContainer>
-                )}
-                {showAnimation && (
-                    <View
-                        pointerEvents="none"
-                        style={{
-                            flex: 1,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            top: 0,
-                            left: 0,
-                            height: '100%',
-                            width: '100%',
-                            position: 'absolute',
-                        }}
-                        onLayout={onLayoutRootView}
-                    >
-                        <CubeAnimation progress={animationProgress.current} />
-                    </View>
-                )}
-            </ThemeContextProvider>
-        </>
+        <ThemeContextProvider>
+            {fontsReady && <Navigation onReady={onApplicationReady} />}
+            {showAnimation && (
+                <View
+                    pointerEvents="none"
+                    style={{
+                        flex: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        top: 0,
+                        left: 0,
+                        height: '100%',
+                        width: '100%',
+                        position: 'absolute',
+                    }}
+                    onLayout={onLayoutRootView}
+                >
+                    <CubeAnimation progress={animationProgress.current} />
+                </View>
+            )}
+        </ThemeContextProvider>
     );
 }
 
