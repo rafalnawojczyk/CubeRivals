@@ -1,9 +1,9 @@
-import { Text, View } from 'react-native';
+import { Text, SafeAreaView } from 'react-native';
 
 export const UserProfileScreen = () => {
     return (
-        <View>
+        <SafeAreaView>
             <Text>UserProfileScreen</Text>
-        </View>
+        </SafeAreaView>
     );
 };

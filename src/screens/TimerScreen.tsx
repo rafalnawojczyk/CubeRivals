@@ -1,9 +1,9 @@
-import { Text, View } from 'react-native';
+import { Text, SafeAreaView } from 'react-native';
 
 export const TimerScreen = () => {
     return (
-        <View>
+        <SafeAreaView>
             <Text>TimerScreen</Text>
-        </View>
+        </SafeAreaView>
     );
 };

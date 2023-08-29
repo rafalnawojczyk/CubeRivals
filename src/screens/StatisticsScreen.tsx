@@ -1,9 +1,9 @@
-import { Text, View } from 'react-native';
+import { Text, SafeAreaView } from 'react-native';
 
 export const StatisticsScreen = () => {
     return (
-        <View>
+        <SafeAreaView>
             <Text>StatisticsScreen</Text>
-        </View>
+        </SafeAreaView>
     );
 };

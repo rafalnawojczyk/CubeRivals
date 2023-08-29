@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StatusBar } from 'expo-status-bar';
-import { MainScreen } from './MainScreen';
+import { RivalsScreen } from './RivalsScreen';
 import { useContext } from 'react';
 import { ThemeContext } from '../store/theme-context';
 import { UserProfileScreen } from './UserProfileScreen';
@@ -33,22 +33,6 @@ export const Navigation = ({ onReady }: { onReady: () => void }) => {
                     }}
                 >
                     <BottomTabs.Screen
-                        name="MainScreen"
-                        component={MainScreen}
-                        options={{
-                            title: 'Home',
-                            tabBarIcon: ({ size, color, focused }) => (
-                                <NavigationIcon
-                                    size={size}
-                                    color={color}
-                                    icon="home-outline"
-                                    isActive={focused}
-                                    bgActiveColor={getColor(isDarkTheme, 'primary')}
-                                />
-                            ),
-                        }}
-                    />
-                    <BottomTabs.Screen
                         name="TimerScreen"
                         component={TimerScreen}
                         options={{
@@ -58,6 +42,22 @@ export const Navigation = ({ onReady }: { onReady: () => void }) => {
                                     size={size}
                                     color={color}
                                     icon="timer-outline"
+                                    isActive={focused}
+                                    bgActiveColor={getColor(isDarkTheme, 'primary')}
+                                />
+                            ),
+                        }}
+                    />
+                    <BottomTabs.Screen
+                        name="RivalsScreen"
+                        component={RivalsScreen}
+                        options={{
+                            title: 'Home',
+                            tabBarIcon: ({ size, color, focused }) => (
+                                <NavigationIcon
+                                    size={size}
+                                    color={color}
+                                    icon="trophy-outline"
                                     isActive={focused}
                                     bgActiveColor={getColor(isDarkTheme, 'primary')}
                                 />
