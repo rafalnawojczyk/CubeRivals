@@ -4,17 +4,17 @@ import { useColorScheme } from 'react-native';
 
 type ThemeType = 'dark' | 'light';
 
-interface AppContextInterface {
+interface ThemeContextInterface {
     isDarkTheme: boolean;
     setThemeByUser: (theme: ThemeType) => void;
 }
 
-export const AppContext = createContext<AppContextInterface>({
+export const ThemeContext = createContext<ThemeContextInterface>({
     isDarkTheme: false,
     setThemeByUser: theme => {},
 });
 
-export const AppContextProvider = ({ children }: { children?: React.ReactNode }) => {
+export const ThemeContextProvider = ({ children }: { children?: React.ReactNode }) => {
     const deviceTheme = useColorScheme();
 
     const [isDarkTheme, setIsDarkTheme] = useState(false);
@@ -47,5 +47,5 @@ export const AppContextProvider = ({ children }: { children?: React.ReactNode })
         getThemeFromStorage();
     }, []);
 
-    return <AppContext.Provider value={{ isDarkTheme, setThemeByUser }}>{children}</AppContext.Provider>;
+    return <ThemeContext.Provider value={{ isDarkTheme, setThemeByUser }}>{children}</ThemeContext.Provider>;
 };
