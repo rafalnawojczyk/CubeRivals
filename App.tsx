@@ -1,13 +1,14 @@
 import { useCallback, useState, useRef, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Animated, Easing } from 'react-native';
+import { StyleSheet, View, Animated, Easing } from 'react-native';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import LottieView from 'lottie-react-native';
-import { MainScreen } from './src/screens/MainScreen';
-import { COLORS } from './src/styles/base';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+import { MainScreen } from './src/screens/MainScreen';
+import { CubeAnimation } from './src/components/CubeAnimation';
+import { AppContextProvider } from './src/store/app-context';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -15,8 +16,6 @@ const fonts = {
     poppins: require('./src/assets/fonts/Poppins-Regular.ttf'),
     'poppins-bold': require('./src/assets/fonts/Poppins-Bold.ttf'),
 };
-
-const LOTTIE_JSON = require('./src/assets/cube-animation.json');
 
 export default function App() {
     const [isLayoutReady, setIsLayoutReady] = useState(false);
@@ -63,40 +62,34 @@ export default function App() {
 
     return (
         <>
-            {fontsReady && (
-                <NavigationContainer onReady={onApplicationReady}>
-                    <BottomTabs.Navigator>
-                        <BottomTabs.Screen name="MainScreen" component={MainScreen} />
-                    </BottomTabs.Navigator>
-                </NavigationContainer>
-            )}
-            {showAnimation && (
-                <View
-                    pointerEvents="none"
-                    style={{
-                        flex: 1,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        top: 0,
-                        left: 0,
-                        height: '100%',
-                        width: '100%',
-                        position: 'absolute',
-                    }}
-                    onLayout={onLayoutRootView}
-                >
-                    <LottieView
+            <AppContextProvider>
+                <StatusBar />
+                {fontsReady && (
+                    <NavigationContainer onReady={onApplicationReady}>
+                        <BottomTabs.Navigator screenOptions={{ headerShown: false }}>
+                            <BottomTabs.Screen name="MainScreen" component={MainScreen} options={{}} />
+                        </BottomTabs.Navigator>
+                    </NavigationContainer>
+                )}
+                {showAnimation && (
+                    <View
+                        pointerEvents="none"
                         style={{
-                            width: '50%',
-                            height: '50%',
+                            flex: 1,
                             justifyContent: 'center',
                             alignItems: 'center',
+                            top: 0,
+                            left: 0,
+                            height: '100%',
+                            width: '100%',
+                            position: 'absolute',
                         }}
-                        source={LOTTIE_JSON}
-                        progress={animationProgress.current}
-                    />
-                </View>
-            )}
+                        onLayout={onLayoutRootView}
+                    >
+                        <CubeAnimation progress={animationProgress.current} />
+                    </View>
+                )}
+            </AppContextProvider>
         </>
     );
 }
