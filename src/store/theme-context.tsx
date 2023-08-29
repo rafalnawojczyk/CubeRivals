@@ -37,7 +37,7 @@ export const ThemeContextProvider = ({ children }: { children?: React.ReactNode 
                 if (savedTheme) {
                     setIsDarkTheme(savedTheme === 'dark');
                 } else {
-                    setIsDarkTheme(deviceTheme === 'dark');
+                    setIsDarkTheme(deviceTheme === 'light'); // TODO: change to 'dark
                 }
             } catch (err) {
                 console.log(err);
