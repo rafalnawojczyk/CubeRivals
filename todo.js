@@ -2,3 +2,4 @@
 
 // TODO: Add internationalization to app and i18n support for multilang in future.
 // TODO: think about Adding sounds to app>?
+// TODO: Read about not dimming screen/ not blocking screen while in use

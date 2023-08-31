@@ -3,9 +3,10 @@ import { StyleSheet, View, Animated, Easing } from 'react-native';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 
-import { CubeAnimation } from './src/components/CubeAnimation';
 import { ThemeContextProvider } from './src/store/theme-context';
+import { UserContextProvider } from './src/store/user-context';
 import { Navigation } from './src/screens/Navigation';
+import { CubeAnimation } from './src/components/CubeAnimation';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -57,27 +58,27 @@ export default function App() {
 
     return (
         <ThemeContextProvider>
-            {fontsReady && <Navigation onReady={onApplicationReady} />}
-            {showAnimation && (
-                <View
-                    pointerEvents="none"
-                    style={{
-                        flex: 1,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        top: 0,
-                        left: 0,
-                        height: '100%',
-                        width: '100%',
-                        position: 'absolute',
-                    }}
-                    onLayout={onLayoutRootView}
-                >
-                    <CubeAnimation progress={animationProgress.current} />
-                </View>
-            )}
+            <UserContextProvider>
+                {fontsReady && <Navigation onReady={onApplicationReady} />}
+                {showAnimation && (
+                    <View pointerEvents="none" style={styles.animationContainer} onLayout={onLayoutRootView}>
+                        <CubeAnimation progress={animationProgress.current} />
+                    </View>
+                )}
+            </UserContextProvider>
         </ThemeContextProvider>
     );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    animationContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        top: 0,
+        left: 0,
+        height: '100%',
+        width: '100%',
+        position: 'absolute',
+    },
+});
