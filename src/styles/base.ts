@@ -16,4 +16,5 @@ export const FONTS = {
     sm: 12,
     md: 18,
     lg: 28,
+    '2xl': 64,
 };

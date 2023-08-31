@@ -1,10 +1,12 @@
 import { Text, StyleSheet } from 'react-native';
 import { SafeAreaCard } from '../components/UI/SafeAreaCard';
+import { Timer } from '../components/timer/Timer';
 
 export const TimerScreen = () => {
     return (
         <SafeAreaCard>
             <Text>TIMER SCREEN</Text>
+            <Timer />
         </SafeAreaCard>
     );
 };
@@ -33,7 +35,7 @@ const styles = StyleSheet.create({});
 //
 // Small indicator of Ao5/Ao12/Ao50/Ao100
 //
-// Small indicator of Avg/best/ amout of solves/deviation
+// Small indicator of Avg/best/ amount of solves/deviation
 //
 //
 // Settings should have:

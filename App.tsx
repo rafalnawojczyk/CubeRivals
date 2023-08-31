@@ -13,6 +13,7 @@ SplashScreen.preventAutoHideAsync().catch(() => {});
 const fonts = {
     poppins: require('./src/assets/fonts/Poppins-Regular.ttf'),
     'poppins-bold': require('./src/assets/fonts/Poppins-Bold.ttf'),
+    'poppins-light': require('./src/assets/fonts/Poppins-ExtraLight.ttf'),
 };
 
 export default function App() {
