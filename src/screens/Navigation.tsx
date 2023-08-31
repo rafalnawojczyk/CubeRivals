@@ -7,14 +7,15 @@ import { ThemeContext } from '../store/theme-context';
 import { UserProfileScreen } from './UserProfileScreen';
 import { TimerScreen } from './TimerScreen';
 import { StatisticsScreen } from './StatisticsScreen';
-import { getColor } from '../utils/getColor';
 import { NavigationIcon } from '../components/NavigationIcon';
 import { SettingsScreen } from './SettingsScreen';
+import { useColors } from '../hooks/useColors';
 
 export const Navigation = ({ onReady }: { onReady: () => void }) => {
     const BottomTabs = createBottomTabNavigator();
 
     const { isDarkTheme } = useContext(ThemeContext);
+    const getColor = useColors();
 
     return (
         <>
@@ -23,12 +24,12 @@ export const Navigation = ({ onReady }: { onReady: () => void }) => {
                 <BottomTabs.Navigator
                     screenOptions={{
                         headerShown: false,
-                        tabBarActiveTintColor: getColor(isDarkTheme, 'text'),
-                        tabBarInactiveTintColor: getColor(isDarkTheme, 'gray400'),
+                        tabBarActiveTintColor: getColor('text'),
+                        tabBarInactiveTintColor: getColor('gray400'),
                         tabBarShowLabel: false,
                         tabBarStyle: {
                             borderTopWidth: 0,
-                            backgroundColor: getColor(isDarkTheme, 'gray800'),
+                            backgroundColor: getColor('gray800'),
                             alignItems: 'center',
                             height: 70,
                         },
@@ -40,14 +41,7 @@ export const Navigation = ({ onReady }: { onReady: () => void }) => {
                         options={{
                             title: 'Home',
                             tabBarIcon: ({ size, color, focused }) => (
-                                <NavigationIcon
-                                    size={size}
-                                    color={color}
-                                    icon="trophy-outline"
-                                    isActive={focused}
-                                    bgActiveColor={getColor(isDarkTheme, 'primary500')}
-                                    bgInactiveColor={getColor(isDarkTheme, 'gray800')}
-                                />
+                                <NavigationIcon size={size} color={color} icon="trophy-outline" isActive={focused} />
                             ),
                         }}
                     />
@@ -62,8 +56,6 @@ export const Navigation = ({ onReady }: { onReady: () => void }) => {
                                     color={color}
                                     icon="stats-chart-outline"
                                     isActive={focused}
-                                    bgActiveColor={getColor(isDarkTheme, 'primary500')}
-                                    bgInactiveColor={getColor(isDarkTheme, 'gray800')}
                                 />
                             ),
                         }}
@@ -79,8 +71,6 @@ export const Navigation = ({ onReady }: { onReady: () => void }) => {
                                     color={color}
                                     icon="timer-outline"
                                     isActive={focused}
-                                    bgActiveColor={getColor(isDarkTheme, 'primary500')}
-                                    bgInactiveColor={getColor(isDarkTheme, 'gray800')}
                                     isMiddleIcon={true}
                                 />
                             ),
@@ -92,14 +82,7 @@ export const Navigation = ({ onReady }: { onReady: () => void }) => {
                         options={{
                             title: 'Profile',
                             tabBarIcon: ({ size, color, focused }) => (
-                                <NavigationIcon
-                                    size={size}
-                                    color={color}
-                                    icon="md-person-outline"
-                                    isActive={focused}
-                                    bgActiveColor={getColor(isDarkTheme, 'primary500')}
-                                    bgInactiveColor={getColor(isDarkTheme, 'gray800')}
-                                />
+                                <NavigationIcon size={size} color={color} icon="md-person-outline" isActive={focused} />
                             ),
                         }}
                     />
@@ -109,14 +92,7 @@ export const Navigation = ({ onReady }: { onReady: () => void }) => {
                         options={{
                             title: 'Settings',
                             tabBarIcon: ({ size, color, focused }) => (
-                                <NavigationIcon
-                                    size={size}
-                                    color={color}
-                                    icon="settings-outline"
-                                    isActive={focused}
-                                    bgActiveColor={getColor(isDarkTheme, 'primary500')}
-                                    bgInactiveColor={getColor(isDarkTheme, 'gray800')}
-                                />
+                                <NavigationIcon size={size} color={color} icon="settings-outline" isActive={focused} />
                             ),
                         }}
                     />

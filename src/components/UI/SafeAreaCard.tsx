@@ -1,15 +1,12 @@
-import { useContext } from 'react';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
 import Constants from 'expo-constants';
-
-import { ThemeContext } from '../../store/theme-context';
-import { getColor } from '../../utils/getColor';
+import { useColors } from '../../hooks/useColors';
 
 export const SafeAreaCard = ({ children }: { children?: React.ReactNode }) => {
-    const { isDarkTheme } = useContext(ThemeContext);
+    const getColor = useColors();
 
     return (
-        <View style={[styles.container, { backgroundColor: getColor(isDarkTheme, 'background') }]}>
+        <View style={[styles.container, { backgroundColor: getColor('background') }]}>
             <SafeAreaView style={[styles.container, styles.safeViewContainer]}>{children}</SafeAreaView>
         </View>
     );
@@ -23,5 +20,3 @@ const styles = StyleSheet.create({
         marginTop: Constants.statusBarHeight,
     },
 });
-
-// TODO: margin top as nav height
