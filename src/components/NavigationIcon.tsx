@@ -1,29 +1,21 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useContext } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { ThemeContext } from '../store/theme-context';
-import { getColor } from '../utils/getColor';
+import { useColors } from '../hooks/useColors';
 
 interface NavigationIconProps {
     icon: keyof typeof Ionicons.glyphMap;
     size: number;
     color: string;
-    bgActiveColor: string;
-    bgInactiveColor: string;
+
     isActive: boolean;
     isMiddleIcon?: boolean;
 }
 
-export const NavigationIcon = ({
-    icon,
-    size,
-    color,
-    bgActiveColor,
-    bgInactiveColor,
-    isMiddleIcon,
-    isActive,
-}: NavigationIconProps) => {
-    const { isDarkTheme } = useContext(ThemeContext);
+export const NavigationIcon = ({ icon, size, color, isMiddleIcon, isActive }: NavigationIconProps) => {
+    const getColor = useColors();
+
+    const bgActiveColor = getColor('primary500');
+    const bgInactiveColor = getColor('gray800');
 
     return (
         <View
@@ -37,13 +29,13 @@ export const NavigationIcon = ({
                 style={[
                     styles.innerContainer,
                     { backgroundColor: isMiddleIcon ? bgActiveColor : 'transparent' },
-                    isMiddleIcon && isActive && { borderWidth: 1, borderColor: getColor(isDarkTheme, 'text') },
+                    isMiddleIcon && isActive && { borderWidth: 1, borderColor: getColor('text') },
                 ]}
             >
                 <Ionicons
                     name={icon}
                     size={size}
-                    color={isMiddleIcon ? getColor(isDarkTheme, 'text') : isActive ? bgActiveColor : color}
+                    color={isMiddleIcon ? getColor('text') : isActive ? bgActiveColor : color}
                 />
             </View>
         </View>
