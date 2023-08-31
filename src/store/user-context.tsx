@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useState, useLayoutEffect } from 'react';
+import * as Localization from 'expo-localization';
 
 interface UserDataInterface {
     username: string;
@@ -34,8 +35,8 @@ export const UserContextProvider = ({ children }: { children?: React.ReactNode }
     };
 
     const value = {
-        username: userData.lang,
-        lang: userData.username,
+        username: userData.username,
+        lang: userData.lang,
         updateUser,
     };
 
@@ -46,6 +47,12 @@ export const UserContextProvider = ({ children }: { children?: React.ReactNode }
 
                 if (savedUserData) {
                     const parsedData = JSON.parse(savedUserData);
+
+                    if (!parsedData.lang) {
+                        parsedData.lang === Localization.locale.slice(0, 2);
+
+                        updateUser({ lang: Localization.locale.slice(0, 2) });
+                    }
 
                     setUserData(prevData => ({ ...prevData, ...parsedData }));
                 }

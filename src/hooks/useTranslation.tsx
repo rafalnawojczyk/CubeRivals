@@ -9,12 +9,10 @@ const translationObject = {
 };
 
 export const useTranslation = () => {
-    const { lang, username } = useContext(UserContext);
+    const userData = useContext(UserContext);
+    const lang = userData.lang.toLowerCase();
 
     const translate = (stringToTranslate: keyof typeof translationEN) => {
-        console.log(lang);
-        console.log(username);
-
         if (Object.keys(translationObject).includes(lang)) {
             // @ts-ignore
             return translationObject[lang][stringToTranslate];
