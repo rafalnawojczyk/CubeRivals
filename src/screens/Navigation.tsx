@@ -22,6 +22,7 @@ export const Navigation = ({ onReady }: { onReady: () => void }) => {
             <StatusBar style={isDarkTheme ? 'light' : 'dark'} />
             <NavigationContainer onReady={onReady}>
                 <BottomTabs.Navigator
+                    initialRouteName="TimerScreen"
                     screenOptions={{
                         headerShown: false,
                         tabBarActiveTintColor: getColor('text'),
