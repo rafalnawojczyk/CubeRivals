@@ -23,6 +23,7 @@ const styles = StyleSheet.create({});
 // - Delete solve, DNF, flag as +2, add comment (read how DNF should be treated like, comment max to X characters)
 //
 // Each solve should be saved with Date, Scramble, Note, Time, Cube id(3x3x3, 4x4x4 etc), additional flag(0 as DNF, 1 as +2, 2 as DNS)
+// DO NOT SAVE CUBE ID - it will be determined in file name? or in file header, determined by cube and group of solves(session name)
 // For now store only in state, but later on save in DB and/or in files using expo-file-system
 //
 // Show pen button to add your own scramble instead of generated one, reset button to regenerate scramble to fresh one

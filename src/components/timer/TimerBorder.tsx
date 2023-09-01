@@ -2,7 +2,7 @@ import { StyleSheet, View } from 'react-native';
 import { useColors } from '../../hooks/useColors';
 import { LinearGradient } from 'expo-linear-gradient';
 
-export const TimerBorder = ({ children }: { children?: React.ReactNode }) => {
+export const TimerBorder = () => {
     const getColor = useColors();
 
     return (
@@ -28,7 +28,7 @@ export const TimerBorder = ({ children }: { children?: React.ReactNode }) => {
                 colors={[getColor('tertiary'), 'transparent', 'transparent']}
                 locations={[0.44, 0.45, 0.8]}
                 start={[0.85, 0]}
-                end={[0, 0.24]}
+                end={[0, 0.19]}
                 style={styles.colorContainer}
             >
                 <View style={[styles.backgroundContainer, { backgroundColor: getColor('background') }]}></View>
