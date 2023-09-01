@@ -18,6 +18,8 @@ export const CustomModal = ({ isVisible, onClose, children }: CustomModalProps) 
 };
 
 // TODO: READ ABOUT HOW TO ADD SOMETHING BEHIND MODAL< MAYBE BACKGROUND?
+// TODO: modal should have predefined sizes like sm/md/lg
+// all modals should have two buttons probably, so this modal should take some props and render buttons on its own.
 
 const styles = StyleSheet.create({
     centeredView: {
