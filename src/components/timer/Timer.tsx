@@ -93,7 +93,7 @@ export const Timer = () => {
                                 {formatTime(elapsedTime, true)}
                                 {/* TODO: true replace with settings from timerSettings */}
                             </Text>
-                            <ModifyResultBlock />
+                            <ModifyResultBlock setSolveResult={setResult} />
                         </>
                     )}
                     {!showReadyState && !isRunning && (

@@ -6,6 +6,7 @@ export const DIMENSIONS = {
 };
 
 export const PADDING = {
+    micro: 6,
     sm: 10,
     md: 20,
     lg: 30,
