@@ -1,8 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native';
-import { CustomModal } from '../UI/CustomModal';
+import { StyleSheet } from 'react-native';
+import { CustomModal } from '../UI/modal/CustomModal';
 import { useTranslation } from '../../hooks/useTranslation';
-import { CustomButton } from '../UI/CustomButton';
-import { FONTS, PADDING } from '../../styles/base';
 
 interface AddNoteModalProps {
     showModal: boolean;
@@ -14,17 +12,15 @@ export const RemoveResultConfirmModal = ({ showModal, onClose, onConfirm }: AddN
     const translate = useTranslation();
 
     return (
-        <CustomModal onClose={onClose} isVisible={showModal}>
-            <Text style={styles.modalTitle}>{translate('removeSolveTitle')}</Text>
-
-            <View style={styles.buttonsContainer}>
-                <CustomButton type="cancel" onPress={onClose}>
+        <CustomModal onClose={onClose} isVisible={showModal} title={translate('removeSolveTitle')} size="md">
+            <CustomModal.ButtonsContainer>
+                <CustomModal.Button type="cancel" onPress={onClose}>
                     {translate('cancel')}
-                </CustomButton>
-                <CustomButton type="error" onPress={onConfirm}>
+                </CustomModal.Button>
+                <CustomModal.Button type="error" onPress={onConfirm}>
                     {translate('delete')}
-                </CustomButton>
-            </View>
+                </CustomModal.Button>
+            </CustomModal.ButtonsContainer>
         </CustomModal>
     );
 };
@@ -34,10 +30,5 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-end',
         alignItems: 'center',
-    },
-    modalTitle: {
-        fontSize: FONTS.lg,
-        fontWeight: 'bold',
-        marginBottom: PADDING.md,
     },
 });
