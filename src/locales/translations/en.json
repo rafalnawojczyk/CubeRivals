@@ -3,5 +3,9 @@
     "cancel": "Cancel",
     "addCommentConfirm": "Add",
     "removeSolveTitle": "Delete solve?",
-    "delete": "Delete"
+    "delete": "Delete",
+    "holdStartTimer": "Hold to start",
+    "releaseTimer": "Release",
+    "timerSettingsTitle": "Timer settings",
+    "save": "Save"
 }

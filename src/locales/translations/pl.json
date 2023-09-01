@@ -3,5 +3,9 @@
     "cancel": "Anuluj",
     "addCommentConfirm": "Dodaj",
     "removeSolveTitle": "Usunąć ułożenie?",
-    "delete": "Usuń"
+    "delete": "Usuń",
+    "holdStartTimer": "Przytrzymaj by zacząć",
+    "releaseTimer": "Puść by rozpocząć",
+    "timerSettingsTitle": "Ustawienia timera",
+    "save": "Zapisz"
 }
