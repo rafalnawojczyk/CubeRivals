@@ -1,4 +1,7 @@
 {
-    "greeting": "Cześć",
-    "subscribe": "Kup wersję premium za 14.99$"
+    "addSolveComment": "Dodaj komentarz",
+    "cancel": "Anuluj",
+    "addCommentConfirm": "Dodaj",
+    "removeSolveTitle": "Usunąć ułożenie?",
+    "delete": "Usuń"
 }
