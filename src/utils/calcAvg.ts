@@ -4,7 +4,7 @@ export const calcAvg = (times: number[], isAvg: boolean) => {
     let timesToCalc = [...times];
 
     if (isAvg) {
-        const amountToCut = timesToCalc.length * THRESHOLD;
+        const amountToCut = Math.ceil(timesToCalc.length * THRESHOLD);
 
         timesToCalc = timesToCalc.slice(amountToCut, -amountToCut);
     }

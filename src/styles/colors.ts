@@ -12,7 +12,7 @@ export interface ColorsInterface {
 }
 
 export const LIGHT_THEME: ColorsInterface = {
-    background: '#131417',
+    background: '#232838',
     primary500: '#582fff',
     primary800: '#2d1686',
     secondary: '#7edbe0',
@@ -25,7 +25,7 @@ export const LIGHT_THEME: ColorsInterface = {
 };
 
 export const DARK_THEME: ColorsInterface = {
-    background: '#131417',
+    background: '#232838',
     primary500: '#582fff',
     primary800: '#2d1686',
     secondary: '#7edbe0',
