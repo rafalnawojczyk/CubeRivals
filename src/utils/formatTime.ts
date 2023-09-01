@@ -9,7 +9,11 @@ export const formatTime = (milliseconds: number, roundMilliseconds: boolean = tr
     const formattedMilliseconds =
         milliseconds < 10 ? `00${milliseconds}` : milliseconds < 100 ? `0${milliseconds}` : milliseconds.toString();
 
-    return `${formattedMinutes}:${formattedSeconds}.${
-        roundMilliseconds ? Math.round(+formattedMilliseconds / 10) : formattedMilliseconds
+    return `${formattedMinutes === '00' ? '' : `${formattedMinutes}:`}${formattedSeconds}.${
+        roundMilliseconds
+            ? Math.round(+formattedMilliseconds / 10)
+                  .toString()
+                  .padStart(2, '0')
+            : formattedMilliseconds.padStart(3, '0')
     }`;
 };
