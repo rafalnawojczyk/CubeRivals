@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 import { Pressable, View, Text, StyleSheet } from 'react-native';
 import { DIMENSIONS, FONTS, PADDING } from '../../styles/base';
 import { TimerBorder } from './TimerBorder';
@@ -6,6 +6,8 @@ import { useColors } from '../../hooks/useColors';
 import { formatTime } from '../../utils/formatTime';
 import { Result } from '../../models/result';
 import { ModifyResultBlock } from './ModifyResultBlock';
+import { useTranslation } from '../../hooks/useTranslation';
+import { TimerSettingsContext } from '../../store/timer-settings-context';
 
 const initialResult: Result = {
     date: 0,
@@ -22,8 +24,11 @@ export const Timer = () => {
     const [endingTime, setEndingTime] = useState(0);
     const requestRef = useRef();
     const getColor = useColors();
+    const translate = useTranslation();
+    const { timerSettings } = useContext(TimerSettingsContext);
 
     const onLongPressHandler = () => {
+        // TODO: It should hide whole UI except timer when it's on this state
         setStartingTime(0);
         setEndingTime(0);
         setShowReadyState(true);
@@ -83,24 +88,31 @@ export const Timer = () => {
                 <View style={styles.innerContainer}>
                     {isRunning && (
                         <Text style={[styles.timerText, { color: getColor('gray100') }]}>
-                            {formatTime(elapsedTime, true)}
-                            {/* TODO: true replace with settings from timerSettings */}
+                            {formatTime(elapsedTime, !timerSettings.showWholeMs)}
                         </Text>
                     )}
                     {!isRunning && !!endingTime && (
                         <>
                             <Text style={[styles.timerText, { color: getColor('gray100') }]}>
-                                {formatTime(elapsedTime, true)}
-                                {/* TODO: true replace with settings from timerSettings */}
+                                {formatTime(elapsedTime, !timerSettings.showWholeMs)}
                             </Text>
                             <ModifyResultBlock setSolveResult={setResult} />
                         </>
                     )}
                     {!showReadyState && !isRunning && (
-                        <Text style={[styles.timerHoldText, { color: getColor('gray100') }]}>Hold to start</Text>
+                        <Text
+                            style={[
+                                styles.timerHoldText,
+                                { color: getColor('gray100'), fontSize: !!endingTime ? FONTS.lg : FONTS['xl'] },
+                            ]}
+                        >
+                            {translate('holdStartTimer')}
+                        </Text>
                     )}
                     {showReadyState && !isRunning && (
-                        <Text style={[styles.timerHoldText, { color: getColor('gray100') }]}>Release</Text>
+                        <Text style={[styles.timerHoldText, { color: getColor('gray100') }]}>
+                            {translate('releaseTimer')}
+                        </Text>
                     )}
                 </View>
             </View>

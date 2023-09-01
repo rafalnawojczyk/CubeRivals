@@ -1,28 +1,50 @@
-import { Text, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { useState } from 'react';
 import { SafeAreaCard } from '../components/UI/SafeAreaCard';
 import { Timer } from '../components/timer/Timer';
+import { DIMENSIONS, FONTS } from '../styles/base';
+import { IconButton } from '../components/UI/IconButton';
+import { useColors } from '../hooks/useColors';
+import { TimerSettingsModal } from '../components/timerSettingsModal/TimerSettingsModal';
 
-export const TimerScreen = () => {
+// TODO: read about navigation/route types
+// @ts-ignore
+export const TimerScreen = ({ navigation }) => {
+    const [showSettings, setShowSettings] = useState(false);
+    const getColor = useColors();
+
     return (
         <SafeAreaCard>
-            <Text>TIMER SCREEN</Text>
+            <TimerSettingsModal showModal={showSettings} onClose={() => setShowSettings(false)} />
+            <View style={styles.topBar}>
+                <IconButton
+                    icon="settings-outline"
+                    size={FONTS.xl}
+                    color={getColor('gray100')}
+                    onPress={() => setShowSettings(true)}
+                />
+            </View>
             <Timer />
         </SafeAreaCard>
     );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    topBar: {
+        width: 0.95 * DIMENSIONS.fullWidth,
+        height: DIMENSIONS.fullHeight * 0.1,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+    },
+});
 
 // Timer should have some area that is clickable(where timer is shown)
-// It should be pressed for X ms to turn timer to ready state(change color? and hide UI),
 // When released - it should start counting time up until it's pressed again
 //
 // When inspection time is set, first touch will turn 15s timer, and then the same as before to turn timer on(inspection time is stopped once pressed)
 //
-// When solve is done, show Final time and 4 buttons:
-// - Delete solve, DNF, flag as +2, add comment (read how DNF should be treated like, comment max to X characters)
 //
-// Each solve should be saved with Date, Scramble, Note, Time, Cube id(3x3x3, 4x4x4 etc), additional flag(0 as DNF, 1 as +2, 2 as DNS)
 // DO NOT SAVE CUBE ID - it will be determined in file name? or in file header, determined by cube and group of solves(session name)
 // For now store only in state, but later on save in DB and/or in files using expo-file-system
 //
