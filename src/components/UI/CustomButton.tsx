@@ -1,7 +1,7 @@
 import { View, Pressable, Text, StyleSheet } from 'react-native';
 import { useColors } from '../../hooks/useColors';
 
-type ButtonType = 'primary' | 'secondary' | 'error' | 'cancel';
+export type ButtonType = 'primary' | 'secondary' | 'error' | 'cancel';
 
 interface CustomButtonProps {
     onPress: () => void;

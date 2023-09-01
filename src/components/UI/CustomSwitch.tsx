@@ -1,4 +1,5 @@
 import { Switch } from 'react-native';
+import { useColors } from '../../hooks/useColors';
 
 interface CustomSwitchProps {
     value: any;
@@ -6,11 +7,14 @@ interface CustomSwitchProps {
 }
 
 export const CustomSwitch = ({ value, onChange }: CustomSwitchProps) => {
-    <Switch
-        trackColor={{ false: '#767577', true: '#81b0ff' }}
-        // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-        ios_backgroundColor="#3e3e3e"
-        onValueChange={onChange}
-        value={value}
-    />;
+    const getColor = useColors();
+
+    return (
+        <Switch
+            trackColor={{ false: '#767577', true: getColor('secondary') }}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={onChange}
+            value={value}
+        />
+    );
 };
