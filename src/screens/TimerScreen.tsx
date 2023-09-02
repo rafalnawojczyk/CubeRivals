@@ -1,43 +1,15 @@
-import { StyleSheet, View } from 'react-native';
-import { useState } from 'react';
 import { SafeAreaCard } from '../components/UI/SafeAreaCard';
 import { Timer } from '../components/timer/Timer';
-import { DIMENSIONS, FONTS } from '../styles/base';
-import { IconButton } from '../components/UI/IconButton';
-import { useColors } from '../hooks/useColors';
-import { TimerSettingsModal } from '../components/timerSettingsModal/TimerSettingsModal';
+import { TopTimerBar } from '../components/timer/TopTimerBar';
 
-// TODO: read about navigation/route types
-// @ts-ignore
-export const TimerScreen = ({ navigation }) => {
-    const [showSettings, setShowSettings] = useState(false);
-    const getColor = useColors();
-
+export const TimerScreen = () => {
     return (
         <SafeAreaCard>
-            <TimerSettingsModal showModal={showSettings} onClose={() => setShowSettings(false)} />
-            <View style={styles.topBar}>
-                <IconButton
-                    icon="settings-outline"
-                    size={FONTS.xl}
-                    color={getColor('gray100')}
-                    onPress={() => setShowSettings(true)}
-                />
-            </View>
+            <TopTimerBar />
             <Timer />
         </SafeAreaCard>
     );
 };
-
-const styles = StyleSheet.create({
-    topBar: {
-        width: 0.95 * DIMENSIONS.fullWidth,
-        height: DIMENSIONS.fullHeight * 0.1,
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-    },
-});
 
 // Timer should have some area that is clickable(where timer is shown)
 // When released - it should start counting time up until it's pressed again
