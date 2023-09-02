@@ -11,7 +11,7 @@ interface TimerSettingsModalProps {
 }
 
 const switchSettingsMap: {
-    name: keyof Omit<TimerSettingsType, 'stickerColors'>;
+    name: keyof Omit<TimerSettingsType, 'stickerColors' | 'session' | 'cube'>;
     title: string;
 }[] = [
     { name: 'inspectionTime', title: 'Use WCA inspection' },
@@ -24,7 +24,9 @@ export const TimerSettingsModal = ({ showModal, onClose }: TimerSettingsModalPro
     const { timerSettings, updateSettings } = useContext(TimerSettingsContext);
     const translate = useTranslation();
 
-    const onSaveSettingsHandler = () => {};
+    const onSaveSettingsHandler = () => {
+        onClose();
+    };
 
     return (
         <CustomModal

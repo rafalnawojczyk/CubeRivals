@@ -1,9 +1,9 @@
 import { StyleSheet, TextInput } from 'react-native';
 import { useState } from 'react';
-import { CustomModal } from '../UI/modal/CustomModal';
-import { DIMENSIONS, FONTS, PADDING } from '../../styles/base';
-import { useColors } from '../../hooks/useColors';
-import { useTranslation } from '../../hooks/useTranslation';
+import { CustomModal } from '../../UI/modal/CustomModal';
+import { DIMENSIONS, FONTS, PADDING } from '../../../styles/base';
+import { useColors } from '../../../hooks/useColors';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 interface AddNoteModalProps {
     showModal: boolean;

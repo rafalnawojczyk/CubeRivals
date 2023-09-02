@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { CustomModal } from '../UI/modal/CustomModal';
-import { useTranslation } from '../../hooks/useTranslation';
+import { CustomModal } from '../../UI/modal/CustomModal';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 interface AddNoteModalProps {
     showModal: boolean;
