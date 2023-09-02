@@ -1,8 +1,6 @@
 import { View, Modal, StyleSheet, Text } from 'react-native';
 import { DIMENSIONS, FONTS, PADDING } from '../../../styles/base';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useColors } from '../../../hooks/useColors';
-import { CustomButton } from '../CustomButton';
 import { CustomModalButton } from './CustomModalButton';
 import { CustomModalButtonContainer } from './CustomModalButtonContainer';
 import { IconButton } from '../IconButton';
@@ -11,7 +9,7 @@ interface CustomModalProps {
     isVisible: boolean;
     onClose: () => void;
     children?: React.ReactNode;
-    title: string;
+    title?: string;
     size?: 'sm' | 'md' | 'lg' | 'xl';
     showCloseX?: boolean;
 }
@@ -33,16 +31,15 @@ export const CustomModal = ({
             <View style={styles.centeredView}>
                 <View style={[styles.modalView, styles[size]]}>
                     {showCloseX && (
-                        <View style={styles.closeButton}>
-                            <IconButton
-                                size={FONTS.xl}
-                                color={getColor('gray100')}
-                                icon="close-outline"
-                                onPress={onClose}
-                            />
-                        </View>
+                        <IconButton
+                            size={FONTS.xl}
+                            color={getColor('gray100')}
+                            icon="close-outline"
+                            onPress={onClose}
+                            style={styles.closeButton}
+                        />
                     )}
-                    <Text style={styles.modalTitle}>{title}</Text>
+                    {title && <Text style={styles.modalTitle}>{title}</Text>}
                     {children}
                 </View>
             </View>
@@ -53,7 +50,7 @@ export const CustomModal = ({
 CustomModal.Button = CustomModalButton;
 CustomModal.ButtonsContainer = CustomModalButtonContainer;
 
-// all modals should have two buttons probably, so this modal should take some props and render buttons on its own.
+// TODO: MODAL SHOULD CLOSE ITSELF ON CLICK OUTSIDE
 
 const styles = StyleSheet.create({
     sm: {
