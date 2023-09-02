@@ -2,11 +2,11 @@ import { StyleSheet, View } from 'react-native';
 import { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { Result } from '../../models/result';
-import { AddNoteModal } from './AddNoteModal';
+import { AddNoteModal } from './modals/AddNoteModal';
 import { IconButton } from '../UI/IconButton';
 import { FONTS } from '../../styles/base';
 import { useColors } from '../../hooks/useColors';
-import { RemoveResultConfirmModal } from './RemoveResultConfirmModal';
+import { RemoveResultConfirmModal } from './modals/RemoveResultConfirmModal';
 
 export type ButtonName = 'remove' | 'dnf' | '+2' | 'note';
 
