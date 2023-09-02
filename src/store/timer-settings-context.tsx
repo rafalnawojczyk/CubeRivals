@@ -46,9 +46,7 @@ export const TimerSettingsContextProvider = ({ children }: { children?: React.Re
         };
 
         getSettingsFromStorage();
-    });
-
-    useEffect(() => {}, []);
+    }, []);
 
     return (
         <TimerSettingsContext.Provider value={{ timerSettings, updateSettings: updateTimerSettings }}>
