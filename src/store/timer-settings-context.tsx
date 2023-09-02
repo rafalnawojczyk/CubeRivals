@@ -1,20 +1,31 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useEffect, useState } from 'react';
+import { CubeType } from '../models/cubes';
 
-const DEFAULT_SETTINGS = {
+export type TimerSettingsType = {
+    cube: CubeType;
+    session: string;
+    inspectionTime: boolean;
+    hideTime: boolean;
+    hideUi: boolean;
+    showWholeMs: boolean;
+    stickerColors: string[];
+};
+
+const DEFAULT_SETTINGS: TimerSettingsType = {
+    cube: '333',
+    session: 'Default Session',
     inspectionTime: false,
     hideTime: false,
     hideUi: true,
-    // autoExport: false,
     showWholeMs: false,
     stickerColors: ['#ffffff', '#fef200', '#06d002', '#0079fe', '#ed1b24', '#ff7f26'],
+    // autoExport: false,
 };
 
-export type TimerSettingsType = typeof DEFAULT_SETTINGS;
-
 interface TimerSettingsContextInterface {
-    updateSettings: (newSettings: Partial<typeof DEFAULT_SETTINGS>) => void;
-    timerSettings: typeof DEFAULT_SETTINGS;
+    updateSettings: (newSettings: Partial<TimerSettingsType>) => void;
+    timerSettings: TimerSettingsType;
 }
 
 export const TimerSettingsContext = createContext<TimerSettingsContextInterface>({
@@ -25,7 +36,7 @@ export const TimerSettingsContext = createContext<TimerSettingsContextInterface>
 export const TimerSettingsContextProvider = ({ children }: { children?: React.ReactNode }) => {
     const [timerSettings, setTimerSettings] = useState(DEFAULT_SETTINGS);
 
-    const updateTimerSettings = (newSettings: Partial<typeof DEFAULT_SETTINGS>) => {
+    const updateTimerSettings = (newSettings: Partial<TimerSettingsType>) => {
         setTimerSettings(prevSettings => {
             const updatedSettings = { ...prevSettings, ...newSettings };
 
