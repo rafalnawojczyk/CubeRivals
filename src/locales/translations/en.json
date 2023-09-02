@@ -7,5 +7,10 @@
     "holdStartTimer": "Hold to start",
     "releaseTimer": "Release",
     "timerSettingsTitle": "Timer settings",
-    "save": "Save"
+    "save": "Save",
+    "addOwnScramble": "Add your own scramble",
+    "settingsInspectionTime": "Use WCA inspection",
+    "settingsHideUi": "Hide all elements when solving",
+    "settingsHideTime": "Hide time when solving",
+    "settingsShowWholeMs": "Show all milliseconds"
 }
