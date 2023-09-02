@@ -1,4 +1,4 @@
-import { useState, useRef, useContext } from 'react';
+import { useState, useRef, useContext, useEffect } from 'react';
 import { Pressable, View, Text, StyleSheet } from 'react-native';
 import { DIMENSIONS, FONTS, PADDING } from '../../styles/base';
 import { TimerBorder } from './TimerBorder';
@@ -8,6 +8,7 @@ import { Result } from '../../models/result';
 import { ModifyResultBlock } from './ModifyResultBlock';
 import { useTranslation } from '../../hooks/useTranslation';
 import { TimerSettingsContext } from '../../store/timer-settings-context';
+import { ScramblePreviewBlock } from './ScramblePreviewBlock';
 
 const initialResult: Result = {
     date: 0,
@@ -17,6 +18,7 @@ const initialResult: Result = {
 
 export const Timer = () => {
     const [result, setResult] = useState({ ...initialResult });
+    const [scramble, setScramble] = useState('');
     const [elapsedTime, setElapsedTime] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
     const [showReadyState, setShowReadyState] = useState(false);
@@ -27,12 +29,16 @@ export const Timer = () => {
     const translate = useTranslation();
     const { timerSettings } = useContext(TimerSettingsContext);
 
+    const onChangeScramble = (scramble: string) => {
+        setScramble(scramble);
+    };
+
     const onLongPressHandler = () => {
         // TODO: It should hide whole UI except timer when it's on this state
         setStartingTime(0);
         setEndingTime(0);
         setShowReadyState(true);
-        setResult({ ...initialResult });
+        setResult({ ...initialResult, scramble });
     };
 
     const onPressInHandler = () => {
@@ -77,46 +83,51 @@ export const Timer = () => {
     };
 
     return (
-        <Pressable
-            onPressIn={onPressInHandler}
-            onLongPress={onLongPressHandler}
-            onPressOut={onPressOutHandler}
-            style={styles.touchableContainer}
-        >
-            <View style={styles.container}>
-                <TimerBorder />
-                <View style={styles.innerContainer}>
-                    {isRunning && (
-                        <Text style={[styles.timerText, { color: getColor('gray100') }]}>
-                            {formatTime(elapsedTime, !timerSettings.showWholeMs)}
-                        </Text>
-                    )}
-                    {!isRunning && !!endingTime && (
-                        <>
+        <>
+            <View>
+                <ScramblePreviewBlock onChangeScramble={onChangeScramble} scramble={scramble} />
+            </View>
+            <Pressable
+                onPressIn={onPressInHandler}
+                onLongPress={onLongPressHandler}
+                onPressOut={onPressOutHandler}
+                style={styles.touchableContainer}
+            >
+                <View style={styles.container}>
+                    <TimerBorder />
+                    <View style={styles.innerContainer}>
+                        {isRunning && (
                             <Text style={[styles.timerText, { color: getColor('gray100') }]}>
                                 {formatTime(elapsedTime, !timerSettings.showWholeMs)}
                             </Text>
-                            <ModifyResultBlock setSolveResult={setResult} />
-                        </>
-                    )}
-                    {!showReadyState && !isRunning && (
-                        <Text
-                            style={[
-                                styles.timerHoldText,
-                                { color: getColor('gray100'), fontSize: !!endingTime ? FONTS.lg : FONTS['xl'] },
-                            ]}
-                        >
-                            {translate('holdStartTimer')}
-                        </Text>
-                    )}
-                    {showReadyState && !isRunning && (
-                        <Text style={[styles.timerHoldText, { color: getColor('gray100') }]}>
-                            {translate('releaseTimer')}
-                        </Text>
-                    )}
+                        )}
+                        {!isRunning && !!endingTime && (
+                            <>
+                                <Text style={[styles.timerText, { color: getColor('gray100') }]}>
+                                    {formatTime(elapsedTime, !timerSettings.showWholeMs)}
+                                </Text>
+                                <ModifyResultBlock setSolveResult={setResult} />
+                            </>
+                        )}
+                        {!showReadyState && !isRunning && (
+                            <Text
+                                style={[
+                                    styles.timerHoldText,
+                                    { color: getColor('gray100'), fontSize: !!endingTime ? FONTS.lg : FONTS['xl'] },
+                                ]}
+                            >
+                                {translate('holdStartTimer')}
+                            </Text>
+                        )}
+                        {showReadyState && !isRunning && (
+                            <Text style={[styles.timerHoldText, { color: getColor('gray100') }]}>
+                                {translate('releaseTimer')}
+                            </Text>
+                        )}
+                    </View>
                 </View>
-            </View>
-        </Pressable>
+            </Pressable>
+        </>
     );
 };
 

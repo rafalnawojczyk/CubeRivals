@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, View, ViewStyle } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 export const IconButton = ({
@@ -6,19 +6,19 @@ export const IconButton = ({
     size,
     color,
     onPress,
+    style,
 }: {
     icon: keyof typeof Ionicons.glyphMap;
     size: number;
     color: string;
     onPress: () => void;
+    style?: ViewStyle;
 }) => {
     return (
-        <Pressable onPress={onPress}>
+        <Pressable onPress={onPress} style={style}>
             <View>
                 <Ionicons name={icon} size={size} color={color} />
             </View>
         </Pressable>
     );
 };
-
-const styles = StyleSheet.create({});
