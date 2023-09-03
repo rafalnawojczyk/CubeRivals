@@ -14,12 +14,8 @@ export const RemoveResultConfirmModal = ({ showModal, onClose, onConfirm }: AddN
     return (
         <CustomModal onClose={onClose} isVisible={showModal} title={translate('removeSolveTitle')} size="md">
             <CustomModal.ButtonsContainer>
-                <CustomModal.Button type="cancel" onPress={onClose}>
-                    {translate('cancel')}
-                </CustomModal.Button>
-                <CustomModal.Button type="error" onPress={onConfirm}>
-                    {translate('delete')}
-                </CustomModal.Button>
+                <CustomModal.Button type="cancel" onPress={onClose} title={translate('cancel')} />
+                <CustomModal.Button type="error" onPress={onConfirm} title={translate('delete')} />
             </CustomModal.ButtonsContainer>
         </CustomModal>
     );
