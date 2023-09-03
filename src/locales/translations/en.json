@@ -1,7 +1,8 @@
 {
     "addSolveComment": "Add comment",
+    "addNotePlaceholder": "Write your note here",
     "cancel": "Cancel",
-    "addCommentConfirm": "Add",
+    "add": "Add",
     "removeSolveTitle": "Delete solve?",
     "delete": "Delete",
     "holdStartTimer": "Hold to start",
@@ -12,5 +13,12 @@
     "settingsInspectionTime": "Use WCA inspection",
     "settingsHideUi": "Hide all elements when solving",
     "settingsHideTime": "Hide time when solving",
-    "settingsShowWholeMs": "Show all milliseconds"
+    "settingsShowWholeMs": "Show all milliseconds",
+    "manageSessionsTitle": "Manage sessions",
+    "holdToEdit": "Hold to edit",
+    "defaultSessionName": "Default session",
+    "addSessionName": "Add session",
+    "addSessionNamePlaceholder": "Write session name here",
+    "invalidName": "Invalid name",
+    "writeValidName": "Name should have at least 1 character"
 }

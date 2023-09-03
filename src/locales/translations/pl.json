@@ -1,12 +1,20 @@
 {
     "addSolveComment": "Dodaj komentarz",
+    "addNotePlaceholder": "Wpisz komentarz tutaj",
     "cancel": "Anuluj",
-    "addCommentConfirm": "Dodaj",
+    "add": "Dodaj",
     "removeSolveTitle": "Usunąć ułożenie?",
     "delete": "Usuń",
     "holdStartTimer": "Przytrzymaj by zacząć",
     "releaseTimer": "Puść by rozpocząć",
     "timerSettingsTitle": "Ustawienia timera",
     "save": "Zapisz",
-    "addOwnScramble": "Dodaj własny scramble"
+    "addOwnScramble": "Dodaj własny scramble",
+    "manageSessionsTitle": "Zarządzaj sesjami",
+    "holdToEdit": "Przytrzymaj, by edytować",
+    "defaultSessionName": "Domyślna sesja",
+    "addSessionName": "Dodaj sesję",
+    "addSessionNamePlaceholder": "Wpisz nazwę tutaj",
+    "invalidName": "Nieprawidłowa nazwa",
+    "writeValidName": "Nazwa powinna mieć co najmniej 1 znak"
 }
