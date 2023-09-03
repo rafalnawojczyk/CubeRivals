@@ -1,4 +1,4 @@
-import { View, Modal, StyleSheet, Text } from 'react-native';
+import { View, Modal, StyleSheet, Text, Pressable } from 'react-native';
 import { DIMENSIONS, FONTS, PADDING } from '../../../styles/base';
 import { useColors } from '../../../hooks/useColors';
 import { CustomModalButton } from './CustomModalButton';
@@ -26,8 +26,11 @@ export const CustomModal = ({
 
     return (
         <Modal animationType="fade" transparent={true} visible={isVisible} onRequestClose={onClose}>
-            <View style={[styles.backdropGradient, { backgroundColor: getColor('background'), opacity: 0.9 }]}></View>
-
+            <Pressable onPress={() => onClose()}>
+                <View
+                    style={[styles.backdropGradient, { backgroundColor: getColor('background'), opacity: 0.9 }]}
+                ></View>
+            </Pressable>
             <View style={styles.centeredView}>
                 <View style={[styles.modalView, styles[size]]}>
                     {showCloseX && (
@@ -49,8 +52,6 @@ export const CustomModal = ({
 
 CustomModal.Button = CustomModalButton;
 CustomModal.ButtonsContainer = CustomModalButtonContainer;
-
-// TODO: MODAL SHOULD CLOSE ITSELF ON CLICK OUTSIDE
 
 const styles = StyleSheet.create({
     sm: {

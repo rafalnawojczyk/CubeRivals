@@ -1,7 +1,6 @@
 import { FlatList, StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import { CustomModal } from '../../UI/modal/CustomModal';
 import { DIMENSIONS, FONTS, PADDING } from '../../../styles/base';
-import { useColors } from '../../../hooks/useColors';
 import { useTranslation } from '../../../hooks/useTranslation';
 import { CUBES_DATA } from '../../../constants/CubesData';
 import { CubeDataInterface, CubeType } from '../../../models/cubes';
@@ -15,7 +14,6 @@ interface PickCubeModalProps {
 
 export const PickCubeModal = ({ showModal, onClose }: PickCubeModalProps) => {
     const { updateSettings } = useContext(TimerSettingsContext);
-    const getColor = useColors();
     const translate = useTranslation();
 
     const onPickCubeHandler = (id: CubeType) => {
@@ -35,7 +33,7 @@ export const PickCubeModal = ({ showModal, onClose }: PickCubeModalProps) => {
     };
 
     return (
-        <CustomModal isVisible={showModal} onClose={onClose} title={translate('selectPuzzle')} size="lg">
+        <CustomModal isVisible={showModal} onClose={onClose} title={translate('selectPuzzle')} size="lg" showCloseX>
             <View style={{ maxHeight: DIMENSIONS.fullHeight * 0.6 }}>
                 <FlatList
                     data={CUBES_DATA}
