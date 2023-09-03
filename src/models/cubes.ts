@@ -1,1 +1,7 @@
 export type CubeType = '333' | '222' | '444' | '555' | '666' | 'clock' | 'pyram' | 'sq1' | 'skewb' | 'minx' | 'clock';
+
+export interface CubeDataInterface {
+    id: CubeType;
+    fullName: string;
+    icon: string;
+}
