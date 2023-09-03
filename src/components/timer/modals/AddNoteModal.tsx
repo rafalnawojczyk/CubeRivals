@@ -24,14 +24,11 @@ export const AddNoteModal = ({ showModal, onClose, onAddNote }: AddNoteModalProp
                 multiline={true}
                 style={[styles.textInput, { backgroundColor: getColor('gray100') }]}
                 textAlignVertical="top"
+                placeholder={translate('addNotePlaceholder')}
             />
             <CustomModal.ButtonsContainer>
-                <CustomModal.Button type="cancel" onPress={onClose}>
-                    {translate('cancel')}
-                </CustomModal.Button>
-                <CustomModal.Button type="primary" onPress={() => onAddNote(commentInput)}>
-                    {translate('addCommentConfirm')}
-                </CustomModal.Button>
+                <CustomModal.Button type="cancel" onPress={onClose} title={translate('cancel')}></CustomModal.Button>
+                <CustomModal.Button type="primary" onPress={() => onAddNote(commentInput)} title={translate('add')} />
             </CustomModal.ButtonsContainer>
         </CustomModal>
     );

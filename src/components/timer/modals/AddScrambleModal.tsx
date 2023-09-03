@@ -28,12 +28,12 @@ export const AddScrambleModal = ({ showModal, onClose, onAddScramble }: AddScram
                 textAlign="center"
             />
             <CustomModal.ButtonsContainer>
-                <CustomModal.Button type="cancel" onPress={onClose}>
-                    {translate('cancel')}
-                </CustomModal.Button>
-                <CustomModal.Button type="primary" onPress={() => onAddScramble(scrambleInput)}>
-                    {translate('addCommentConfirm')}
-                </CustomModal.Button>
+                <CustomModal.Button type="cancel" onPress={onClose} title={translate('cancel')} />
+                <CustomModal.Button
+                    type="primary"
+                    onPress={() => onAddScramble(scrambleInput)}
+                    title={translate('add')}
+                />
             </CustomModal.ButtonsContainer>
         </CustomModal>
     );

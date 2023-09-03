@@ -7,9 +7,10 @@ interface CustomButtonProps {
     onPress: () => void;
     children?: React.ReactNode;
     type: ButtonType;
+    title?: string;
 }
 
-export const CustomButton = ({ onPress, children, type }: CustomButtonProps) => {
+export const CustomButton = ({ onPress, children, type, title }: CustomButtonProps) => {
     const getColor = useColors();
 
     const getButtonColor = (type: ButtonType) => {
@@ -41,7 +42,8 @@ export const CustomButton = ({ onPress, children, type }: CustomButtonProps) => 
                 onPress={onPress}
                 android_ripple={{ color: getButtonColor(type) }}
             >
-                <Text style={[styles.buttonText, { color: getColor('text') }]}>{children}</Text>
+                {children}
+                {title && <Text style={[styles.buttonText, { color: getColor('text') }]}>{title}</Text>}
             </Pressable>
         </View>
     );

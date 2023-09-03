@@ -3,13 +3,9 @@ import { ButtonType, CustomButton } from '../CustomButton';
 interface CustomModalButton {
     type: ButtonType;
     onPress: () => void;
-    children?: React.ReactNode;
+    title: string;
 }
 
-export const CustomModalButton = ({ type, onPress, children }: CustomModalButton) => {
-    return (
-        <CustomButton type={type} onPress={onPress}>
-            {children}
-        </CustomButton>
-    );
+export const CustomModalButton = ({ type, onPress, title }: CustomModalButton) => {
+    return <CustomButton type={type} onPress={onPress} title={title} />;
 };
