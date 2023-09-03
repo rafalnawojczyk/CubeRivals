@@ -7,11 +7,13 @@ import { useColors } from '../../hooks/useColors';
 import { IconButton } from '../UI/IconButton';
 import { TimerSettingsModal } from '../timerSettingsModal/TimerSettingsModal';
 import { ManageSessionModal } from './modals/ManageSessionsModal';
+import { CustomButton } from '../UI/CustomButton';
+import { TopBarCubeButton } from './TopBarCubeButton';
 
 export const TopTimerBar = () => {
     const [showSettings, setShowSettings] = useState(false);
     const [showSessionModal, setShowSessionModal] = useState(false);
-    const { updateSettings } = useContext(TimerSettingsContext);
+    const { updateSettings, timerSettings } = useContext(TimerSettingsContext);
     const getColor = useColors();
 
     const onCubeTypeChange = (cubeType: CubeType) => {
@@ -30,7 +32,7 @@ export const TopTimerBar = () => {
                         color={getColor('gray100')}
                         onPress={() => setShowSettings(true)}
                     />
-                    <Text>CUBE TYPE</Text>
+                    <TopBarCubeButton title={timerSettings.cube} session={timerSettings.session} />
                     <IconButton
                         icon="pricetags-outline"
                         size={FONTS.lg}
