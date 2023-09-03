@@ -34,7 +34,7 @@ export const ScramblePreviewBlock = ({
 
     useEffect(() => {
         onRegenerateScramble();
-    }, []);
+    }, [timerSettings.cube]);
 
     return (
         <>
