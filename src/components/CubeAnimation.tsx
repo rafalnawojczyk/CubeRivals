@@ -2,7 +2,7 @@ import LottieView from 'lottie-react-native';
 import { Animated, StyleSheet, View } from 'react-native';
 import { useColors } from '../hooks/useColors';
 
-const LOTTIE_JSON = require('../assets/cube-animation.json');
+const LOTTIE_JSON = require('../../assets/cube-animation.json');
 
 export const CubeAnimation = ({ progress }: { progress: Animated.Value }) => {
     const getColor = useColors();

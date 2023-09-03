@@ -15,9 +15,9 @@ const fonts = {
     // poppins: require('./src/assets/fonts/Poppins-Regular.ttf'),
     // 'poppins-bold': require('./src/assets/fonts/Poppins-Bold.ttf'),
     // 'poppins-light': require('./src/assets/fonts/Poppins-ExtraLight.ttf'),
-    robotoMono: require('./src/assets/fonts/RobotoMono-Regular.ttf'),
-    'robotoMono-bold': require('./src/assets/fonts/RobotoMono-Bold.ttf'),
-    'robotoMono-light': require('./src/assets/fonts/RobotoMono-ExtraLight.ttf'),
+    robotoMono: require('./assets/fonts/RobotoMono-Regular.ttf'),
+    'robotoMono-bold': require('./assets/fonts/RobotoMono-Bold.ttf'),
+    'robotoMono-light': require('./assets/fonts/RobotoMono-ExtraLight.ttf'),
 };
 
 export default function App() {
