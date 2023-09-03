@@ -47,12 +47,8 @@ export const TimerSettingsModal = ({ showModal, onClose }: TimerSettingsModalPro
                 ))}
             </ScrollView>
             <CustomModal.ButtonsContainer>
-                <CustomModal.Button type="cancel" onPress={onClose}>
-                    {translate('cancel')}
-                </CustomModal.Button>
-                <CustomModal.Button type="primary" onPress={onSaveSettingsHandler}>
-                    {translate('save')}
-                </CustomModal.Button>
+                <CustomModal.Button type="cancel" onPress={onClose} title={translate('cancel')} />
+                <CustomModal.Button type="primary" onPress={onSaveSettingsHandler} title={translate('save')} />
             </CustomModal.ButtonsContainer>
         </CustomModal>
     );
