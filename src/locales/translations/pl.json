@@ -12,9 +12,10 @@
     "addOwnScramble": "Dodaj własny scramble",
     "manageSessionsTitle": "Zarządzaj sesjami",
     "holdToEdit": "Przytrzymaj, by edytować",
-    "defaultSessionName": "Domyślna sesja",
+    "defaultSessionName": "Standard",
     "addSessionName": "Dodaj sesję",
     "addSessionNamePlaceholder": "Wpisz nazwę tutaj",
     "invalidName": "Nieprawidłowa nazwa",
-    "writeValidName": "Nazwa powinna mieć co najmniej 1 znak"
+    "writeValidName": "Nazwa powinna mieć co najmniej 1 znak",
+    "selectPuzzle": "Wybierz kostkę"
 }
