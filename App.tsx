@@ -8,6 +8,7 @@ import { UserContextProvider } from './src/store/user-context';
 import { Navigation } from './src/screens/Navigation';
 import { CubeAnimation } from './src/components/CubeAnimation';
 import { TimerSettingsContextProvider } from './src/store/timer-settings-context';
+import { RealmProvider } from '@realm/react';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -62,18 +63,20 @@ export default function App() {
     const showAnimation = !(isAppReady && isLayoutReady && fontsReady);
 
     return (
-        <ThemeContextProvider>
-            <UserContextProvider>
-                <TimerSettingsContextProvider>
-                    {fontsReady && <Navigation onReady={onApplicationReady} />}
-                    {showAnimation && (
-                        <View pointerEvents="none" style={styles.animationContainer} onLayout={onLayoutRootView}>
-                            <CubeAnimation progress={animationProgress.current} />
-                        </View>
-                    )}
-                </TimerSettingsContextProvider>
-            </UserContextProvider>
-        </ThemeContextProvider>
+        <RealmProvider>
+            <ThemeContextProvider>
+                <UserContextProvider>
+                    <TimerSettingsContextProvider>
+                        {fontsReady && <Navigation onReady={onApplicationReady} />}
+                        {showAnimation && (
+                            <View pointerEvents="none" style={styles.animationContainer} onLayout={onLayoutRootView}>
+                                <CubeAnimation progress={animationProgress.current} />
+                            </View>
+                        )}
+                    </TimerSettingsContextProvider>
+                </UserContextProvider>
+            </ThemeContextProvider>
+        </RealmProvider>
     );
 }
 
