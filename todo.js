@@ -1,6 +1,7 @@
 // ********************************** HIGH **********************************
 // TODO: list of solves which show list, each item acn be clicked and modal with solve editing shows. User can edit everything there
 // TODO: add "Warmup" mode where solves are not saved
+// TODO: add image of scrambled cube
 
 // ********************************** MODERATE **********************************
 // TODO: Statistics based on days, not counting every solve?

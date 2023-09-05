@@ -8,7 +8,6 @@ export const SettingsScreen = () => {
     return (
         <SafeAreaCard>
             <Text>UserProfileScreen</Text>
-            <Text>{}</Text>
         </SafeAreaCard>
     );
 };
