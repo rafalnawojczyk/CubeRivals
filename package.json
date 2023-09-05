@@ -12,7 +12,7 @@
     "@react-native-async-storage/async-storage": "1.18.2",
     "@react-navigation/bottom-tabs": "^6.5.8",
     "@react-navigation/native": "^6.1.7",
-    "@realm/babel-plugin": "^0.1.1",
+    "@react-navigation/stack": "^6.3.17",
     "@realm/react": "^0.6.0",
     "expo": "~49.0.8",
     "expo-constants": "~14.4.2",
@@ -22,6 +22,8 @@
     "expo-localization": "~14.3.0",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
+    "firebase": "^10.3.1",
+    "formik": "^2.4.3",
     "lottie-react-native": "5.1.6",
     "react": "18.2.0",
     "react-native": "0.72.4",
@@ -30,10 +32,14 @@
     "react-native-screens": "^3.25.0",
     "react-native-uuid": "^2.0.1",
     "realm": "^12.1.0",
-    "scrambo": "^0.3.0"
+    "scrambo": "^0.3.0",
+    "yup": "^1.2.0",
+    "react-native-gesture-handler": "~2.12.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@babel/plugin-proposal-decorators": "^7.22.15",
+    "@realm/babel-plugin": "^0.1.1",
     "@types/react": "~18.2.14",
     "typescript": "^5.1.3"
   },
