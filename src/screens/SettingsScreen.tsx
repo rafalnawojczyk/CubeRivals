@@ -1,4 +1,4 @@
-import { Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet, ScrollView, View } from 'react-native';
 import { SafeAreaCard } from '../components/UI/SafeAreaCard';
 import { useTranslation } from '../hooks/useTranslation';
 import { CustomButton } from '../components/UI/CustomButton';
@@ -14,10 +14,20 @@ export const SettingsScreen = () => {
 
     return (
         <SafeAreaCard>
-            <Text>UserProfileScreen</Text>
-            <CustomButton type="primary" onPress={logoutHandler} title="LOGOUT" />
+            <View style={styles.container}>
+                <ScrollView style={{ flex: 1 }}>
+                    <Text>UserProfileScreen</Text>
+
+                    <CustomButton type="primary" onPress={logoutHandler} title="LOGOUT" />
+                </ScrollView>
+            </View>
         </SafeAreaCard>
     );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    container: {
+        width: '95%',
+        alignItems: 'center',
+    },
+});

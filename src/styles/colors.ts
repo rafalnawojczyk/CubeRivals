@@ -23,7 +23,7 @@ export const LIGHT_THEME: ColorsInterface = {
     gray400: '#676d75',
     gray100: '#ccd2da',
     text: '#ffffff',
-    error: 'red',
+    error: '#E63756',
 };
 
 export const DARK_THEME: ColorsInterface = {
@@ -37,5 +37,5 @@ export const DARK_THEME: ColorsInterface = {
     gray400: '#676d75',
     gray100: '#ccd2da',
     text: '#ffffff',
-    error: 'red',
+    error: '#E63756',
 };

@@ -9,13 +9,13 @@ interface AddNoteModalProps {
 }
 
 export const RemoveResultConfirmModal = ({ showModal, onClose, onConfirm }: AddNoteModalProps) => {
-    const translate = useTranslation();
+    const trans = useTranslation();
 
     return (
-        <CustomModal onClose={onClose} isVisible={showModal} title={translate('removeSolveTitle')} size="md">
+        <CustomModal onClose={onClose} isVisible={showModal} title={trans('removeSolveTitle')} size="md">
             <CustomModal.ButtonsContainer>
-                <CustomModal.Button type="cancel" onPress={onClose} title={translate('cancel')} />
-                <CustomModal.Button type="error" onPress={onConfirm} title={translate('delete')} />
+                <CustomModal.Button type="cancel" onPress={onClose} title={trans('cancel')} />
+                <CustomModal.Button type="error" onPress={onConfirm} title={trans('delete')} />
             </CustomModal.ButtonsContainer>
         </CustomModal>
     );

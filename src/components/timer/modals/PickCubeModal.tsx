@@ -14,7 +14,7 @@ interface PickCubeModalProps {
 
 export const PickCubeModal = ({ showModal, onClose }: PickCubeModalProps) => {
     const { updateSettings } = useContext(TimerSettingsContext);
-    const translate = useTranslation();
+    const trans = useTranslation();
 
     const onPickCubeHandler = (id: CubeType) => {
         updateSettings({ cube: id });
@@ -33,7 +33,7 @@ export const PickCubeModal = ({ showModal, onClose }: PickCubeModalProps) => {
     };
 
     return (
-        <CustomModal isVisible={showModal} onClose={onClose} title={translate('selectPuzzle')} size="lg" showCloseX>
+        <CustomModal isVisible={showModal} onClose={onClose} title={trans('selectPuzzle')} size="lg" showCloseX>
             <View style={{ maxHeight: DIMENSIONS.fullHeight * 0.6 }}>
                 <FlatList
                     data={CUBES_DATA}

@@ -26,7 +26,7 @@ export const Timer = () => {
     const [endingTime, setEndingTime] = useState(0);
     const requestRef = useRef();
     const getColor = useColors();
-    const translate = useTranslation();
+    const trans = useTranslation();
     const { timerSettings } = useContext(TimerSettingsContext);
 
     const onChangeScramble = (scramble: string) => {
@@ -116,12 +116,12 @@ export const Timer = () => {
                                     { color: getColor('gray100'), fontSize: !!endingTime ? FONTS.lg : FONTS['xl'] },
                                 ]}
                             >
-                                {translate('holdStartTimer')}
+                                {trans('holdStartTimer')}
                             </Text>
                         )}
                         {showReadyState && !isRunning && (
                             <Text style={[styles.timerHoldText, { color: getColor('gray100') }]}>
-                                {translate('releaseTimer')}
+                                {trans('releaseTimer')}
                             </Text>
                         )}
                     </View>

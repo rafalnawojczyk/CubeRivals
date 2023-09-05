@@ -17,15 +17,12 @@ import { LinkButton } from '../components/UI/LinkButton';
 export const ForgotPasswordScreen = () => {
     const navigation = useNavigation();
     const getColor = useColors();
-    const translate = useTranslation();
+    const trans = useTranslation();
 
     const [errorState, setErrorState] = useState('');
 
     const passwordResetSchema = Yup.object().shape({
-        email: Yup.string()
-            .required(translate('auth.enterValidEmail'))
-            .label('Email')
-            .email(translate('auth.enterValidEmail')),
+        email: Yup.string().required(trans('auth.enterValidEmail')).label('Email').email(trans('auth.enterValidEmail')),
     });
 
     const handleSendPasswordResetEmail = (values: { email: string }) => {
@@ -39,7 +36,7 @@ export const ForgotPasswordScreen = () => {
             })
             .catch(error => {
                 if (error.code === 'auth/invalid-email' || error.code === 'auth/user-not-found') {
-                    setErrorState(translate('auth.enterValidEmail'));
+                    setErrorState(trans('auth.enterValidEmail'));
                     return;
                 }
                 setErrorState(error.message);
@@ -57,10 +54,10 @@ export const ForgotPasswordScreen = () => {
                 >
                     {({ values, touched, errors, handleChange, handleSubmit, handleBlur }) => (
                         <>
-                            <Text style={{ color: getColor('text') }}>{translate('auth.email')}</Text>
+                            <Text style={{ color: getColor('text') }}>{trans('auth.email')}</Text>
                             <TextInput
                                 otherProps={{
-                                    placeholder: translate('auth.enterEmail'),
+                                    placeholder: trans('auth.enterEmail'),
                                     autoCapitalize: 'none',
                                     keyboardType: 'email-address',
                                     textContentType: 'emailAddress',
@@ -76,7 +73,7 @@ export const ForgotPasswordScreen = () => {
 
                             <CustomButton type="primary" onPress={handleSubmit} style={{ marginTop: PADDING.md }}>
                                 <Text style={[styles.buttonText, { color: getColor('text') }]}>
-                                    {translate('auth.sendResetEmail')}
+                                    {trans('auth.sendResetEmail')}
                                 </Text>
                             </CustomButton>
                         </>
@@ -84,7 +81,7 @@ export const ForgotPasswordScreen = () => {
                 </Formik>
                 <View style={styles.linkButtonContainer}>
                     <LinkButton
-                        title={translate('auth.returnToLogin')}
+                        title={trans('auth.returnToLogin')}
                         onPress={() => navigation.navigate('Login')}
                         color={getColor('primary500')}
                         textStyle={styles.signupText}

@@ -3,7 +3,6 @@ import * as Yup from 'yup';
 import { Text, StyleSheet, View, KeyboardAvoidingView } from 'react-native';
 import { Formik } from 'formik';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-
 import { auth } from '../../firebase.config';
 import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
 import { TextInput } from '../components/UI/TextInput';
@@ -20,14 +19,14 @@ export const SignupScreen = () => {
     const navigation = useNavigation();
     const [errorState, setErrorState] = useState('');
     const getColor = useColors();
-    const translate = useTranslation();
+    const trans = useTranslation();
 
     const signupValidationSchema = Yup.object().shape({
         email: Yup.string().required().email().label('Email'),
         password: Yup.string().required().min(6).label('Password'),
         confirmPassword: Yup.string()
-            .oneOf([Yup.ref('password')], translate('auth.confirmPasswordMatch'))
-            .required(translate('auth.confirmPasswordRequired')),
+            .oneOf([Yup.ref('password')], trans('auth.confirmPasswordMatch'))
+            .required(trans('auth.confirmPasswordRequired')),
     });
 
     const { passwordVisibility, handlePasswordVisibility, rightIcon } = useTogglePasswordVisibility();
@@ -42,9 +41,7 @@ export const SignupScreen = () => {
         <SafeAreaCard>
             <View style={[styles.container, { backgroundColor: getColor('background') }]}>
                 <KeyboardAvoidingView>
-                    <Text style={[styles.screenTitle, { color: getColor('text') }]}>
-                        {translate('auth.createNewAcc')}
-                    </Text>
+                    <Text style={[styles.screenTitle, { color: getColor('text') }]}>{trans('auth.createNewAcc')}</Text>
 
                     <Formik
                         initialValues={{
@@ -57,10 +54,10 @@ export const SignupScreen = () => {
                     >
                         {({ values, touched, errors, handleChange, handleSubmit, handleBlur }) => (
                             <>
-                                <Text style={{ color: getColor('text') }}>{translate('auth.email')}</Text>
+                                <Text style={{ color: getColor('text') }}>{trans('auth.email')}</Text>
                                 <TextInput
                                     otherProps={{
-                                        placeholder: translate('auth.enterEmail'),
+                                        placeholder: trans('auth.enterEmail'),
                                         autoCapitalize: 'none',
                                         keyboardType: 'email-address',
                                         textContentType: 'emailAddress',
@@ -74,11 +71,11 @@ export const SignupScreen = () => {
                                 <FormErrorMessage error={errors.email} visible={touched.email} />
 
                                 <Text style={{ color: getColor('text'), paddingTop: PADDING.md }}>
-                                    {translate('auth.password')}
+                                    {trans('auth.password')}
                                 </Text>
                                 <TextInput
                                     otherProps={{
-                                        placeholder: translate('auth.enterPassword'),
+                                        placeholder: trans('auth.enterPassword'),
                                         autoCapitalize: 'none',
                                         autoCorrect: false,
                                         secureTextEntry: passwordVisibility,
@@ -93,10 +90,10 @@ export const SignupScreen = () => {
                                 />
                                 <FormErrorMessage error={errors.password} visible={touched.password} />
 
-                                <Text style={{ color: getColor('text') }}>{translate('auth.repeatPassword')}</Text>
+                                <Text style={{ color: getColor('text') }}>{trans('auth.repeatPassword')}</Text>
                                 <TextInput
                                     otherProps={{
-                                        placeholder: translate('auth.repeatYourPassword'),
+                                        placeholder: trans('auth.repeatYourPassword'),
                                         autoCapitalize: 'none',
                                         autoCorrect: false,
                                         secureTextEntry: passwordVisibility,
@@ -115,7 +112,7 @@ export const SignupScreen = () => {
 
                                 <CustomButton type="primary" onPress={handleSubmit} style={{ marginTop: PADDING.lg }}>
                                     <Text style={[styles.buttonText, { color: getColor('text') }]}>
-                                        {translate('auth.signup')}
+                                        {trans('auth.signup')}
                                     </Text>
                                 </CustomButton>
                             </>
@@ -124,12 +121,12 @@ export const SignupScreen = () => {
 
                     <View style={styles.linkButtonContainer}>
                         <Text style={{ color: getColor('text') }}>
-                            {translate('auth.alreadyHaveAcc')}
+                            {trans('auth.alreadyHaveAcc')}
                             {'  '}
                         </Text>
 
                         <LinkButton
-                            title={translate('auth.signin')}
+                            title={trans('auth.signin')}
                             onPress={() => navigation.navigate('Login')}
                             color={getColor('primary500')}
                             textStyle={styles.signupText}

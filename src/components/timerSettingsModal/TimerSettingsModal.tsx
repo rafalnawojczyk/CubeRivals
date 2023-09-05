@@ -22,20 +22,14 @@ const switchSettingsMap: {
 
 export const TimerSettingsModal = ({ showModal, onClose }: TimerSettingsModalProps) => {
     const { timerSettings, updateSettings } = useContext(TimerSettingsContext);
-    const translate = useTranslation();
+    const trans = useTranslation();
 
     const onSaveSettingsHandler = () => {
         onClose();
     };
 
     return (
-        <CustomModal
-            showCloseX
-            onClose={onClose}
-            title={translate('timerSettingsTitle')}
-            isVisible={showModal}
-            size="xl"
-        >
+        <CustomModal showCloseX onClose={onClose} title={trans('timerSettingsTitle')} isVisible={showModal} size="xl">
             <ScrollView style={styles.settingsContainer}>
                 {switchSettingsMap.map(setting => (
                     <SettingsSwitchItem
@@ -47,8 +41,8 @@ export const TimerSettingsModal = ({ showModal, onClose }: TimerSettingsModalPro
                 ))}
             </ScrollView>
             <CustomModal.ButtonsContainer>
-                <CustomModal.Button type="cancel" onPress={onClose} title={translate('cancel')} />
-                <CustomModal.Button type="primary" onPress={onSaveSettingsHandler} title={translate('save')} />
+                <CustomModal.Button type="cancel" onPress={onClose} title={trans('cancel')} />
+                <CustomModal.Button type="primary" onPress={onSaveSettingsHandler} title={trans('save')} />
             </CustomModal.ButtonsContainer>
         </CustomModal>
     );

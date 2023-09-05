@@ -14,22 +14,22 @@ interface AddSessionModalProps {
 export const AddSessionModal = ({ showModal, onClose, onAddSession }: AddSessionModalProps) => {
     const [sessionNameInput, setSessionNameInput] = useState('');
     const getColor = useColors();
-    const translate = useTranslation();
+    const trans = useTranslation();
 
     const onAddSessionHandler = () => {
         if (sessionNameInput.trim().length > 0) {
             onAddSession(sessionNameInput);
         } else {
-            Alert.alert(translate('invalidName'), translate('writeValidName'));
+            Alert.alert(trans('invalidName'), trans('writeValidName'));
         }
     };
 
     return (
-        <CustomModal isVisible={showModal} onClose={onClose} title={translate('addSessionName')} size="lg">
+        <CustomModal isVisible={showModal} onClose={onClose} title={trans('addSessionName')} size="lg">
             <TextInput
                 value={sessionNameInput}
                 onChangeText={setSessionNameInput}
-                placeholder={translate('addSessionNamePlaceholder')}
+                placeholder={trans('addSessionNamePlaceholder')}
                 multiline={false}
                 maxLength={40}
                 style={[styles.textInput, { backgroundColor: getColor('gray100') }]}
@@ -37,8 +37,8 @@ export const AddSessionModal = ({ showModal, onClose, onAddSession }: AddSession
                 textAlign="center"
             />
             <CustomModal.ButtonsContainer>
-                <CustomModal.Button type="cancel" onPress={onClose} title={translate('cancel')} />
-                <CustomModal.Button type="primary" onPress={onAddSessionHandler} title={translate('add')} />
+                <CustomModal.Button type="cancel" onPress={onClose} title={trans('cancel')} />
+                <CustomModal.Button type="primary" onPress={onAddSessionHandler} title={trans('add')} />
             </CustomModal.ButtonsContainer>
         </CustomModal>
     );

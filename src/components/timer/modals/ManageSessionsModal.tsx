@@ -21,7 +21,7 @@ export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalPro
     const { isLoaded, sessions, updateUser } = useContext(UserContext);
     const [showAddSessionModal, setShowAddSessionModal] = useState(false);
     const getColor = useColors();
-    const translate = useTranslation();
+    const trans = useTranslation();
 
     const onAddNewSessionHandler = (sessionName: string) => {
         const trimmedSessionName = sessionName.trim();
@@ -52,7 +52,7 @@ export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalPro
             }
 
             const newSession: SessionObjectInterface = {
-                name: translate('defaultSessionName'),
+                name: trans('defaultSessionName'),
                 cube: timerSettings.cube,
                 id: uuid.v4().toString(),
                 lastUsed: Date.now(),
@@ -67,11 +67,11 @@ export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalPro
         <>
             <CustomModal isVisible={showModal} onClose={onClose} size="lg" showCloseX={false}>
                 <View style={styles.topContainer}>
-                    <Text style={styles.modalTitle}>{translate('manageSessionsTitle')}</Text>
+                    <Text style={styles.modalTitle}>{trans('manageSessionsTitle')}</Text>
                     <CustomButton type="primary" onPress={() => setShowAddSessionModal(true)}>
                         <View style={styles.addButtonContainer}>
                             <Ionicons name="add-outline" size={FONTS.lg} color={getColor('text')} />
-                            <Text style={[styles.buttonText, { color: getColor('text') }]}>{translate('add')}</Text>
+                            <Text style={[styles.buttonText, { color: getColor('text') }]}>{trans('add')}</Text>
                         </View>
                     </CustomButton>
                 </View>
@@ -83,7 +83,7 @@ export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalPro
                     />
                 </View>
                 <View style={[styles.footer, { borderTopColor: getColor('gray100') }]}>
-                    <Text style={[styles.footerText, { color: getColor('gray100') }]}> {translate('holdToEdit')}</Text>
+                    <Text style={[styles.footerText, { color: getColor('gray100') }]}> {trans('holdToEdit')}</Text>
                 </View>
             </CustomModal>
             <AddSessionModal

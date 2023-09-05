@@ -12,14 +12,14 @@ export const useTranslation = () => {
     const userData = useContext(UserContext);
     const lang = userData.lang.toLowerCase();
 
-    const translate = (stringToTranslate: keyof typeof translationEN) => {
+    const trans = (stringTotrans: keyof typeof translationEN) => {
         if (Object.keys(translationObject).includes(lang)) {
             // @ts-ignore
-            return translationObject[lang][stringToTranslate];
+            return translationObject[lang][stringTotrans];
         }
 
-        return translationObject['en'][stringToTranslate];
+        return translationObject['en'][stringTotrans];
     };
 
-    return translate;
+    return trans;
 };

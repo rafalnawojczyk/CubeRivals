@@ -14,10 +14,10 @@ interface AddScrambleModalProps {
 export const AddScrambleModal = ({ showModal, onClose, onAddScramble }: AddScrambleModalProps) => {
     const [scrambleInput, setScrambleInput] = useState('');
     const getColor = useColors();
-    const translate = useTranslation();
+    const trans = useTranslation();
 
     return (
-        <CustomModal isVisible={showModal} onClose={onClose} title={translate('addOwnScramble')} size="lg">
+        <CustomModal isVisible={showModal} onClose={onClose} title={trans('addOwnScramble')} size="lg">
             <TextInput
                 value={scrambleInput}
                 onChangeText={setScrambleInput}
@@ -28,12 +28,8 @@ export const AddScrambleModal = ({ showModal, onClose, onAddScramble }: AddScram
                 textAlign="center"
             />
             <CustomModal.ButtonsContainer>
-                <CustomModal.Button type="cancel" onPress={onClose} title={translate('cancel')} />
-                <CustomModal.Button
-                    type="primary"
-                    onPress={() => onAddScramble(scrambleInput)}
-                    title={translate('add')}
-                />
+                <CustomModal.Button type="cancel" onPress={onClose} title={trans('cancel')} />
+                <CustomModal.Button type="primary" onPress={() => onAddScramble(scrambleInput)} title={trans('add')} />
             </CustomModal.ButtonsContainer>
         </CustomModal>
     );

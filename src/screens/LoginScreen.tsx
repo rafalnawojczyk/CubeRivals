@@ -13,13 +13,12 @@ import { useColors } from '../hooks/useColors';
 import { SafeAreaCard } from '../components/UI/SafeAreaCard';
 import { FONTS, PADDING } from '../styles/base';
 import { useTranslation } from '../hooks/useTranslation';
-import { RootStackParamList } from '../navigation/AuthStack';
 import { LinkButton } from '../components/UI/LinkButton';
 
 export const LoginScreen = () => {
     const navigation = useNavigation();
     const getColor = useColors();
-    const translate = useTranslation();
+    const trans = useTranslation();
 
     const loginValidationSchema = Yup.object().shape({
         email: Yup.string().required().email().label('Email'),
@@ -38,9 +37,7 @@ export const LoginScreen = () => {
             <SafeAreaCard>
                 <View style={[styles.container, { backgroundColor: getColor('background') }]}>
                     <KeyboardAvoidingView>
-                        <Text style={[styles.screenTitle, { color: getColor('text') }]}>
-                            {translate('auth.welcome')}
-                        </Text>
+                        <Text style={[styles.screenTitle, { color: getColor('text') }]}>{trans('auth.welcome')}</Text>
                         <Formik
                             initialValues={{
                                 email: '',
@@ -51,10 +48,10 @@ export const LoginScreen = () => {
                         >
                             {({ values, touched, errors, handleChange, handleSubmit, handleBlur }) => (
                                 <>
-                                    <Text style={{ color: getColor('text') }}>{translate('auth.email')}</Text>
+                                    <Text style={{ color: getColor('text') }}>{trans('auth.email')}</Text>
                                     <TextInput
                                         otherProps={{
-                                            placeholder: translate('auth.enterEmail'),
+                                            placeholder: trans('auth.enterEmail'),
                                             autoCapitalize: 'none',
                                             keyboardType: 'email-address',
                                             textContentType: 'emailAddress',
@@ -67,11 +64,11 @@ export const LoginScreen = () => {
                                     />
                                     <FormErrorMessage error={errors.email} visible={touched.email} />
                                     <Text style={{ color: getColor('text'), paddingTop: PADDING.sm }}>
-                                        {translate('auth.password')}
+                                        {trans('auth.password')}
                                     </Text>
                                     <TextInput
                                         otherProps={{
-                                            placeholder: translate('auth.enterPassword'),
+                                            placeholder: trans('auth.enterPassword'),
                                             autoCapitalize: 'none',
                                             autoCorrect: false,
                                             secureTextEntry: passwordVisibility,
@@ -89,7 +86,7 @@ export const LoginScreen = () => {
                                     {errorState !== '' ? <FormErrorMessage error={errorState} visible={true} /> : null}
 
                                     <LinkButton
-                                        title={`${translate('auth.forgotPassword')}?`}
+                                        title={`${trans('auth.forgotPassword')}?`}
                                         onPress={() => navigation.navigate('ForgotPassword')}
                                         color={getColor('primary500')}
                                         style={styles.forgotPassword}
@@ -98,7 +95,7 @@ export const LoginScreen = () => {
 
                                     <CustomButton type="primary" onPress={handleSubmit}>
                                         <Text style={[styles.buttonText, { color: getColor('text') }]}>
-                                            {translate('auth.signin')}
+                                            {trans('auth.signin')}
                                         </Text>
                                     </CustomButton>
                                 </>
@@ -107,11 +104,11 @@ export const LoginScreen = () => {
 
                         <View style={styles.linkButtonContainer}>
                             <Text style={{ color: getColor('text') }}>
-                                {translate('auth.dontHaveAcc')}
+                                {trans('auth.dontHaveAcc')}
                                 {'  '}
                             </Text>
                             <LinkButton
-                                title={translate('auth.signup')}
+                                title={trans('auth.signup')}
                                 onPress={() => navigation.navigate('Signup')}
                                 color={getColor('primary500')}
                                 textStyle={styles.signupText}

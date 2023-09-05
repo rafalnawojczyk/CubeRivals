@@ -14,21 +14,21 @@ interface AddNoteModalProps {
 export const AddNoteModal = ({ showModal, onClose, onAddNote }: AddNoteModalProps) => {
     const [commentInput, setCommentInput] = useState('');
     const getColor = useColors();
-    const translate = useTranslation();
+    const trans = useTranslation();
 
     return (
-        <CustomModal isVisible={showModal} onClose={onClose} title={translate('addSolveComment')} size="lg">
+        <CustomModal isVisible={showModal} onClose={onClose} title={trans('addSolveComment')} size="lg">
             <TextInput
                 value={commentInput}
                 onChangeText={setCommentInput}
                 multiline={true}
                 style={[styles.textInput, { backgroundColor: getColor('gray100') }]}
                 textAlignVertical="top"
-                placeholder={translate('addNotePlaceholder')}
+                placeholder={trans('addNotePlaceholder')}
             />
             <CustomModal.ButtonsContainer>
-                <CustomModal.Button type="cancel" onPress={onClose} title={translate('cancel')}></CustomModal.Button>
-                <CustomModal.Button type="primary" onPress={() => onAddNote(commentInput)} title={translate('add')} />
+                <CustomModal.Button type="cancel" onPress={onClose} title={trans('cancel')}></CustomModal.Button>
+                <CustomModal.Button type="primary" onPress={() => onAddNote(commentInput)} title={trans('add')} />
             </CustomModal.ButtonsContainer>
         </CustomModal>
     );
