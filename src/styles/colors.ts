@@ -9,6 +9,7 @@ export interface ColorsInterface {
     gray400: string;
     gray100: string;
     text: string;
+    error: string;
 }
 
 export const LIGHT_THEME: ColorsInterface = {
@@ -22,6 +23,7 @@ export const LIGHT_THEME: ColorsInterface = {
     gray400: '#676d75',
     gray100: '#ccd2da',
     text: '#ffffff',
+    error: 'red',
 };
 
 export const DARK_THEME: ColorsInterface = {
@@ -35,4 +37,5 @@ export const DARK_THEME: ColorsInterface = {
     gray400: '#676d75',
     gray100: '#ccd2da',
     text: '#ffffff',
+    error: 'red',
 };

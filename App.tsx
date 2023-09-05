@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import { useCallback, useState, useRef, useEffect } from 'react';
 import { StyleSheet, View, Animated, Easing } from 'react-native';
 import * as Font from 'expo-font';
@@ -5,7 +6,7 @@ import * as SplashScreen from 'expo-splash-screen';
 
 import { ThemeContextProvider } from './src/store/theme-context';
 import { UserContextProvider } from './src/store/user-context';
-import { Navigation } from './src/screens/Navigation';
+import { Navigation } from './src/navigation/Navigation';
 import { CubeAnimation } from './src/components/CubeAnimation';
 import { TimerSettingsContextProvider } from './src/store/timer-settings-context';
 import { RealmProvider } from '@realm/react';

@@ -15,6 +15,7 @@ export const PADDING = {
 
 export const FONTS = {
     sm: 12,
+    m: 16,
     md: 18,
     lg: 22,
     xl: 36,
