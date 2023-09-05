@@ -29,7 +29,12 @@ export const TopBarCubeButton = ({ title, session }: { title: string; session: s
                             {sessions.find(el => el.id === session)?.name}
                         </Text>
                     </View>
-                    <Ionicons name="chevron-down-outline" size={FONTS.lg} color={getColor('gray100')} />
+                    <Ionicons
+                        style={styles.icon}
+                        name="chevron-down-outline"
+                        size={FONTS.lg}
+                        color={getColor('gray100')}
+                    />
                 </View>
             </Pressable>
         </>
@@ -46,6 +51,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: FONTS.md,
+        fontWeight: 'bold',
         textAlign: 'center',
     },
     session: {
@@ -57,6 +63,8 @@ const styles = StyleSheet.create({
         marginRight: PADDING.sm,
         position: 'relative',
     },
+    icon: {
+        position: 'absolute',
+        right: -10,
+    },
 });
-
-// TODO: maybe try to place cube title in the middle, and icon render absolute
