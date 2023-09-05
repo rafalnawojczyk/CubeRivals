@@ -1,16 +1,17 @@
-import { View, Pressable, Text, StyleSheet } from 'react-native';
+import { View, Pressable, Text, StyleSheet, ViewStyle } from 'react-native';
 import { useColors } from '../../hooks/useColors';
 
-export type ButtonType = 'primary' | 'secondary' | 'error' | 'cancel';
+export type ButtonType = 'primary' | 'secondary' | 'error' | 'cancel' | 'transparent';
 
 interface CustomButtonProps {
     onPress: () => void;
     children?: React.ReactNode;
     type: ButtonType;
     title?: string;
+    style?: ViewStyle;
 }
 
-export const CustomButton = ({ onPress, children, type, title }: CustomButtonProps) => {
+export const CustomButton = ({ onPress, children, type, title, style }: CustomButtonProps) => {
     const getColor = useColors();
 
     const getButtonColor = (type: ButtonType) => {
@@ -29,10 +30,14 @@ export const CustomButton = ({ onPress, children, type, title }: CustomButtonPro
         if (type === 'cancel') {
             return getColor('gray100');
         }
+
+        if (type === 'transparent') {
+            return 'transparent';
+        }
     };
 
     return (
-        <View style={styles.buttonOuterContainer}>
+        <View style={[styles.buttonOuterContainer, style]}>
             <Pressable
                 style={({ pressed }) => [
                     styles.buttonInnerContainer,
@@ -56,7 +61,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
     },
     buttonInnerContainer: {
-        paddingVertical: 8,
+        paddingVertical: 12,
         paddingHorizontal: 16,
         elevation: 2,
     },

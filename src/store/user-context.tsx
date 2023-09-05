@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createContext, useState, useLayoutEffect } from 'react';
+import { createContext, useState, useLayoutEffect, useEffect } from 'react';
 import * as Localization from 'expo-localization';
 import { CubeType } from '../models/cubes';
+import { User } from 'firebase/auth';
 
 export interface SessionObjectInterface {
     name: string;
@@ -16,11 +17,15 @@ interface UserDataInterface {
     lang: string;
     sessions: SessionObjectInterface[];
     updateUser: (updatedUser: PartialUserDataType) => void;
+    user: UserState;
+    setUser: (user: UserState) => void;
 }
 
 type UserDataType = Omit<UserDataInterface, 'updateUser'>;
 
 type PartialUserDataType = Partial<UserDataType>;
+
+type UserState = User | null;
 
 export const UserContext = createContext<UserDataInterface>({
     isLoaded: false,
@@ -28,15 +33,19 @@ export const UserContext = createContext<UserDataInterface>({
     lang: 'en',
     sessions: [],
     updateUser: (updatedUser: PartialUserDataType) => {},
+    user: null,
+    setUser: (user: UserState) => {},
 });
 
 export const UserContextProvider = ({ children }: { children?: React.ReactNode }) => {
-    const [userData, setUserData] = useState<UserDataType>({
+    const [userData, setUserData] = useState<Omit<UserDataType, 'setUser' | 'user'>>({
         isLoaded: false,
         username: 'Speedcuber',
         lang: 'en',
         sessions: [],
     });
+
+    const [user, setUser] = useState<UserState>(null);
 
     const updateUser = (updatedUser: PartialUserDataType) => {
         setUserData(prevData => {
@@ -58,6 +67,8 @@ export const UserContextProvider = ({ children }: { children?: React.ReactNode }
         lang: userData.lang,
         sessions: userData.sessions,
         updateUser,
+        user,
+        setUser: setUser,
     };
 
     useLayoutEffect(() => {
