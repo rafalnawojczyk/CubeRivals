@@ -21,5 +21,26 @@
     "addSessionNamePlaceholder": "Write session name here",
     "invalidName": "Invalid name",
     "writeValidName": "Name should have at least 1 character",
-    "selectPuzzle": "Select a puzzle"
+    "selectPuzzle": "Select a puzzle",
+
+    "auth.welcome": "Hi, Welcome Back!",
+    "auth.email": "Email",
+    "auth.enterEmail": "Enter your email",
+    "auth.password": "Password",
+    "auth.enterPassword": "Enter your password",
+    "auth.repeatYourPassword": "Repeat your password",
+    "auth.repeatPassword": "Repeat password",
+    "auth.forgotPassword": "Forgot password",
+    "auth.dontHaveAcc": "Don't have an account?",
+    "auth.signup": "Sign up",
+    "auth.signin": "Sign In",
+    "auth.emailRequired": "Email is required",
+    "auth.passwordRequired": "Password is required",
+    "auth.createNewAcc": "Create a new account!",
+    "auth.alreadyHaveAcc": "Already have an account?",
+    "auth.sendResetEmail": "Send Reset Email",
+    "auth.returnToLogin": "Return to login page.",
+    "auth.confirmPasswordMatch": "Confirm Password must match password.",
+    "auth.confirmPasswordRequired": "Confirm Password is required.",
+    "auth.enterValidEmail": "Please enter a valid email address."
 }

@@ -17,5 +17,26 @@
     "addSessionNamePlaceholder": "Wpisz nazwę tutaj",
     "invalidName": "Nieprawidłowa nazwa",
     "writeValidName": "Nazwa powinna mieć co najmniej 1 znak",
-    "selectPuzzle": "Wybierz kostkę"
+    "selectPuzzle": "Wybierz kostkę",
+
+    "auth.welcome": "Witaj ponownie!",
+    "auth.email": "Email",
+    "auth.enterEmail": "Wpisz swój email",
+    "auth.password": "Hasło",
+    "auth.enterPassword": "Wpisz swoje hasło",
+    "auth.repeatYourPassword": "Powtórz swoje hasło",
+    "auth.repeatPassword": "Powtórz hasło",
+    "auth.forgotPassword": "Nie pamiętasz hasła",
+    "auth.dontHaveAcc": "Nie masz jeszcze konta?",
+    "auth.signup": "Utwórz konto",
+    "auth.signin": "Zaloguj się",
+    "auth.emailRequired": "Email jest wymagany",
+    "auth.passwordRequired": "Hasło jest wymagane",
+    "auth.createNewAcc": "Stwórz nowe konto!",
+    "auth.alreadyHaveAcc": "Masz juz konto? Zaloguj się!",
+    "auth.sendResetEmail": "Zresetuj hasło",
+    "auth.returnToLogin": "Wróć na stronę logowania.",
+    "auth.confirmPasswordMatch": "Hasła muszą być takie same.",
+    "auth.confirmPasswordRequired": "Potwierdzenie hasła jest wymagane.",
+    "auth.enterValidEmail": "Proszę wpisać prawidłowy adres email."
 }
