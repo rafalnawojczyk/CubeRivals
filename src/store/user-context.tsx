@@ -1,8 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createContext, useState, useLayoutEffect, useEffect } from 'react';
+import { createContext, useState, useLayoutEffect } from 'react';
 import * as Localization from 'expo-localization';
 import { CubeType } from '../models/cubes';
 import { User } from 'firebase/auth';
+import { TranslationCodes } from '../hooks/useTranslation';
 
 export interface SessionObjectInterface {
     name: string;
@@ -14,7 +15,7 @@ export interface SessionObjectInterface {
 interface UserDataInterface {
     isLoaded: boolean;
     username: string;
-    lang: string;
+    lang: TranslationCodes;
     sessions: SessionObjectInterface[];
     updateUser: (updatedUser: PartialUserDataType) => void;
     user: UserState;
@@ -82,7 +83,7 @@ export const UserContextProvider = ({ children }: { children?: React.ReactNode }
                     if (!parsedData.lang) {
                         parsedData.lang === Localization.locale.slice(0, 2);
 
-                        updateUser({ lang: Localization.locale.slice(0, 2) });
+                        updateUser({ lang: Localization.locale.slice(0, 2) as TranslationCodes });
                     }
 
                     setUserData(prevData => ({ ...prevData, ...parsedData, isLoaded: true }));

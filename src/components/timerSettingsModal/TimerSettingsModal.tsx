@@ -4,25 +4,39 @@ import { TimerSettingsContext, TimerSettingsType } from '../../store/timer-setti
 import { useTranslation } from '../../hooks/useTranslation';
 import { ScrollView, StyleSheet } from 'react-native';
 import { SettingsSwitchItem } from './SettingsSwitchItem';
+import { SettingItem } from './SettingItem';
 
 interface TimerSettingsModalProps {
     showModal: boolean;
     onClose: () => void;
 }
 
-const switchSettingsMap: {
-    name: keyof Omit<TimerSettingsType, 'stickerColors' | 'session' | 'cube'>;
-    title: string;
-}[] = [
-    { name: 'inspectionTime', title: 'Use WCA inspection' },
-    { name: 'hideUi', title: 'Hide all elements when solving' },
-    { name: 'hideTime', title: 'Hide time when solving' },
-    { name: 'showWholeMs', title: 'Show all milliseconds' },
-];
-
 export const TimerSettingsModal = ({ showModal, onClose }: TimerSettingsModalProps) => {
     const { timerSettings, updateSettings } = useContext(TimerSettingsContext);
     const trans = useTranslation();
+
+    const switchSettingsMap: {
+        name: keyof Omit<TimerSettingsType, 'stickerColors' | 'session' | 'cube'>;
+        title: string;
+        subtitle?: string;
+    }[] = [
+        {
+            name: 'inspectionTime',
+            title: trans('timerSettings.inspectionTime'),
+            subtitle: trans('timerSettings.inspectionTimeDesc'),
+        },
+        {
+            name: 'hideUi',
+            title: trans('timerSettings.hideUi'),
+            subtitle: trans('timerSettings.hideUiDesc'),
+        },
+        { name: 'hideTime', title: trans('timerSettings.hideTime'), subtitle: trans('timerSettings.hideTimeDesc') },
+        {
+            name: 'showWholeMs',
+            title: trans('timerSettings.showWholeMs'),
+            subtitle: trans('timerSettings.showWholeMsDesc'),
+        },
+    ];
 
     const onSaveSettingsHandler = () => {
         onClose();
@@ -32,12 +46,14 @@ export const TimerSettingsModal = ({ showModal, onClose }: TimerSettingsModalPro
         <CustomModal showCloseX onClose={onClose} title={trans('timerSettingsTitle')} isVisible={showModal} size="xl">
             <ScrollView style={styles.settingsContainer}>
                 {switchSettingsMap.map(setting => (
-                    <SettingsSwitchItem
-                        key={setting.name}
-                        value={timerSettings[setting.name]}
-                        title={setting.title}
-                        onSwitch={() => updateSettings({ [setting.name]: !timerSettings[setting.name] })}
-                    />
+                    <SettingItem key={setting.name}>
+                        <SettingsSwitchItem
+                            value={timerSettings[setting.name]}
+                            title={setting.title}
+                            onSwitch={() => updateSettings({ [setting.name]: !timerSettings[setting.name] })}
+                            subtitle={setting.subtitle}
+                        />
+                    </SettingItem>
                 ))}
             </ScrollView>
             <CustomModal.ButtonsContainer>
