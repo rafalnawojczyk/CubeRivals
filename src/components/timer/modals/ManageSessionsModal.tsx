@@ -67,7 +67,7 @@ export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalPro
         <>
             <CustomModal isVisible={showModal} onClose={onClose} size="lg" showCloseX={false}>
                 <View style={styles.topContainer}>
-                    <Text style={styles.modalTitle}>{trans('manageSessionsTitle')}</Text>
+                    <Text style={[styles.modalTitle, { color: getColor('text') }]}>{trans('manageSessionsTitle')}</Text>
                     <CustomButton type="primary" onPress={() => setShowAddSessionModal(true)}>
                         <View style={styles.addButtonContainer}>
                             <Ionicons name="add-outline" size={FONTS.lg} color={getColor('text')} />
@@ -79,7 +79,7 @@ export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalPro
                     <FlatList
                         data={sessions.filter(session => session.cube === timerSettings.cube)}
                         keyExtractor={item => item.id}
-                        renderItem={({ item }) => <Text>{item.name}</Text>}
+                        renderItem={({ item }) => <Text style={{ color: getColor('text') }}>{item.name}</Text>}
                     />
                 </View>
                 <View style={[styles.footer, { borderTopColor: getColor('gray100') }]}>

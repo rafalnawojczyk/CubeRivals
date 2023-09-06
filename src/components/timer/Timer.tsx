@@ -155,5 +155,6 @@ const styles = StyleSheet.create({
         fontSize: FONTS['xl'],
         marginTop: PADDING.md,
         fontFamily: 'robotoMono-light',
+        textAlign: 'center',
     },
 });

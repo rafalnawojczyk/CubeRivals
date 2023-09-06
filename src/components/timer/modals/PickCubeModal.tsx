@@ -6,6 +6,7 @@ import { CUBES_DATA } from '../../../constants/CubesData';
 import { CubeDataInterface, CubeType } from '../../../models/cubes';
 import { useContext } from 'react';
 import { TimerSettingsContext } from '../../../store/timer-settings-context';
+import { useColors } from '../../../hooks/useColors';
 
 interface PickCubeModalProps {
     showModal: boolean;
@@ -15,6 +16,7 @@ interface PickCubeModalProps {
 export const PickCubeModal = ({ showModal, onClose }: PickCubeModalProps) => {
     const { updateSettings } = useContext(TimerSettingsContext);
     const trans = useTranslation();
+    const getColor = useColors();
 
     const onPickCubeHandler = (id: CubeType) => {
         updateSettings({ cube: id });
@@ -26,7 +28,7 @@ export const PickCubeModal = ({ showModal, onClose }: PickCubeModalProps) => {
             <Pressable onPress={() => onPickCubeHandler(item.id)} style={styles.cubeItem}>
                 <View style={styles.cubeItem}>
                     <Image style={styles.cubeImage} source={item.icon} resizeMode="contain" />
-                    <Text style={styles.cubeText}>{item.fullName}</Text>
+                    <Text style={[styles.cubeText, { color: getColor('text') }]}>{item.fullName}</Text>
                 </View>
             </Pressable>
         );

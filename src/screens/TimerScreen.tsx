@@ -20,9 +20,6 @@ export const TimerScreen = () => {
 //
 // Small indicator of Avg/best/ amount of solves/deviation
 //
-// Settings should have:
-// - button to navigate to app settings
-
 // To make bottom tab statistics I need to generate stats somehow.
 // Overall stats are pretty easy. Pass whole data array and done.
 // Current avg12/avg5/ao50/ao100 is easy - pass amount of data that is needed for that

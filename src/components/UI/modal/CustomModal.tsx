@@ -25,14 +25,14 @@ export const CustomModal = ({
     const getColor = useColors();
 
     return (
-        <Modal animationType="fade" transparent={true} visible={isVisible} onRequestClose={onClose}>
+        <Modal animationType="slide" transparent={true} visible={isVisible} onRequestClose={onClose}>
             <Pressable onPress={() => onClose()}>
                 <View
                     style={[styles.backdropGradient, { backgroundColor: getColor('background'), opacity: 0.9 }]}
                 ></View>
             </Pressable>
             <View style={styles.centeredView}>
-                <View style={[styles.modalView, styles[size]]}>
+                <View style={[styles.modalView, styles[size], { backgroundColor: getColor('background') }]}>
                     {showCloseX && (
                         <IconButton
                             size={FONTS.xl}
@@ -42,7 +42,7 @@ export const CustomModal = ({
                             style={styles.closeButton}
                         />
                     )}
-                    {title && <Text style={styles.modalTitle}>{title}</Text>}
+                    {title && <Text style={[styles.modalTitle, { color: getColor('text') }]}>{title}</Text>}
                     {children}
                 </View>
             </View>

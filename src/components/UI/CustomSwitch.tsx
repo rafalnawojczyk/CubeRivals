@@ -11,10 +11,12 @@ export const CustomSwitch = ({ value, onChange }: CustomSwitchProps) => {
 
     return (
         <Switch
-            trackColor={{ false: '#767577', true: getColor('secondary') }}
-            ios_backgroundColor="#3e3e3e"
+            trackColor={{ false: getColor('gray100'), true: getColor('primary200') }}
+            ios_backgroundColor={getColor('gray100')}
             onValueChange={onChange}
             value={value}
+            thumbColor={getColor('primary500')}
+            style={{ transform: [{ scale: 1.3 }] }}
         />
     );
 };
