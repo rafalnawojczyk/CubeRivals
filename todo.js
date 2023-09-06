@@ -2,6 +2,8 @@
 // 1. list of solves which show list, each item acn be clicked and modal with solve editing shows. User can edit everything there
 // 2. add "Warmup" mode where solves are not saved
 // 3. add image of scrambled cube
+// 4. Style Custom Switch component
+// 5. Session modal - session item should be pressable with ability to change name
 
 // ********************************** MODERATE **********************************
 // 1. Statistics based on days, not counting every solve?
@@ -19,6 +21,7 @@
 // 13. history of PB's - how they changed/fast overtime
 // 14. Add Avatar(maybe some default options), Nicknames(using Firestore)
 // 15. Two way binding between firestore and realm database - userId/firebase UID
+// 16. Sessions should have some icons? User could pick predefined icon
 
 // ********************************** LOW **********************************
 // 1. think about Adding sounds to app>?
