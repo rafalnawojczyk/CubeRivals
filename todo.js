@@ -1,9 +1,14 @@
 // ********************************** HIGH **********************************
-// 1. list of solves which show list, each item acn be clicked and modal with solve editing shows. User can edit everything there
+
 // 2. add "Warmup" mode where solves are not saved
 // 3. add image of scrambled cube
-// 4. Style Custom Switch component
 // 5. Session modal - session item should be pressable with ability to change name
+// 6. When user switch Inspection time in timer settings, it should show additional settings, like modal with TextInput to pass seconds of inspection, switch for notification of time passing(50% and 80%). User can set it to Vibration or Sound alert or both at once
+// 7. Add "Tryb ręczny" to timer, so instead of time - it will show big text input to add time, possibly with only numbers, and user will write them in one take like user writes "11245" and it shows it like "11.245". User could choose if he will write all ms or just .00ms. There should be checkbox if should save current scramble or not. Also it should have ModifyResultBlock to add penalties to solve(without delete)
+// 8. Add option to choose "Ready signal", so timer will somehow show user that it is ready to count time. Maybe color some parts of screen/change time color
+// 9. Each sessions should store best time so app will not need to cycle through all times
+// 10. Timer should have some nice animation in background when user breaks his best record in this session. It should count in all sessions starting from X time(not for first X times, because that is pointless). It should also show "Gratulacje, Pobiłeś swój rekord o X:xx!"
+// 11. Timer should also point if there is "Nowa najlepsza średnia" with current solve. If yes - on time somehow pop average that is best rn and show some info above?
 
 // ********************************** MODERATE **********************************
 // 1. Statistics based on days, not counting every solve?
@@ -19,7 +24,6 @@
 // 11. ability to use the same scramble as before solve?
 // 12. ability to change amount of moves in scramble?
 // 13. history of PB's - how they changed/fast overtime
-// 14. Add Avatar(maybe some default options), Nicknames(using Firestore)
 // 15. Two way binding between firestore and realm database - userId/firebase UID
 // 16. Sessions should have some icons? User could pick predefined icon
 
