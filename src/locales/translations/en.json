@@ -1,4 +1,5 @@
 {
+    "time": "Time",
     "addSolveComment": "Add comment",
     "addNotePlaceholder": "Write your note here",
     "cancel": "Cancel",
@@ -10,10 +11,6 @@
     "timerSettingsTitle": "Timer settings",
     "save": "Save",
     "addOwnScramble": "Add your own scramble",
-    "settingsInspectionTime": "Use WCA inspection",
-    "settingsHideUi": "Hide all elements when solving",
-    "settingsHideTime": "Hide time when solving",
-    "settingsShowWholeMs": "Show all milliseconds",
     "manageSessionsTitle": "Manage sessions",
     "holdToEdit": "Hold to edit",
     "defaultSessionName": "Standard",
@@ -42,5 +39,21 @@
     "auth.returnToLogin": "Return to login page.",
     "auth.confirmPasswordMatch": "Confirm Password must match password.",
     "auth.confirmPasswordRequired": "Confirm Password is required.",
-    "auth.enterValidEmail": "Please enter a valid email address."
+    "auth.enterValidEmail": "Please enter a valid email address.",
+    "auth.signout": "Sign Out",
+
+    "settings.showTimerSettings": "Show Timer Settings",
+    "settings.timerSettingsDesc": "Show settings that are specifically related to timer functionalities.",
+    "settings.darkMode": "Use Dark Mode",
+    "settings.darkModeDesc": "Switch between dark and light mode for whole interface.",
+    "settings.selectLang": "Select language",
+
+    "timerSettings.inspectionTime": "Use WCA inspection",
+    "timerSettings.inspectionTimeDesc": "Use 15 seconds of inspection time before every solve.",
+    "timerSettings.hideUi": "Hide all elements when solving",
+    "timerSettings.hideUiDesc": "Hide all elements, except time, while counting solve. It helps with distraction.",
+    "timerSettings.hideTime": "Hide time when solving",
+    "timerSettings.hideTimeDesc": "Hide literally everything while solving.",
+    "timerSettings.showWholeMs": "Show all milliseconds",
+    "timerSettings.showWholeMsDesc": "Show time output like ss:mmm(12.152) or ss:mm(12.15)."
 }

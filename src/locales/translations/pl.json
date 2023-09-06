@@ -1,4 +1,5 @@
 {
+    "time": "Czas",
     "addSolveComment": "Dodaj komentarz",
     "addNotePlaceholder": "Wpisz komentarz tutaj",
     "cancel": "Anuluj",
@@ -38,5 +39,21 @@
     "auth.returnToLogin": "Wróć na stronę logowania.",
     "auth.confirmPasswordMatch": "Hasła muszą być takie same.",
     "auth.confirmPasswordRequired": "Potwierdzenie hasła jest wymagane.",
-    "auth.enterValidEmail": "Proszę wpisać prawidłowy adres email."
+    "auth.enterValidEmail": "Proszę wpisać prawidłowy adres email.",
+    "auth.signout": "Wyloguj się",
+
+    "settings.showTimerSettings": "Pokaż ustawienia timera",
+    "settings.timerSettingsDesc": "Pokaż ustawienia ściśle powiązane z funkcjonalnością timera.",
+    "settings.darkMode": "Włącz tryb ciemny",
+    "settings.darkModeDesc": "Przełączaj się pomiędzy jasnym a ciemnym motywem aplikacji.",
+    "settings.selectLang": "Wybierz język aplikacji",
+
+    "timerSettings.inspectionTime": "Włącz inspekcję przed ułożeniem",
+    "timerSettings.inspectionTimeDesc": "Korzystaj z 15 sekundowej inspekcji przed każdym ułożeniem.",
+    "timerSettings.hideUi": "Ukryj interfejs podczas ułożenia",
+    "timerSettings.hideUiDesc": "Ukryj wszystkie elementy interfejsu(poza czasem) podczas układania aby zwiększyć skupienie.",
+    "timerSettings.hideTime": "Ukryj czas podczas układania",
+    "timerSettings.hideTimeDesc": "Ukryj dosłownie wszystko podczas układania.",
+    "timerSettings.showWholeMs": "Pokaż wszystkie milisekundy",
+    "timerSettings.showWholeMsDesc": "Pokaż czas ułożenia jako ss:mmm(12.152) lub ss:mm(12.15)."
 }
