@@ -1,4 +1,4 @@
-import { useState, useRef, useContext, useEffect } from 'react';
+import { useState, useRef, useContext } from 'react';
 import { Pressable, View, Text, StyleSheet } from 'react-native';
 import { DIMENSIONS, FONTS, PADDING } from '../../styles/base';
 import { TimerBorder } from './TimerBorder';
@@ -34,7 +34,6 @@ export const Timer = () => {
     };
 
     const onLongPressHandler = () => {
-        // TODO: It should hide whole UI except timer when it's on this state
         setStartingTime(0);
         setEndingTime(0);
         setShowReadyState(true);
@@ -84,6 +83,18 @@ export const Timer = () => {
 
     return (
         <>
+            {(timerSettings.hideUi || timerSettings.hideTime) && isRunning && (
+                <Pressable
+                    style={[styles.overlay, { backgroundColor: getColor('background') }]}
+                    onPress={onPressInHandler}
+                >
+                    {!timerSettings.hideTime && (
+                        <Text style={[styles.timerText, { color: getColor('gray100') }]}>
+                            {formatTime(elapsedTime, !timerSettings.showWholeMs)}
+                        </Text>
+                    )}
+                </Pressable>
+            )}
             <View>
                 <ScramblePreviewBlock onChangeScramble={onChangeScramble} scramble={scramble} />
             </View>
@@ -141,6 +152,7 @@ const styles = StyleSheet.create({
         height: 0.35 * DIMENSIONS.fullHeight,
         width: 0.95 * DIMENSIONS.fullWidth,
         position: 'relative',
+        zIndex: 5000,
     },
     innerContainer: {
         flex: 1,
@@ -156,5 +168,16 @@ const styles = StyleSheet.create({
         marginTop: PADDING.md,
         fontFamily: 'robotoMono-light',
         textAlign: 'center',
+    },
+    overlay: {
+        flex: 1,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        height: DIMENSIONS.fullHeight,
+        width: DIMENSIONS.fullWidth,
+        zIndex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });
