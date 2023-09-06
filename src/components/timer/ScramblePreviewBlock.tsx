@@ -11,9 +11,11 @@ import { AddScrambleModal } from './modals/AddScrambleModal';
 export const ScramblePreviewBlock = ({
     onChangeScramble,
     scramble,
+    showRegenerateScramble = true,
 }: {
     onChangeScramble: (scramble: string) => void;
     scramble: string;
+    showRegenerateScramble?: boolean;
 }) => {
     const { timerSettings } = useContext(TimerSettingsContext);
     const [showAddScrambleModal, setShowAddScrambleModal] = useState(false);
@@ -48,17 +50,19 @@ export const ScramblePreviewBlock = ({
                     <Text style={[styles.scramble, { color: getColor('gray100') }]}>{scramble}</Text>
                     <View style={styles.buttonsContainer}>
                         <IconButton
-                            icon="pencil-outline"
+                            icon="mode-edit"
                             size={FONTS.lg}
                             color={getColor('gray100')}
                             onPress={onShowAddScramble}
                         />
-                        <IconButton
-                            icon="refresh-outline"
-                            size={FONTS.lg}
-                            color={getColor('gray100')}
-                            onPress={onRegenerateScramble}
-                        />
+                        {showRegenerateScramble && (
+                            <IconButton
+                                icon="refresh"
+                                size={FONTS.lg}
+                                color={getColor('gray100')}
+                                onPress={onRegenerateScramble}
+                            />
+                        )}
                     </View>
                 </View>
             </View>

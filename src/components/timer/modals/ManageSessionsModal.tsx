@@ -5,7 +5,7 @@ import { DIMENSIONS, FONTS, PADDING } from '../../../styles/base';
 import { useColors } from '../../../hooks/useColors';
 import { useTranslation } from '../../../hooks/useTranslation';
 import { CustomButton } from '../../UI/CustomButton';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { SessionObjectInterface, UserContext } from '../../../store/user-context';
 import { TimerSettingsContext } from '../../../store/timer-settings-context';
 import uuid from 'react-native-uuid';
@@ -70,7 +70,7 @@ export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalPro
                     <Text style={[styles.modalTitle, { color: getColor('text') }]}>{trans('manageSessionsTitle')}</Text>
                     <CustomButton type="primary" onPress={() => setShowAddSessionModal(true)}>
                         <View style={styles.addButtonContainer}>
-                            <Ionicons name="add-outline" size={FONTS.lg} color={getColor('text')} />
+                            <MaterialIcons name="my-library-add" size={FONTS.lg} color={getColor('text')} />
                             <Text style={[styles.buttonText, { color: getColor('text') }]}>{trans('add')}</Text>
                         </View>
                     </CustomButton>

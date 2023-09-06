@@ -1,15 +1,15 @@
 import React from 'react';
 import { TextInput as RNTextInput, View, StyleSheet } from 'react-native';
 
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { TextInputProps as RNTextInputProps } from 'react-native/Libraries/Components/TextInput/TextInput';
 import { IconButton } from './IconButton';
 import { PADDING } from '../../styles/base';
 import { useColors } from '../../hooks/useColors';
 
 interface TextInputProps {
-    leftIconName: keyof typeof Ionicons.glyphMap;
-    rightIcon?: keyof typeof Ionicons.glyphMap;
+    leftIconName: keyof typeof MaterialIcons.glyphMap;
+    rightIcon?: keyof typeof MaterialIcons.glyphMap;
     handlePasswordVisibility?: () => void;
     otherProps: RNTextInputProps;
 }
@@ -20,7 +20,7 @@ export const TextInput = ({ leftIconName, rightIcon, handlePasswordVisibility, o
     return (
         <View style={[styles.container, { backgroundColor: getColor('background'), borderColor: getColor('gray100') }]}>
             {leftIconName ? (
-                <Ionicons name={leftIconName} size={22} color={getColor('gray100')} style={styles.marginRight} />
+                <MaterialIcons name={leftIconName} size={22} color={getColor('gray100')} style={styles.marginRight} />
             ) : null}
             <RNTextInput
                 style={[styles.textInput, { color: getColor('text') }]}

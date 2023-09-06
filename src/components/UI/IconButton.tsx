@@ -1,5 +1,5 @@
 import { Pressable, View, ViewStyle } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export const IconButton = ({
     icon,
@@ -8,7 +8,7 @@ export const IconButton = ({
     onPress,
     style,
 }: {
-    icon: keyof typeof Ionicons.glyphMap;
+    icon: keyof typeof MaterialIcons.glyphMap;
     size: number;
     color: string;
     onPress: () => void;
@@ -17,7 +17,7 @@ export const IconButton = ({
     return (
         <Pressable onPress={onPress} style={style}>
             <View>
-                <Ionicons name={icon} size={size} color={color} />
+                <MaterialIcons name={icon} size={size} color={color} />
             </View>
         </Pressable>
     );

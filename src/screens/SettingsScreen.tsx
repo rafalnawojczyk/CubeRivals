@@ -36,7 +36,7 @@ export const SettingsScreen = () => {
                 <ScrollView style={{ paddingHorizontal: PADDING.sm }} contentContainerStyle={{ alignItems: 'center' }}>
                     <SettingItem>
                         <SettingsIconButtonItem
-                            name="settings-outline"
+                            name="settings"
                             onPress={() => setShowTimerSettings(true)}
                             title={trans('settings.showTimerSettings')}
                             subtitle={trans('settings.timerSettingsDesc')}

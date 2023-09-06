@@ -27,14 +27,14 @@ export const TopTimerBar = () => {
             <View style={styles.topBarContainer}>
                 <View style={styles.topBar}>
                     <IconButton
-                        icon="settings-outline"
+                        icon="settings"
                         size={FONTS.lg}
                         color={getColor('gray100')}
                         onPress={() => setShowSettings(true)}
                     />
                     <TopBarCubeButton title={timerSettings.cube} session={timerSettings.session} />
                     <IconButton
-                        icon="pricetags-outline"
+                        icon="list-alt"
                         size={FONTS.lg}
                         color={getColor('gray100')}
                         onPress={() => setShowSessionModal(true)}

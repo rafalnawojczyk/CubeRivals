@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 import { useState } from 'react';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { Result } from '../../models/result';
 import { AddNoteModal } from './modals/AddNoteModal';
 import { IconButton } from '../UI/IconButton';
@@ -12,25 +12,25 @@ export type ButtonName = 'remove' | 'dnf' | '+2' | 'note';
 
 interface ModifyButton {
     name: ButtonName;
-    icon: keyof typeof Ionicons.glyphMap;
+    icon: keyof typeof MaterialIcons.glyphMap;
 }
 
-const buttonsMap: ModifyButton[] = [
+export const buttonsMap: ModifyButton[] = [
     {
         name: 'remove',
-        icon: 'trash-bin-outline',
+        icon: 'delete-forever',
     },
     {
         name: 'dnf',
-        icon: 'warning-outline',
+        icon: 'warning',
     },
     {
         name: '+2',
-        icon: 'flag-outline',
+        icon: 'outlined-flag',
     },
     {
         name: 'note',
-        icon: 'chatbox-outline',
+        icon: 'chat',
     },
 ];
 
@@ -42,6 +42,8 @@ export const ModifyResultBlock = ({
     const [showCommentModal, setShowCommentModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const getColor = useColors();
+
+    // TODO: Modify result should work in sync with REALM, so it will just receive ID and it should save all changes into database
 
     const handleConfirmDeleteSolve = () => {
         console.log('DELETE SOLVE');

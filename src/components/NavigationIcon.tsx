@@ -1,9 +1,9 @@
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { StyleSheet, View } from 'react-native';
 import { useColors } from '../hooks/useColors';
 
 interface NavigationIconProps {
-    icon: keyof typeof Ionicons.glyphMap;
+    icon: keyof typeof MaterialIcons.glyphMap;
     size: number;
     color: string;
 
@@ -32,7 +32,7 @@ export const NavigationIcon = ({ icon, size, color, isMiddleIcon, isActive }: Na
                     isMiddleIcon && isActive && { borderWidth: 1, borderColor: getColor('text') },
                 ]}
             >
-                <Ionicons
+                <MaterialIcons
                     name={icon}
                     size={size}
                     color={isMiddleIcon ? getColor('text') : isActive ? bgActiveColor : color}

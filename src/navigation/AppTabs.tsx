@@ -1,5 +1,5 @@
 import { RivalsScreen } from '../screens/RivalsScreen';
-import { UserProfileScreen } from '../screens/UserProfileScreen';
+import { TimesListScreen } from '../screens/TimesListScreen';
 import { TimerScreen } from '../screens/TimerScreen';
 import { StatisticsScreen } from '../screens/StatisticsScreen';
 import { NavigationIcon } from '../components/NavigationIcon';
@@ -34,7 +34,7 @@ export const AppTabs = () => {
                 options={{
                     title: 'Home',
                     tabBarIcon: ({ size, color, focused }) => (
-                        <NavigationIcon size={size} color={color} icon="trophy-outline" isActive={focused} />
+                        <NavigationIcon size={size} color={color} icon="emoji-events" isActive={focused} />
                     ),
                 }}
             />
@@ -44,7 +44,7 @@ export const AppTabs = () => {
                 options={{
                     title: 'Statistics',
                     tabBarIcon: ({ size, color, focused }) => (
-                        <NavigationIcon size={size} color={color} icon="stats-chart-outline" isActive={focused} />
+                        <NavigationIcon size={size} color={color} icon="stacked-line-chart" isActive={focused} />
                     ),
                 }}
             />
@@ -54,23 +54,17 @@ export const AppTabs = () => {
                 options={{
                     title: 'Timer',
                     tabBarIcon: ({ size, color, focused }) => (
-                        <NavigationIcon
-                            size={size}
-                            color={color}
-                            icon="timer-outline"
-                            isActive={focused}
-                            isMiddleIcon={true}
-                        />
+                        <NavigationIcon size={size} color={color} icon="timer" isActive={focused} isMiddleIcon={true} />
                     ),
                 }}
             />
             <BottomTabs.Screen
-                name="UserProfileScreen"
-                component={UserProfileScreen}
+                name="TimesListScreen"
+                component={TimesListScreen}
                 options={{
-                    title: 'Profile',
+                    title: 'Times List',
                     tabBarIcon: ({ size, color, focused }) => (
-                        <NavigationIcon size={size} color={color} icon="md-person-outline" isActive={focused} />
+                        <NavigationIcon size={size} color={color} icon="format-list-bulleted" isActive={focused} />
                     ),
                 }}
             />
@@ -80,7 +74,7 @@ export const AppTabs = () => {
                 options={{
                     title: 'Settings',
                     tabBarIcon: ({ size, color, focused }) => (
-                        <NavigationIcon size={size} color={color} icon="settings-outline" isActive={focused} />
+                        <NavigationIcon size={size} color={color} icon="settings" isActive={focused} />
                     ),
                 }}
             />

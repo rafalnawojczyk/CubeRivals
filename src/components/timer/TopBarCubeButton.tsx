@@ -1,5 +1,5 @@
 import { Text, Pressable, View, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { DIMENSIONS, FONTS, PADDING } from '../../styles/base';
 import { useColors } from '../../hooks/useColors';
 import { useContext, useState } from 'react';
@@ -17,7 +17,7 @@ export const TopBarCubeButton = ({ title, session }: { title: string; session: s
             <PickCubeModal showModal={showCubePicker} onClose={() => setShowCubePicker(false)} />
             <Pressable
                 style={styles.container}
-                android_ripple={{ color: getColor('secondary') }}
+                android_ripple={{ color: getColor('primary200') }}
                 onPress={() => setShowCubePicker(true)}
             >
                 <View style={styles.container}>
@@ -29,9 +29,9 @@ export const TopBarCubeButton = ({ title, session }: { title: string; session: s
                             {sessions.find(el => el.id === session)?.name}
                         </Text>
                     </View>
-                    <Ionicons
+                    <MaterialIcons
                         style={styles.icon}
-                        name="chevron-down-outline"
+                        name="keyboard-arrow-down"
                         size={FONTS.lg}
                         color={getColor('gray100')}
                     />

@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { DIMENSIONS, FONTS } from '../../styles/base';
 import { useColors } from '../../hooks/useColors';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { IconButton } from '../UI/IconButton';
 
 interface SettingsIconButtonItemProps {
     title: string;
     onPress: () => void;
     subtitle?: string;
-    name: keyof typeof Ionicons.glyphMap;
+    name: keyof typeof MaterialIcons.glyphMap;
 }
 
 export const SettingsIconButtonItem = ({ title, onPress, subtitle, name }: SettingsIconButtonItemProps) => {
