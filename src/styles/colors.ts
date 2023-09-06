@@ -10,6 +10,7 @@ export interface ColorsInterface {
     gray400: string;
     gray100: string;
     text: string;
+    textInverted: string;
     error: string;
 }
 
@@ -25,6 +26,7 @@ export const LIGHT_THEME: ColorsInterface = {
     gray400: '#676d75',
     gray100: '#ccd2da',
     text: '#ffffff',
+    textInverted: '#202229',
     error: '#E63756',
 };
 
@@ -40,5 +42,6 @@ export const DARK_THEME: ColorsInterface = {
     gray400: '#676d75',
     gray100: '#ccd2da',
     text: '#ffffff',
+    textInverted: '#202229',
     error: '#E63756',
 };
