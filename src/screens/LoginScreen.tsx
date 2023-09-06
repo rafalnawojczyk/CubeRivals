@@ -77,7 +77,7 @@ export const LoginScreen = () => {
                                             onChangeText: handleChange('password'),
                                             onBlur: handleBlur('password'),
                                         }}
-                                        leftIconName="lock-closed-outline"
+                                        leftIconName="lock"
                                         rightIcon={rightIcon}
                                         handlePasswordVisibility={handlePasswordVisibility}
                                     />

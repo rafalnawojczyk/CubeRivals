@@ -85,7 +85,7 @@ export const SignupScreen = () => {
                                         onBlur: handleBlur('password'),
                                     }}
                                     handlePasswordVisibility={handlePasswordVisibility}
-                                    leftIconName="lock-closed-outline"
+                                    leftIconName="lock"
                                     rightIcon={rightIcon}
                                 />
                                 <FormErrorMessage error={errors.password} visible={touched.password} />
@@ -102,7 +102,7 @@ export const SignupScreen = () => {
                                         onChangeText: handleChange('confirmPassword'),
                                         onBlur: handleBlur('confirmPassword'),
                                     }}
-                                    leftIconName="lock-closed-outline"
+                                    leftIconName="lock"
                                     handlePasswordVisibility={handlePasswordVisibility}
                                     rightIcon={rightIcon}
                                 />
