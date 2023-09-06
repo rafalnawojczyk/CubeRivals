@@ -1,5 +1,6 @@
 export interface ColorsInterface {
     background: string;
+    primary200: string;
     primary500: string;
     primary800: string;
     secondary: string;
@@ -14,6 +15,7 @@ export interface ColorsInterface {
 
 export const LIGHT_THEME: ColorsInterface = {
     background: '#232838',
+    primary200: '#8166ec',
     primary500: '#582fff',
     primary800: '#2d1686',
     secondary: '#7edbe0',
@@ -28,6 +30,7 @@ export const LIGHT_THEME: ColorsInterface = {
 
 export const DARK_THEME: ColorsInterface = {
     background: '#232838',
+    primary200: '#8166ec',
     primary500: '#582fff',
     primary800: '#2d1686',
     secondary: '#7edbe0',
