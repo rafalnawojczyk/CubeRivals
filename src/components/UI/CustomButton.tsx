@@ -1,7 +1,7 @@
 import { View, Pressable, Text, StyleSheet, ViewStyle } from 'react-native';
 import { useColors } from '../../hooks/useColors';
 
-export type ButtonType = 'primary' | 'secondary' | 'error' | 'cancel' | 'transparent';
+export type ButtonType = 'primary' | 'secondary' | 'error' | 'cancel';
 
 interface CustomButtonProps {
     onPress: () => void;
@@ -20,7 +20,7 @@ export const CustomButton = ({ onPress, children, type, title, style }: CustomBu
         }
 
         if (type === 'secondary') {
-            return getColor('secondary');
+            return 'transparent';
         }
 
         if (type === 'error') {
@@ -29,10 +29,6 @@ export const CustomButton = ({ onPress, children, type, title, style }: CustomBu
 
         if (type === 'cancel') {
             return getColor('gray100');
-        }
-
-        if (type === 'transparent') {
-            return 'transparent';
         }
     };
 
@@ -43,6 +39,7 @@ export const CustomButton = ({ onPress, children, type, title, style }: CustomBu
                     styles.buttonInnerContainer,
                     pressed && styles.pressed,
                     { backgroundColor: getButtonColor(type) },
+                    type === 'secondary' ? { borderColor: getColor('gray100'), borderWidth: 1 } : { padding: 1 },
                 ]}
                 onPress={onPress}
                 android_ripple={{ color: getButtonColor(type) }}
@@ -67,6 +64,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         textAlign: 'center',
+        fontWeight: 'bold',
     },
     pressed: {
         opacity: 0.75,

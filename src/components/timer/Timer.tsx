@@ -83,7 +83,7 @@ export const Timer = () => {
 
     return (
         <>
-            {(timerSettings.hideUi || timerSettings.hideTime) && isRunning && (
+            {timerSettings.hideUi && isRunning && (
                 <Pressable
                     style={[styles.overlay, { backgroundColor: getColor('background') }]}
                     onPress={onPressInHandler}
@@ -107,9 +107,14 @@ export const Timer = () => {
                 <View style={styles.container}>
                     <TimerBorder />
                     <View style={styles.innerContainer}>
-                        {isRunning && (
+                        {isRunning && !timerSettings.hideTime && (
                             <Text style={[styles.timerText, { color: getColor('gray100') }]}>
                                 {formatTime(elapsedTime, !timerSettings.showWholeMs)}
+                            </Text>
+                        )}
+                        {isRunning && timerSettings.hideTime && (
+                            <Text style={[styles.timerText, { color: getColor('gray100'), fontSize: FONTS.xl }]}>
+                                {trans('clickToStop')}
                             </Text>
                         )}
                         {!isRunning && !!endingTime && (

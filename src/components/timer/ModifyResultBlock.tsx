@@ -36,8 +36,10 @@ export const buttonsMap: ModifyButton[] = [
 
 export const ModifyResultBlock = ({
     setSolveResult,
+    showDelete = true,
 }: {
     setSolveResult: React.Dispatch<React.SetStateAction<Result>>;
+    showDelete?: boolean;
 }) => {
     const [showCommentModal, setShowCommentModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -77,6 +79,8 @@ export const ModifyResultBlock = ({
         }
     };
 
+    const buttonsToRender = showDelete ? buttonsMap : buttonsMap.filter(button => button.name !== 'remove');
+
     return (
         <>
             <RemoveResultConfirmModal
@@ -91,7 +95,7 @@ export const ModifyResultBlock = ({
             />
             <View style={styles.outerContainer}>
                 <View style={styles.innerContainer}>
-                    {buttonsMap.map(button => (
+                    {buttonsToRender.map(button => (
                         <IconButton
                             key={button.name}
                             onPress={() => onButtonPress(button.name)}

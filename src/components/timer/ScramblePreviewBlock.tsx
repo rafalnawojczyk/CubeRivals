@@ -7,6 +7,7 @@ import { useColors } from '../../hooks/useColors';
 import { DIMENSIONS, FONTS, PADDING } from '../../styles/base';
 import { IconButton } from '../UI/IconButton';
 import { AddScrambleModal } from './modals/AddScrambleModal';
+import { AddTimeModal } from './modals/AddTimeModal';
 
 export const ScramblePreviewBlock = ({
     onChangeScramble,
@@ -19,6 +20,7 @@ export const ScramblePreviewBlock = ({
 }) => {
     const { timerSettings } = useContext(TimerSettingsContext);
     const [showAddScrambleModal, setShowAddScrambleModal] = useState(false);
+    const [showAddTimeModal, setShowAddTimeModal] = useState(false);
     const getColor = useColors();
 
     const onAddOwnScramble = (scramble: string) => {
@@ -29,9 +31,17 @@ export const ScramblePreviewBlock = ({
         setShowAddScrambleModal(true);
     };
 
+    const onShowAddTime = () => {
+        setShowAddTimeModal(true);
+    };
+
     const onRegenerateScramble = () => {
         const scr = generateScramble(timerSettings.cube);
         onChangeScramble(scr);
+    };
+
+    const onAddTime = (time: number) => {
+        // TODO:
     };
 
     useEffect(() => {
@@ -40,15 +50,28 @@ export const ScramblePreviewBlock = ({
 
     return (
         <>
+            <AddTimeModal
+                showModal={showAddTimeModal}
+                onClose={() => setShowAddTimeModal(false)}
+                onAddTime={onAddTime}
+            />
+
             <AddScrambleModal
                 onAddScramble={onAddOwnScramble}
                 onClose={() => setShowAddScrambleModal(false)}
                 showModal={showAddScrambleModal}
             />
+
             <View style={styles.outerContainer}>
                 <View style={styles.container}>
                     <Text style={[styles.scramble, { color: getColor('gray100') }]}>{scramble}</Text>
                     <View style={styles.buttonsContainer}>
+                        <IconButton
+                            icon="add-alarm"
+                            size={FONTS.lg}
+                            color={getColor('gray100')}
+                            onPress={onShowAddTime}
+                        />
                         <IconButton
                             icon="mode-edit"
                             size={FONTS.lg}
