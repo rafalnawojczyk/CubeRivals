@@ -9,6 +9,7 @@ export type TimerSettingsType = {
     hideTime: boolean;
     hideUi: boolean;
     showWholeMs: boolean;
+    showEasyAdd: boolean;
     stickerColors: string[];
 };
 
@@ -19,6 +20,7 @@ const DEFAULT_SETTINGS: TimerSettingsType = {
     hideTime: false,
     hideUi: true,
     showWholeMs: false,
+    showEasyAdd: false,
     stickerColors: ['#ffffff', '#fef200', '#06d002', '#0079fe', '#ed1b24', '#ff7f26'],
     // autoExport: false,
 };

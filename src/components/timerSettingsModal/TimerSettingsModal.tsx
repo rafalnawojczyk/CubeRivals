@@ -21,6 +21,11 @@ export const TimerSettingsModal = ({ showModal, onClose }: TimerSettingsModalPro
         subtitle?: string;
     }[] = [
         {
+            name: 'showEasyAdd',
+            title: trans('timerSettings.showEasyAdd'),
+            subtitle: trans('timerSettings.showEasyAddDesc'),
+        },
+        {
             name: 'inspectionTime',
             title: trans('timerSettings.inspectionTime'),
             subtitle: trans('timerSettings.inspectionTimeDesc'),
