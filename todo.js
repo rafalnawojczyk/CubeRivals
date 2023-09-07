@@ -9,11 +9,11 @@
 // 9. Each sessions should store best time so app will not need to cycle through all times
 // 10. Timer should have some nice animation in background when user breaks his best record in this session. It should count in all sessions starting from X time(not for first X times, because that is pointless). It should also show "Gratulacje, Pobiłeś swój rekord o X:xx!"
 // 11. Timer should also point if there is "Nowa najlepsza średnia" with current solve. If yes - on time somehow pop average that is best rn and show some info above?
+// 3. set finished when there is any gyro - Add options to timer settings, if on - use gyro.
 
 // ********************************** MODERATE **********************************
 // 1. Statistics based on days, not counting every solve?
 // 2. set ready when front camera is covered?
-// 3. set finished when there is any gyro movement
 // 4. Export to CSV/ import/export compatible with csTimer
 // 5. maybe add option to create own colors for whole app? and background image for timer screen? It should be dimmed by default
 // 6. add "custom" cube option so users can add their own cube without scramble/ Maybe add "custom" and users will place there their sessions?

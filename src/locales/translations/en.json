@@ -19,6 +19,8 @@
     "invalidName": "Invalid name",
     "writeValidName": "Name should have at least 1 character",
     "selectPuzzle": "Select a puzzle",
+    "clickToStop": "Press to stop",
+    "addTime": "Add time",
 
     "auth.welcome": "Hi, Welcome Back!",
     "auth.email": "Email",
@@ -55,5 +57,7 @@
     "timerSettings.hideTime": "Hide time when solving",
     "timerSettings.hideTimeDesc": "Hide literally everything while solving.",
     "timerSettings.showWholeMs": "Show all milliseconds",
-    "timerSettings.showWholeMsDesc": "Show time output like ss:mmm(12.152) or ss:mm(12.15)."
+    "timerSettings.showWholeMsDesc": "Show time output like ss:mmm(12.152) or ss:mm(12.15).",
+    "timerSettings.showEasyAdd": "Easy time submission",
+    "timerSettings.showEasyAddDesc": "Hide timer and show easy time submission button."
 }

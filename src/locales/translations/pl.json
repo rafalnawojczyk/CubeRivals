@@ -19,6 +19,7 @@
     "invalidName": "Nieprawidłowa nazwa",
     "writeValidName": "Nazwa powinna mieć co najmniej 1 znak",
     "selectPuzzle": "Wybierz kostkę",
+    "addTime": "Dodaj czas",
 
     "auth.welcome": "Witaj ponownie!",
     "auth.email": "Email",
@@ -41,6 +42,7 @@
     "auth.confirmPasswordRequired": "Potwierdzenie hasła jest wymagane.",
     "auth.enterValidEmail": "Proszę wpisać prawidłowy adres email.",
     "auth.signout": "Wyloguj się",
+    "clickToStop": "Kliknij by zatrzymać",
 
     "settings.showTimerSettings": "Pokaż ustawienia timera",
     "settings.timerSettingsDesc": "Pokaż ustawienia ściśle powiązane z funkcjonalnością timera.",
