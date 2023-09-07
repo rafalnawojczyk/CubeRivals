@@ -37,7 +37,7 @@ export const CustomModal = ({
                         <IconButton
                             size={FONTS.xl}
                             color={getColor('gray100')}
-                            icon="close-outline"
+                            icon="close"
                             onPress={onClose}
                             style={styles.closeButton}
                         />
