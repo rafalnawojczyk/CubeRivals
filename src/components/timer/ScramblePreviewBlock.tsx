@@ -8,15 +8,18 @@ import { DIMENSIONS, FONTS, PADDING } from '../../styles/base';
 import { IconButton } from '../UI/IconButton';
 import { AddScrambleModal } from './modals/AddScrambleModal';
 import { AddTimeModal } from './modals/AddTimeModal';
+import { Result } from '../../models/result';
 
 export const ScramblePreviewBlock = ({
     onChangeScramble,
     scramble,
     showRegenerateScramble = true,
+    onAddTime,
 }: {
     onChangeScramble: (scramble: string) => void;
     scramble: string;
     showRegenerateScramble?: boolean;
+    onAddTime: (result: Result) => void;
 }) => {
     const { timerSettings } = useContext(TimerSettingsContext);
     const [showAddScrambleModal, setShowAddScrambleModal] = useState(false);
@@ -37,11 +40,12 @@ export const ScramblePreviewBlock = ({
 
     const onRegenerateScramble = () => {
         const scr = generateScramble(timerSettings.cube);
-        onChangeScramble(scr);
+
+        onChangeScramble(scr[0]);
     };
 
-    const onAddTime = (time: number) => {
-        // TODO:
+    const onAddTimeHandler = (result: Result) => {
+        onAddTime(result);
     };
 
     useEffect(() => {
@@ -53,7 +57,7 @@ export const ScramblePreviewBlock = ({
             <AddTimeModal
                 showModal={showAddTimeModal}
                 onClose={() => setShowAddTimeModal(false)}
-                onAddTime={onAddTime}
+                onAddTime={onAddTimeHandler}
             />
 
             <AddScrambleModal

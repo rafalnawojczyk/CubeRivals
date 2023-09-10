@@ -1,15 +1,14 @@
-import { Result } from '../../models/result';
 import { Pressable, View, Text, StyleSheet } from 'react-native';
 import { formatTime } from '../../utils/formatTime';
 import { DIMENSIONS, FONTS, PADDING } from '../../styles/base';
 import { useColors } from '../../hooks/useColors';
-import { useTranslation } from '../../hooks/useTranslation';
 import { useState } from 'react';
 import { formatDateToDDMM } from '../../utils/formatDateToDDMM';
 import { MaterialIcons } from '@expo/vector-icons';
 import { TimeDetailsModal } from './TimeDetailsModal';
+import { Solve } from '../../models/realm-models/SolveSchema';
 
-const showTimeResult = (result: Result) => {
+const showTimeResult = (result: Solve) => {
     if (result.flag === 'dnf') {
         return 'DNF';
     }
@@ -24,10 +23,9 @@ const showTimeResult = (result: Result) => {
     return formatTime(result.time);
 };
 
-export const TimeListItem = ({ result }: { result: Result }) => {
+export const TimeListItem = ({ result }: { result: Solve }) => {
     const [showTimeDetailsModal, setShowTimeDetailsModal] = useState(false);
     const getColor = useColors();
-    const trans = useTranslation();
 
     return (
         <>
@@ -35,7 +33,7 @@ export const TimeListItem = ({ result }: { result: Result }) => {
                 <View style={[styles.container, { backgroundColor: getColor('primary200') }]}>
                     <View style={styles.topBar}>
                         <Text style={[styles.date, { color: getColor('gray100') }]}>
-                            {formatDateToDDMM(result.date)}
+                            {formatDateToDDMM(result.createdAt)}
                         </Text>
 
                         <Text style={[styles.penalty, { color: getColor('error') }]}>

@@ -19,6 +19,7 @@ export const AddSessionModal = ({ showModal, onClose, onAddSession }: AddSession
     const onAddSessionHandler = () => {
         if (sessionNameInput.trim().length > 0) {
             onAddSession(sessionNameInput);
+            setSessionNameInput('');
         } else {
             Alert.alert(trans('invalidName'), trans('writeValidName'));
         }

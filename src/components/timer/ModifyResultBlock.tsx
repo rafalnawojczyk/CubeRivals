@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Result } from '../../models/result';
 import { AddNoteModal } from './modals/AddNoteModal';
@@ -7,6 +7,8 @@ import { IconButton } from '../UI/IconButton';
 import { FONTS } from '../../styles/base';
 import { useColors } from '../../hooks/useColors';
 import { RemoveResultConfirmModal } from './modals/RemoveResultConfirmModal';
+import { Solve } from '../../models/realm-models/SolveSchema';
+import { SolvesContext } from '../../store/solves-context';
 
 export type ButtonName = 'remove' | 'dnf' | '+2' | 'note';
 
@@ -37,18 +39,21 @@ export const buttonsMap: ModifyButton[] = [
 export const ModifyResultBlock = ({
     setSolveResult,
     showDelete = true,
+    solve,
 }: {
     setSolveResult: React.Dispatch<React.SetStateAction<Result>>;
     showDelete?: boolean;
+    solve?: Solve;
 }) => {
     const [showCommentModal, setShowCommentModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const { deleteSolve, editSolve } = useContext(SolvesContext);
     const getColor = useColors();
 
-    // TODO: Modify result should work in sync with REALM, so it will just receive ID and it should save all changes into database
-
     const handleConfirmDeleteSolve = () => {
-        console.log('DELETE SOLVE');
+        if (solve) {
+            deleteSolve(solve);
+        }
     };
 
     const addCommentHandler = (comment: string) => {
@@ -56,6 +61,9 @@ export const ModifyResultBlock = ({
 
         if (commentTrimmed.length > 0) {
             setSolveResult(prev => ({ ...prev, note: comment }));
+            if (solve) {
+                editSolve(solve, { note: commentTrimmed });
+            }
         }
 
         setShowCommentModal(false);
@@ -68,10 +76,18 @@ export const ModifyResultBlock = ({
 
         if (name === 'dnf') {
             setSolveResult(prev => ({ ...prev, flag: 'dnf' }));
+
+            if (solve) {
+                editSolve(solve, { flag: 'dnf' });
+            }
         }
 
         if (name === '+2') {
             setSolveResult(prev => ({ ...prev, flag: '+2' }));
+
+            if (solve) {
+                editSolve(solve, { flag: '+2' });
+            }
         }
 
         if (name === 'remove') {
@@ -123,4 +139,4 @@ const styles = StyleSheet.create({
     },
 });
 
-// +2 / DNF  should show updated time on screen with option to revert changes and back to measured time state with refresh-outline but flipped horizontally?
+// TODO: +2 / DNF  should show updated time on screen with option to revert changes and back to measured time state with refresh-outline but flipped horizontally?

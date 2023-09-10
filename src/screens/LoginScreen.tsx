@@ -3,7 +3,7 @@ import { Text, StyleSheet, KeyboardAvoidingView, View } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../firebase.config';
+// import { auth } from '../../firebase.config';
 import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
 import { FormErrorMessage } from '../components/UI/FormErrorMessage';
 import { CustomButton } from '../components/UI/CustomButton';
@@ -14,8 +14,10 @@ import { SafeAreaCard } from '../components/UI/SafeAreaCard';
 import { FONTS, PADDING } from '../styles/base';
 import { useTranslation } from '../hooks/useTranslation';
 import { LinkButton } from '../components/UI/LinkButton';
+import { useAuth } from '@realm/react';
 
 export const LoginScreen = () => {
+    const { result, logInWithEmailPassword } = useAuth();
     const navigation = useNavigation();
     const getColor = useColors();
     const trans = useTranslation();
@@ -30,8 +32,13 @@ export const LoginScreen = () => {
 
     const handleLogin = (values: { email: string; password: string }) => {
         const { email, password } = values;
-        signInWithEmailAndPassword(auth, email, password).catch(error => setErrorState(error.message));
+        logInWithEmailPassword({ email, password });
     };
+
+    // TODO: Here I should make some logic that will be responsible for errors while logging in.
+    // useEffect(() => {
+    // }, [result]);
+
     return (
         <>
             <SafeAreaCard>

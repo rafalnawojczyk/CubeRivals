@@ -4,19 +4,17 @@ import { CustomModal } from '../UI/modal/CustomModal';
 import { FONTS, PADDING } from '../../styles/base';
 import { useColors } from '../../hooks/useColors';
 import { useTranslation } from '../../hooks/useTranslation';
-import { Result } from '../../models/result';
 import { formatTime } from '../../utils/formatTime';
 import { TimerSettingsContext } from '../../store/timer-settings-context';
 import { MaterialIcons } from '@expo/vector-icons';
-import { ScramblePreviewBlock } from '../timer/ScramblePreviewBlock';
 import { ModifyResultBlock, buttonsMap } from '../timer/ModifyResultBlock';
 import { formatTimestamp } from '../../utils/formatTimestamp';
-import { IconButton } from '../UI/IconButton';
+import { Solve } from '../../models/realm-models/SolveSchema';
 
 interface TimeDetailsModalProps {
     showModal: boolean;
     onClose: () => void;
-    result: Result;
+    result: Solve;
 }
 
 export const TimeDetailsModal = ({ showModal, onClose, result }: TimeDetailsModalProps) => {
@@ -24,7 +22,7 @@ export const TimeDetailsModal = ({ showModal, onClose, result }: TimeDetailsModa
     const getColor = useColors();
     const trans = useTranslation();
 
-    const date = formatTimestamp(result.date);
+    const date = formatTimestamp(result.createdAt);
 
     return (
         <CustomModal isVisible={showModal} onClose={onClose} size="lg">
@@ -52,9 +50,7 @@ export const TimeDetailsModal = ({ showModal, onClose, result }: TimeDetailsModa
                 <Text style={[styles.scramble, { color: getColor('text') }]}>{result.scramble}</Text>
             </View>
             <View style={styles.buttonContainer}>
-                {buttonsMap.map(button => (
-                    <IconButton size={FONTS.lg} color={getColor('text')} icon={button.icon} onPress={() => {}} />
-                ))}
+                <ModifyResultBlock solve={result} showDelete setSolveResult={() => {}} />
             </View>
         </CustomModal>
     );

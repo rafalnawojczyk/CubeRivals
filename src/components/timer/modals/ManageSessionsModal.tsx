@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, FlatList } from 'react-native';
+import { StyleSheet, View, Text, FlatList, Pressable } from 'react-native';
 import { useState, useEffect, useContext } from 'react';
 import { CustomModal } from '../../UI/modal/CustomModal';
 import { DIMENSIONS, FONTS, PADDING } from '../../../styles/base';
@@ -6,10 +6,12 @@ import { useColors } from '../../../hooks/useColors';
 import { useTranslation } from '../../../hooks/useTranslation';
 import { CustomButton } from '../../UI/CustomButton';
 import { MaterialIcons } from '@expo/vector-icons';
-import { SessionObjectInterface, UserContext } from '../../../store/user-context';
+import { UserContext } from '../../../store/user-context';
 import { TimerSettingsContext } from '../../../store/timer-settings-context';
-import uuid from 'react-native-uuid';
 import { AddSessionModal } from './AddNewSessionModal';
+import { SolvesContext } from '../../../store/solves-context';
+import { Session } from '../../../models/realm-models/SessionSchema';
+import { BSON } from 'realm';
 
 interface ManageSessionModalProps {
     showModal: boolean;
@@ -18,48 +20,62 @@ interface ManageSessionModalProps {
 
 export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalProps) => {
     const { timerSettings, updateSettings } = useContext(TimerSettingsContext);
-    const { isLoaded, sessions, updateUser } = useContext(UserContext);
+    const { sessions, addSession } = useContext(SolvesContext);
+    const { isLoaded } = useContext(UserContext);
     const [showAddSessionModal, setShowAddSessionModal] = useState(false);
     const getColor = useColors();
     const trans = useTranslation();
 
+    const SessionModalItem = ({
+        session,
+        onPickSessionHandler,
+    }: {
+        session: Session;
+        onPickSessionHandler: (id: BSON.ObjectId) => void;
+    }) => {
+        return (
+            <Pressable onPress={() => onPickSessionHandler(session._id)}>
+                <View>
+                    <Text style={{ color: getColor('text') }}>{session.name}</Text>
+                </View>
+            </Pressable>
+        );
+    };
+
     const onAddNewSessionHandler = (sessionName: string) => {
         const trimmedSessionName = sessionName.trim();
 
-        const newSession: SessionObjectInterface = {
-            name: trimmedSessionName,
-            cube: timerSettings.cube,
-            id: uuid.v4().toString(),
-            lastUsed: Date.now(),
-        };
+        if (trimmedSessionName.length === 0) {
+            return;
+        }
 
-        updateUser({ sessions: [newSession] });
-        updateSettings({ session: newSession.id });
+        const newSessionId = addSession(trimmedSessionName, timerSettings.cube);
 
+        onPickSessionHandler(newSessionId);
+    };
+
+    const onPickSessionHandler = (id: BSON.ObjectId) => {
+        updateSettings({ session: id });
+        setShowAddSessionModal(false);
         onClose();
     };
 
     useEffect(() => {
         if (isLoaded) {
-            const currentCubeSessions = sessions.filter(session => session.cube === timerSettings.cube);
+            // if (sessions.length > 0) {
+            //     // TODO: SHOULD SET CURRENT SESSION TO LAST USED SESSION
+            //     // @ts-ignore
+            //     const lastUsedSession = sessions.reduce((maxObject, currentObject) => {
+            //         return currentObject.used > maxObject.used ? currentObject : maxObject;
+            //     }, sessions[0]);
+            //     updateSettings({ session: lastUsedSession._id });
+            //     return;
+            // }
 
-            if (currentCubeSessions.length > 0) {
-                const lastUsedSession = currentCubeSessions.reduce((maxObject, currentObject) => {
-                    return currentObject.lastUsed > maxObject.lastUsed ? currentObject : maxObject;
-                }, currentCubeSessions[0]);
-                updateSettings({ session: lastUsedSession.id });
-                return;
+            if (sessions.length === 0) {
+                const newSessionId = addSession(trans('defaultSessionName'), timerSettings.cube);
+                updateSettings({ session: newSessionId });
             }
-
-            const newSession: SessionObjectInterface = {
-                name: trans('defaultSessionName'),
-                cube: timerSettings.cube,
-                id: uuid.v4().toString(),
-                lastUsed: Date.now(),
-            };
-
-            updateUser({ sessions: [newSession] });
-            updateSettings({ session: newSession.id });
         }
     }, [isLoaded, timerSettings.cube]);
 
@@ -77,9 +93,11 @@ export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalPro
                 </View>
                 <View style={styles.listContainer}>
                     <FlatList
-                        data={sessions.filter(session => session.cube === timerSettings.cube)}
-                        keyExtractor={item => item.id}
-                        renderItem={({ item }) => <Text style={{ color: getColor('text') }}>{item.name}</Text>}
+                        data={sessions}
+                        keyExtractor={item => item._id}
+                        renderItem={({ item }) => (
+                            <SessionModalItem session={item} onPickSessionHandler={onPickSessionHandler} />
+                        )}
                     />
                 </View>
                 <View style={[styles.footer, { borderTopColor: getColor('gray100') }]}>

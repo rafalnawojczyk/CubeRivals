@@ -1,9 +1,8 @@
-import { Text, StyleSheet, ScrollView, View } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaCard } from '../components/UI/SafeAreaCard';
 import { useTranslation } from '../hooks/useTranslation';
 import { CustomButton } from '../components/UI/CustomButton';
-import { signOut } from 'firebase/auth';
-import { auth } from '../../firebase.config';
+
 import { FONTS, PADDING } from '../styles/base';
 import { useContext, useState } from 'react';
 import { TimerSettingsModal } from '../components/timerSettingsModal/TimerSettingsModal';
@@ -26,9 +25,7 @@ export const SettingsScreen = () => {
     const trans = useTranslation();
     const getColor = useColors();
 
-    const logoutHandler = () => {
-        signOut(auth);
-    };
+    const logoutHandler = () => {};
 
     return (
         <>

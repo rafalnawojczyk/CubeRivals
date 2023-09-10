@@ -1,5 +1,5 @@
 // ********************************** HIGH **********************************
-
+// 1. Visual representation of what has been changed in solve. If it's DNF, +2. There is no info if used clicked that properly
 // 2. add "Warmup" mode where solves are not saved
 // 3. add image of scrambled cube
 // 5. Session modal - session item should be pressable with ability to change name
@@ -40,3 +40,36 @@
 // 10. Customization of AVG/MEANS to exact numbers which user chooses, not only to predefined ones
 // 11. Daily statistics of solves, which shows avg of solves today
 // 12. Scrambling trainer?
+
+const arr = [
+    {
+        _id: [ObjectId],
+        amount: 0,
+        average: 0,
+        cube: '333',
+        name: 'New session 1',
+        owner_id: [ObjectId],
+        solves: [Array],
+        used: '2023-09-09T15:00:24.807Z',
+    },
+    {
+        _id: [ObjectId],
+        amount: 0,
+        average: 0,
+        cube: '333',
+        name: 'New session 1',
+        owner_id: [ObjectId],
+        solves: [Array],
+        used: '2023-09-09T15:00:29.341Z',
+    },
+    {
+        _id: [ObjectId],
+        amount: 0,
+        average: 0,
+        cube: '333',
+        name: 'New session 1',
+        owner_id: [ObjectId],
+        solves: [Array],
+        used: '2023-09-09T15:05:01.132Z',
+    },
+];

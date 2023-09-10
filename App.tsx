@@ -9,7 +9,10 @@ import { UserContextProvider } from './src/store/user-context';
 import { Navigation } from './src/navigation/Navigation';
 import { CubeAnimation } from './src/components/CubeAnimation';
 import { TimerSettingsContextProvider } from './src/store/timer-settings-context';
-import { RealmProvider } from '@realm/react';
+import { AppProvider, RealmProvider, UserProvider } from '@realm/react';
+import { schemas } from './src/models/realm-models';
+import { OpenRealmBehaviorType, OpenRealmTimeOutBehavior } from 'realm/dist/bundle';
+import Constants from 'expo-constants';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -64,20 +67,18 @@ export default function App() {
     const showAnimation = !(isAppReady && isLayoutReady && fontsReady);
 
     return (
-        <RealmProvider>
-            <ThemeContextProvider>
-                <UserContextProvider>
-                    <TimerSettingsContextProvider>
-                        {fontsReady && <Navigation onReady={onApplicationReady} />}
-                        {showAnimation && (
-                            <View pointerEvents="none" style={styles.animationContainer} onLayout={onLayoutRootView}>
-                                <CubeAnimation progress={animationProgress.current} />
-                            </View>
-                        )}
-                    </TimerSettingsContextProvider>
-                </UserContextProvider>
-            </ThemeContextProvider>
-        </RealmProvider>
+        <ThemeContextProvider>
+            <UserContextProvider>
+                <TimerSettingsContextProvider>
+                    {fontsReady && <Navigation onReady={onApplicationReady} />}
+                    {showAnimation && (
+                        <View pointerEvents="none" style={styles.animationContainer} onLayout={onLayoutRootView}>
+                            <CubeAnimation progress={animationProgress.current} />
+                        </View>
+                    )}
+                </TimerSettingsContextProvider>
+            </UserContextProvider>
+        </ThemeContextProvider>
     );
 }
 

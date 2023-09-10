@@ -9,15 +9,17 @@ import { ModifyResultBlock } from './ModifyResultBlock';
 import { useTranslation } from '../../hooks/useTranslation';
 import { TimerSettingsContext } from '../../store/timer-settings-context';
 import { ScramblePreviewBlock } from './ScramblePreviewBlock';
+import { SolvesContext } from '../../store/solves-context';
+import { Solve } from '../../models/realm-models/SolveSchema';
 
 const initialResult: Result = {
-    date: 0,
     scramble: '',
     time: 0,
 };
 
 export const Timer = () => {
     const [result, setResult] = useState({ ...initialResult });
+    const [lastSolve, setLastSolve] = useState<undefined | Solve>();
     const [scramble, setScramble] = useState('');
     const [elapsedTime, setElapsedTime] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
@@ -28,6 +30,7 @@ export const Timer = () => {
     const getColor = useColors();
     const trans = useTranslation();
     const { timerSettings } = useContext(TimerSettingsContext);
+    const { addSolve } = useContext(SolvesContext);
 
     const onChangeScramble = (scramble: string) => {
         setScramble(scramble);
@@ -52,13 +55,31 @@ export const Timer = () => {
             setIsRunning(false);
 
             setResult(prev => {
-                const updatedResult = { ...prev, date: Date.now(), time: endTime - startingTime };
+                const updatedResult = { ...prev, time: endTime - startingTime };
 
-                // TODO: SAVE RESULT SOMEWHERE
+                const addedSolve = addSolve(updatedResult);
+
+                if (addedSolve) {
+                    setLastSolve(addedSolve);
+                }
 
                 return updatedResult;
             });
         }
+    };
+
+    const onManualAddTime = (solve: Result) => {
+        setResult(prev => {
+            const updatedResult = { ...prev, ...solve };
+
+            const addedSolve = addSolve(updatedResult);
+
+            if (addedSolve) {
+                setLastSolve(addedSolve);
+            }
+
+            return updatedResult;
+        });
     };
 
     const onPressOutHandler = () => {
@@ -96,7 +117,11 @@ export const Timer = () => {
                 </Pressable>
             )}
             <View>
-                <ScramblePreviewBlock onChangeScramble={onChangeScramble} scramble={scramble} />
+                <ScramblePreviewBlock
+                    onChangeScramble={onChangeScramble}
+                    scramble={scramble}
+                    onAddTime={onManualAddTime}
+                />
             </View>
             <Pressable
                 onPressIn={onPressInHandler}
@@ -120,9 +145,9 @@ export const Timer = () => {
                         {!isRunning && !!endingTime && (
                             <>
                                 <Text style={[styles.timerText, { color: getColor('gray100') }]}>
-                                    {formatTime(elapsedTime, !timerSettings.showWholeMs)}
+                                    {formatTime(result.time, !timerSettings.showWholeMs)}
                                 </Text>
-                                <ModifyResultBlock setSolveResult={setResult} />
+                                <ModifyResultBlock setSolveResult={setResult} solve={lastSolve} />
                             </>
                         )}
                         {!showReadyState && !isRunning && (

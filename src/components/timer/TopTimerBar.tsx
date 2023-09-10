@@ -1,24 +1,23 @@
 import { useContext, useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import { CubeType } from '../../models/cubes';
+import { View, StyleSheet } from 'react-native';
 import { TimerSettingsContext } from '../../store/timer-settings-context';
 import { FONTS, DIMENSIONS } from '../../styles/base';
 import { useColors } from '../../hooks/useColors';
 import { IconButton } from '../UI/IconButton';
 import { TimerSettingsModal } from '../timerSettingsModal/TimerSettingsModal';
 import { ManageSessionModal } from './modals/ManageSessionsModal';
-import { CustomButton } from '../UI/CustomButton';
 import { TopBarCubeButton } from './TopBarCubeButton';
+import { BSON } from 'realm';
+import { useObject } from '@realm/react';
+import { Session } from '../../models/realm-models/SessionSchema';
 
 export const TopTimerBar = () => {
     const [showSettings, setShowSettings] = useState(false);
     const [showSessionModal, setShowSessionModal] = useState(false);
-    const { updateSettings, timerSettings } = useContext(TimerSettingsContext);
+    const { timerSettings } = useContext(TimerSettingsContext);
     const getColor = useColors();
 
-    const onCubeTypeChange = (cubeType: CubeType) => {
-        updateSettings({ cube: cubeType });
-    };
+    const session = useObject(Session, new BSON.ObjectID(timerSettings.session));
 
     return (
         <>
@@ -32,7 +31,11 @@ export const TopTimerBar = () => {
                         color={getColor('gray100')}
                         onPress={() => setShowSettings(true)}
                     />
-                    <TopBarCubeButton title={timerSettings.cube} session={timerSettings.session} />
+                    <TopBarCubeButton
+                        title={timerSettings.cube}
+                        // @ts-ignore
+                        session={session?.name}
+                    />
                     <IconButton
                         icon="list-alt"
                         size={FONTS.lg}

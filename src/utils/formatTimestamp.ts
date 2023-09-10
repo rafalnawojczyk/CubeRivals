@@ -13,8 +13,13 @@ const months = [
     'December',
 ];
 
-export const formatTimestamp = (timestamp: number): { date: string; time: string } => {
-    const date = new Date(timestamp);
+export const formatTimestamp = (timestamp: number | Date): { date: string; time: string } => {
+    let date = timestamp as Date;
+
+    if (typeof timestamp === 'number') {
+        date = new Date(timestamp);
+    }
+
     const day = date.getDate();
     const month = months[date.getMonth()].slice(0, 3);
     const year = date.getFullYear();

@@ -15,11 +15,13 @@ interface PickCubeModalProps {
 
 export const PickCubeModal = ({ showModal, onClose }: PickCubeModalProps) => {
     const { updateSettings } = useContext(TimerSettingsContext);
+
     const trans = useTranslation();
     const getColor = useColors();
 
     const onPickCubeHandler = (id: CubeType) => {
         updateSettings({ cube: id });
+
         onClose();
     };
 

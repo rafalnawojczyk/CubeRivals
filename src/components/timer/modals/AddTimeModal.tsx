@@ -8,16 +8,18 @@ import { useTranslation } from '../../../hooks/useTranslation';
 import { ModifyResultBlock } from '../ModifyResultBlock';
 import { formatNumberInput } from '../../../utils/formatNumberInput';
 import { CheckBox } from '../../UI/Checkbox';
+import { Result } from '../../../models/result';
 
 interface AddTimeModalProps {
     showModal: boolean;
     onClose: () => void;
-    onAddTime: (time: number) => void;
+    onAddTime: (result: Result) => void;
 }
 
 export const AddTimeModal = ({ showModal, onClose, onAddTime }: AddTimeModalProps) => {
     const [time, setTime] = useState('');
     const [saveScramble, setSaveScramble] = useState(true);
+    const [result, setResult] = useState<Result>({ time: 0, scramble: '' });
     const getColor = useColors();
     const trans = useTranslation();
     const inputRef = useRef(null);
@@ -48,7 +50,7 @@ export const AddTimeModal = ({ showModal, onClose, onAddTime }: AddTimeModalProp
                 </Pressable>
             </View>
 
-            <ModifyResultBlock setSolveResult={() => {}} showDelete={false} />
+            <ModifyResultBlock setSolveResult={setResult} showDelete={false} />
 
             <View style={[styles.scrambleBlock, { borderTopColor: getColor('gray100') }]}>
                 <CheckBox isChecked={saveScramble} onPress={() => setSaveScramble(prev => !prev)} />
@@ -56,7 +58,21 @@ export const AddTimeModal = ({ showModal, onClose, onAddTime }: AddTimeModalProp
             </View>
             <CustomModal.ButtonsContainer>
                 <CustomModal.Button type="secondary" onPress={onClose} title={trans('cancel')}></CustomModal.Button>
-                <CustomModal.Button type="primary" onPress={() => onAddTime(+time)} title={trans('add')} />
+                <CustomModal.Button
+                    type="primary"
+                    onPress={() => {
+                        const resultObj: any = { time: +time };
+                        if (result.flag) {
+                            resultObj.flag = result.flag;
+                        }
+
+                        if (result.note) {
+                            resultObj.note = result.note;
+                        }
+                        onAddTime(resultObj);
+                    }}
+                    title={trans('add')}
+                />
             </CustomModal.ButtonsContainer>
         </CustomModal>
     );

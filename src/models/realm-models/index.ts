@@ -1,6 +1,4 @@
-import { createRealmContext } from '@realm/react';
-import { Result } from './ResultSchema';
+import { Session } from './SessionSchema';
+import { Solve } from './SolveSchema';
 
-export const ResultRealmContext = createRealmContext({
-    schema: [Result],
-});
+export const schemas = [Session, Solve];

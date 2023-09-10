@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Yup from 'yup';
 import { Text, StyleSheet, View, KeyboardAvoidingView } from 'react-native';
 import { Formik } from 'formik';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../firebase.config';
+
 import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
 import { TextInput } from '../components/UI/TextInput';
 import { FormErrorMessage } from '../components/UI/FormErrorMessage';
@@ -14,12 +13,16 @@ import { SafeAreaCard } from '../components/UI/SafeAreaCard';
 import { FONTS, PADDING } from '../styles/base';
 import { useNavigation } from '@react-navigation/native';
 import { LinkButton } from '../components/UI/LinkButton';
+import { AuthOperationName, useAuth, useEmailPasswordAuth } from '@realm/react';
 
 export const SignupScreen = () => {
     const navigation = useNavigation();
+    const { register } = useEmailPasswordAuth();
+    const [credentials, setCredentials] = useState({ email: '', password: '' });
     const [errorState, setErrorState] = useState('');
     const getColor = useColors();
     const trans = useTranslation();
+    const { result, logInWithEmailPassword } = useAuth();
 
     const signupValidationSchema = Yup.object().shape({
         email: Yup.string().required().email().label('Email'),
@@ -33,9 +36,16 @@ export const SignupScreen = () => {
 
     const handleSignup = async (values: { email: string; password: string }) => {
         const { email, password } = values;
-
-        createUserWithEmailAndPassword(auth, email, password).catch(error => setErrorState(error.message));
+        console.log(values);
+        register({ email, password });
+        setCredentials({ email, password });
     };
+
+    useEffect(() => {
+        if (result.success && result.operation === AuthOperationName.Register) {
+            logInWithEmailPassword(credentials);
+        }
+    }, [result, logInWithEmailPassword, credentials.email, credentials.password]);
 
     return (
         <SafeAreaCard>

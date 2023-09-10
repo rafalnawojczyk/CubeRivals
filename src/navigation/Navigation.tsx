@@ -1,31 +1,47 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { useContext, useState, useEffect } from 'react';
+import { useContext } from 'react';
 import { ThemeContext } from '../store/theme-context';
-import { UserContext } from '../store/user-context';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../../firebase.config';
+
 import { AppTabs } from './AppTabs';
 import { AuthStack } from './AuthStack';
 
+import { AppProvider, RealmProvider, UserProvider } from '@realm/react';
+import Constants from 'expo-constants';
+import { schemas } from '../models/realm-models';
+import { OpenRealmBehaviorType, OpenRealmTimeOutBehavior } from 'realm';
+import { SolvesContextProvider } from '../store/solves-context';
+import { Solve } from '../models/realm-models/SolveSchema';
+
 export const Navigation = ({ onReady }: { onReady: () => void }) => {
-    const { user, setUser } = useContext(UserContext);
-    const [isLoading, setIsLoading] = useState(true); // TODO: Temporary not used
     const { isDarkTheme } = useContext(ThemeContext);
-
-    useEffect(() => {
-        const unsubscribeAuthStateChanged = onAuthStateChanged(auth, authenticatedUser => {
-            authenticatedUser ? setUser(authenticatedUser) : setUser(null);
-            setIsLoading(false);
-        });
-
-        return unsubscribeAuthStateChanged;
-    }, [user]);
 
     return (
         <>
             <StatusBar style={isDarkTheme ? 'light' : 'dark'} />
-            <NavigationContainer onReady={onReady}>{user ? <AppTabs /> : <AuthStack />}</NavigationContainer>
+            <NavigationContainer onReady={onReady}>
+                <AppProvider id={Constants?.expoConfig?.extra?.realmAppId}>
+                    <UserProvider fallback={<AuthStack />}>
+                        <RealmProvider
+                            schema={schemas}
+                            sync={{
+                                flexible: true,
+                                existingRealmFileBehavior: {
+                                    type: OpenRealmBehaviorType.DownloadBeforeOpen,
+                                    timeOut: 1000,
+                                    timeOutBehavior:
+                                        // In v11 the enums are not set up correctly, so we need to use the string values
+                                        OpenRealmTimeOutBehavior?.OpenLocalRealm ?? 'openLocalRealm',
+                                },
+                            }}
+                        >
+                            <SolvesContextProvider>
+                                <AppTabs />
+                            </SolvesContextProvider>
+                        </RealmProvider>
+                    </UserProvider>
+                </AppProvider>
+            </NavigationContainer>
         </>
     );
 };
