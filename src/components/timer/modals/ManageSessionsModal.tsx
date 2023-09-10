@@ -12,11 +12,53 @@ import { AddSessionModal } from './AddNewSessionModal';
 import { SolvesContext } from '../../../store/solves-context';
 import { Session } from '../../../models/realm-models/SessionSchema';
 import { BSON } from 'realm';
+import { ChangeSessionNameModal } from './ChangeSessionNameModal';
 
 interface ManageSessionModalProps {
     showModal: boolean;
     onClose: () => void;
 }
+
+const SessionModalItem = ({
+    session,
+    onPickSessionHandler,
+}: {
+    session: Session;
+    onPickSessionHandler: (id: BSON.ObjectId) => void;
+}) => {
+    const [showEditSessionModal, setShowEditSessionModal] = useState(false);
+    const { editSession } = useContext(SolvesContext);
+    const getColor = useColors();
+
+    const onEditSessionName = (sessionName: string) => {
+        const trimmedSessionName = sessionName.trim();
+
+        if (trimmedSessionName.length > 0) {
+            editSession(session, { name: trimmedSessionName });
+        }
+    };
+
+    return (
+        <>
+            {showEditSessionModal && (
+                <ChangeSessionNameModal
+                    onChangeName={onEditSessionName}
+                    onClose={() => setShowEditSessionModal(false)}
+                    showModal={showEditSessionModal}
+                    currentName={session.name}
+                />
+            )}
+            <Pressable
+                onPress={() => onPickSessionHandler(session._id)}
+                onLongPress={() => setShowEditSessionModal(true)}
+            >
+                <View style={[styles.listItem, { borderBottomColor: getColor('gray100') }]}>
+                    <Text style={[styles.listText, { color: getColor('text') }]}>{session.name}</Text>
+                </View>
+            </Pressable>
+        </>
+    );
+};
 
 export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalProps) => {
     const { timerSettings, updateSettings } = useContext(TimerSettingsContext);
@@ -25,22 +67,6 @@ export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalPro
     const [showAddSessionModal, setShowAddSessionModal] = useState(false);
     const getColor = useColors();
     const trans = useTranslation();
-
-    const SessionModalItem = ({
-        session,
-        onPickSessionHandler,
-    }: {
-        session: Session;
-        onPickSessionHandler: (id: BSON.ObjectId) => void;
-    }) => {
-        return (
-            <Pressable onPress={() => onPickSessionHandler(session._id)}>
-                <View>
-                    <Text style={{ color: getColor('text') }}>{session.name}</Text>
-                </View>
-            </Pressable>
-        );
-    };
 
     const onAddNewSessionHandler = (sessionName: string) => {
         const trimmedSessionName = sessionName.trim();
@@ -100,8 +126,12 @@ export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalPro
                         )}
                     />
                 </View>
-                <View style={[styles.footer, { borderTopColor: getColor('gray100') }]}>
-                    <Text style={[styles.footerText, { color: getColor('gray100') }]}> {trans('holdToEdit')}</Text>
+                <View style={[styles.footer, { borderTopColor: getColor('primary200') }]}>
+                    <Text style={[styles.footerText, { color: getColor('gray100') }]}>
+                        {trans('pressToPick')}
+                        {'  /  '}
+                        {trans('holdToEdit')}
+                    </Text>
                 </View>
             </CustomModal>
             <AddSessionModal
@@ -147,5 +177,17 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         fontWeight: 'bold',
+    },
+    listItem: {
+        width: '100%',
+        textAlign: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: PADDING.sm,
+        borderBottomWidth: 1,
+    },
+    listText: {
+        fontWeight: 'bold',
+        fontSize: FONTS.md,
     },
 });

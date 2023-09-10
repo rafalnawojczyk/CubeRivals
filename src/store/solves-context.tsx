@@ -13,6 +13,7 @@ interface SolvesDataInterface {
     addSolve: (result: Result) => Solve | undefined;
     addSession: (name: string, cube: CubeType) => BSON.ObjectId;
     editSolve: (solve: Solve, solveEdit: Partial<Solve>) => void;
+    editSession: (session: Session, sessionEdit: Partial<Session>) => void;
     deleteSolve: (solve: Solve) => void;
 }
 
@@ -23,6 +24,7 @@ export const SolvesContext = createContext<SolvesDataInterface>({
     // @ts-ignore
     addSession: (name: string, cube: CubeType): BSON.ObjectId => {},
     editSolve: (solve: Solve, solveEdit: Partial<Solve>) => {},
+    editSession: (session: Session, sessionEdit: Partial<Session>) => {},
     deleteSolve: (solve: Solve) => {},
 });
 
@@ -38,6 +40,23 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
     const solves = useQuery(Solve);
 
     const currentSession = useObject(Session, new BSON.ObjectID(timerSettings.session));
+
+    const handleEditSession = useCallback(
+        (session: Session, sessionEdit: Partial<Session>): void => {
+            const keyValPairs = Object.entries(sessionEdit);
+
+            if (keyValPairs.length === 0) {
+                return;
+            }
+
+            realm.write(() => {
+                if (sessionEdit.name) {
+                    session.name = sessionEdit.name;
+                }
+            });
+        },
+        [realm]
+    );
 
     const handleEditSolve = useCallback(
         (solve: Solve, solveEdit: Partial<Solve>): void => {
@@ -125,6 +144,7 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
         addSession: handleAddSession,
         editSolve: handleEditSolve,
         deleteSolve: handleDeleteSolve,
+        editSession: handleEditSession,
     };
 
     return <SolvesContext.Provider value={value}>{children}</SolvesContext.Provider>;
