@@ -2,13 +2,13 @@ import { StyleSheet } from 'react-native';
 import { CustomModal } from '../../UI/modal/CustomModal';
 import { useTranslation } from '../../../hooks/useTranslation';
 
-interface AddNoteModalProps {
+interface RemoveResultConfirmProps {
     showModal: boolean;
     onClose: () => void;
     onConfirm: () => void;
 }
 
-export const RemoveResultConfirmModal = ({ showModal, onClose, onConfirm }: AddNoteModalProps) => {
+export const RemoveResultConfirmModal = ({ showModal, onClose, onConfirm }: RemoveResultConfirmProps) => {
     const trans = useTranslation();
 
     return (
