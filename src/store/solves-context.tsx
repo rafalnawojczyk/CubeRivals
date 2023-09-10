@@ -52,16 +52,16 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
                     solve.time = solveEdit.time;
                 }
 
-                if (solveEdit.note) {
+                if (solveEdit.hasOwnProperty('note')) {
                     solve.note = solveEdit.note;
                 }
 
-                if (solveEdit.flag) {
+                if (solveEdit.hasOwnProperty('flag')) {
                     solve.flag = solveEdit.flag;
                 }
 
-                if (solveEdit.scramble) {
-                    solve.scramble = solveEdit.scramble;
+                if (solveEdit.hasOwnProperty('scramble')) {
+                    solve.scramble = solveEdit.scramble ? solveEdit.scramble : '';
                 }
             });
         },
