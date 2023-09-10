@@ -119,11 +119,15 @@ export const Timer = () => {
         requestRef.current = requestAnimationFrame(updateStopwatch.bind(null, startTime));
     };
 
-    useEffect(() => {
+    const resetTimer = () => {
         setResult({ ...initialResult });
         setElapsedTime(0);
         setEndingTime(0);
         setLastSolve(undefined);
+    };
+
+    useEffect(() => {
+        resetTimer();
     }, [timerSettings.session, timerSettings.cube]);
 
     return (
@@ -190,7 +194,11 @@ export const Timer = () => {
                                         </>
                                     )}
                                 </View>
-                                <ModifyResultBlock setSolveResult={setResult} solve={lastSolve} />
+                                <ModifyResultBlock
+                                    setSolveResult={setResult}
+                                    solve={lastSolve}
+                                    onDelete={() => resetTimer()}
+                                />
                             </>
                         )}
                         {!showReadyState && !isRunning && (

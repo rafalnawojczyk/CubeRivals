@@ -50,7 +50,7 @@ export const AddTimeModal = ({ showModal, onClose, onAddTime }: AddTimeModalProp
                 </Pressable>
             </View>
 
-            <ModifyResultBlock setSolveResult={setResult} showDelete={false} />
+            <ModifyResultBlock setSolveResult={setResult} showDelete={false} onDelete={() => {}} />
 
             <View style={[styles.scrambleBlock, { borderTopColor: getColor('gray100') }]}>
                 <CheckBox isChecked={saveScramble} onPress={() => setSaveScramble(prev => !prev)} />

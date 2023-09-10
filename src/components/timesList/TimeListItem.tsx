@@ -25,7 +25,12 @@ const showTimeResult = (result: Solve) => {
 
 export const TimeListItem = ({ result }: { result: Solve }) => {
     const [showTimeDetailsModal, setShowTimeDetailsModal] = useState(false);
+    const [hideTime, setHideTime] = useState(false);
     const getColor = useColors();
+
+    if (hideTime) {
+        return null;
+    }
 
     return (
         <>
@@ -53,7 +58,10 @@ export const TimeListItem = ({ result }: { result: Solve }) => {
 
             <TimeDetailsModal
                 showModal={showTimeDetailsModal}
-                onClose={() => setShowTimeDetailsModal(false)}
+                onClose={() => {
+                    setHideTime(true);
+                    setShowTimeDetailsModal(false);
+                }}
                 result={result}
             />
         </>

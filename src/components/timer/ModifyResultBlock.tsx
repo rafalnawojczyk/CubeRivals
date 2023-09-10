@@ -40,10 +40,12 @@ export const ModifyResultBlock = ({
     setSolveResult,
     showDelete = true,
     solve,
+    onDelete,
 }: {
     setSolveResult: React.Dispatch<React.SetStateAction<Result>>;
     showDelete?: boolean;
     solve?: Solve;
+    onDelete: () => void;
 }) => {
     const [showCommentModal, setShowCommentModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -52,7 +54,9 @@ export const ModifyResultBlock = ({
 
     const handleConfirmDeleteSolve = () => {
         if (solve) {
+            setShowDeleteModal(false);
             deleteSolve(solve);
+            onDelete();
         }
     };
 

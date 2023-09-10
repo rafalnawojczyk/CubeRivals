@@ -20,7 +20,6 @@ interface TimeDetailsModalProps {
 export const TimeDetailsModal = ({ showModal, onClose, result }: TimeDetailsModalProps) => {
     const { timerSettings } = useContext(TimerSettingsContext);
     const getColor = useColors();
-    const trans = useTranslation();
 
     const date = formatTimestamp(result.createdAt);
 
@@ -50,7 +49,7 @@ export const TimeDetailsModal = ({ showModal, onClose, result }: TimeDetailsModa
                 <Text style={[styles.scramble, { color: getColor('text') }]}>{result.scramble}</Text>
             </View>
             <View style={styles.buttonContainer}>
-                <ModifyResultBlock solve={result} showDelete setSolveResult={() => {}} />
+                <ModifyResultBlock solve={result} showDelete setSolveResult={() => {}} onDelete={onClose} />
             </View>
         </CustomModal>
     );
