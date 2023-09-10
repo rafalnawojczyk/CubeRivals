@@ -18,7 +18,12 @@ export const AddNoteModal = ({ showModal, onClose, onAddNote, currentNote }: Add
     const trans = useTranslation();
 
     return (
-        <CustomModal isVisible={showModal} onClose={onClose} title={trans('addSolveComment')} size="lg">
+        <CustomModal
+            isVisible={showModal}
+            onClose={onClose}
+            title={currentNote ? trans('editSolveComment') : trans('addSolveComment')}
+            size="lg"
+        >
             <TextInput
                 value={commentInput}
                 onChangeText={setCommentInput}
@@ -29,7 +34,11 @@ export const AddNoteModal = ({ showModal, onClose, onAddNote, currentNote }: Add
             />
             <CustomModal.ButtonsContainer>
                 <CustomModal.Button type="cancel" onPress={onClose} title={trans('cancel')}></CustomModal.Button>
-                <CustomModal.Button type="primary" onPress={() => onAddNote(commentInput)} title={trans('add')} />
+                <CustomModal.Button
+                    type="primary"
+                    onPress={() => onAddNote(commentInput)}
+                    title={currentNote ? trans('save') : trans('add')}
+                />
             </CustomModal.ButtonsContainer>
         </CustomModal>
     );
