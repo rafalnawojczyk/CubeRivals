@@ -75,6 +75,15 @@ export const ModifyResultBlock = ({
         }
 
         if (name === 'dnf') {
+            if (solve?.flag === 'dnf') {
+                setSolveResult(prev => ({ ...prev, flag: undefined }));
+
+                if (solve) {
+                    editSolve(solve, { flag: undefined });
+                }
+                return;
+            }
+
             setSolveResult(prev => ({ ...prev, flag: 'dnf' }));
 
             if (solve) {
@@ -83,6 +92,15 @@ export const ModifyResultBlock = ({
         }
 
         if (name === '+2') {
+            if (solve?.flag === '+2') {
+                setSolveResult(prev => ({ ...prev, flag: undefined }));
+
+                if (solve) {
+                    editSolve(solve, { flag: undefined });
+                }
+                return;
+            }
+
             setSolveResult(prev => ({ ...prev, flag: '+2' }));
 
             if (solve) {
