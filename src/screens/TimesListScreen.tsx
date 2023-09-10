@@ -8,6 +8,7 @@ import { useObject } from '@realm/react';
 import { Session } from '../models/realm-models/SessionSchema';
 import { TimerSettingsContext } from '../store/timer-settings-context';
 import { BSON } from 'realm';
+import { TopTimerBar } from '../components/timer/TopTimerBar';
 
 export const TimesListScreen = () => {
     const { timerSettings } = useContext(TimerSettingsContext);
@@ -15,6 +16,7 @@ export const TimesListScreen = () => {
 
     return (
         <SafeAreaCard>
+            <TopTimerBar />
             <View style={styles.container}>
                 <TimesList data={currentSession?.solves} />
             </View>
