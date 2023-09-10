@@ -20,6 +20,7 @@
     "writeValidName": "Nazwa powinna mieć co najmniej 1 znak",
     "selectPuzzle": "Wybierz kostkę",
     "addTime": "Dodaj czas",
+    "useThisScramble": "Zapisz ten scramble",
 
     "auth.welcome": "Witaj ponownie!",
     "auth.email": "Email",

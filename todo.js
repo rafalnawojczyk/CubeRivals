@@ -1,4 +1,5 @@
 // ********************************** HIGH **********************************
+// 0. There should be feature that saves user preferences/settings inside user? or some other Schema, so it will sync between devices
 // 1. Visual representation of what has been changed in solve. If it's DNF, +2. There is no info if used clicked that properly
 // 2. add "Warmup" mode where solves are not saved
 // 3. add image of scrambled cube
@@ -26,6 +27,7 @@
 // 13. history of PB's - how they changed/fast overtime
 // 15. Two way binding between firestore and realm database - userId/firebase UID
 // 16. Sessions should have some icons? User could pick predefined icon
+// 17. If users adds time, and click "do not use this scramble" - maybe let him paste his own scramble?
 
 // ********************************** LOW **********************************
 // 1. think about Adding sounds to app>?
