@@ -11,6 +11,7 @@ import { TimerSettingsContext } from '../../store/timer-settings-context';
 import { ScramblePreviewBlock } from './ScramblePreviewBlock';
 import { SolvesContext } from '../../store/solves-context';
 import { Solve } from '../../models/realm-models/SolveSchema';
+import { IconButton } from '../UI/IconButton';
 
 const initialResult: Result = {
     scramble: '',
@@ -30,7 +31,7 @@ export const Timer = () => {
     const getColor = useColors();
     const trans = useTranslation();
     const { timerSettings } = useContext(TimerSettingsContext);
-    const { addSolve } = useContext(SolvesContext);
+    const { addSolve, editSolve } = useContext(SolvesContext);
 
     const onChangeScramble = (scramble: string) => {
         setScramble(scramble);
@@ -68,9 +69,13 @@ export const Timer = () => {
         }
     };
 
-    const onManualAddTime = (solve: Result) => {
+    const onManualAddTime = (solve: Result, saveScramble: boolean) => {
         setResult(prev => {
             const updatedResult = { ...prev, ...solve };
+
+            if (!saveScramble) {
+                updatedResult.scramble = '';
+            }
 
             const addedSolve = addSolve(updatedResult);
 
@@ -91,6 +96,18 @@ export const Timer = () => {
 
             // @ts-ignore
             requestRef.current = requestAnimationFrame(updateStopwatch.bind(null, startTime));
+        }
+    };
+
+    const onClearFlagHandler = () => {
+        if (lastSolve) {
+            setResult(prev => {
+                const newResult = { ...prev };
+                delete newResult.flag;
+
+                return newResult;
+            });
+            editSolve(lastSolve, { flag: undefined });
         }
     };
 
@@ -144,9 +161,28 @@ export const Timer = () => {
                         )}
                         {!isRunning && !!endingTime && (
                             <>
-                                <Text style={[styles.timerText, { color: getColor('gray100') }]}>
-                                    {formatTime(result.time, !timerSettings.showWholeMs)}
-                                </Text>
+                                <View style={{ position: 'relative' }}>
+                                    <Text style={[styles.timerText, { color: getColor('gray100') }]}>
+                                        {formatTime(
+                                            result?.flag === '+2' ? result.time + 2000 : result.time,
+                                            !timerSettings.showWholeMs
+                                        )}
+                                    </Text>
+                                    {result.flag && (
+                                        <>
+                                            <Text style={[styles.flagText, { color: getColor('error') }]}>
+                                                {result.flag.toUpperCase()}
+                                            </Text>
+                                            <IconButton
+                                                icon="refresh"
+                                                size={FONTS.lg}
+                                                color={getColor('text')}
+                                                onPress={onClearFlagHandler}
+                                                style={styles.revertFlagIcon}
+                                            />
+                                        </>
+                                    )}
+                                </View>
                                 <ModifyResultBlock setSolveResult={setResult} solve={lastSolve} />
                             </>
                         )}
@@ -209,5 +245,21 @@ const styles = StyleSheet.create({
         zIndex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    flagText: {
+        position: 'absolute',
+        right: -35,
+        bottom: 10,
+        width: 30,
+        textAlign: 'center',
+        fontWeight: 'bold',
+    },
+    revertFlagIcon: {
+        position: 'absolute',
+        justifyContent: 'center',
+        alignItems: 'center',
+        right: -35,
+        width: 30,
+        top: 20,
     },
 });
