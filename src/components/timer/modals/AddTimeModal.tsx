@@ -13,7 +13,7 @@ import { Result } from '../../../models/result';
 interface AddTimeModalProps {
     showModal: boolean;
     onClose: () => void;
-    onAddTime: (result: Result) => void;
+    onAddTime: (result: Result, saveScramble: boolean) => void;
 }
 
 export const AddTimeModal = ({ showModal, onClose, onAddTime }: AddTimeModalProps) => {
@@ -54,7 +54,7 @@ export const AddTimeModal = ({ showModal, onClose, onAddTime }: AddTimeModalProp
 
             <View style={[styles.scrambleBlock, { borderTopColor: getColor('gray100') }]}>
                 <CheckBox isChecked={saveScramble} onPress={() => setSaveScramble(prev => !prev)} />
-                <Text style={[styles.scramble, { color: getColor('text') }]}>Use this scramble</Text>
+                <Text style={[styles.scramble, { color: getColor('text') }]}>{trans('useThisScramble')}</Text>
             </View>
             <CustomModal.ButtonsContainer>
                 <CustomModal.Button type="secondary" onPress={onClose} title={trans('cancel')}></CustomModal.Button>
@@ -69,7 +69,7 @@ export const AddTimeModal = ({ showModal, onClose, onAddTime }: AddTimeModalProp
                         if (result.note) {
                             resultObj.note = result.note;
                         }
-                        onAddTime(resultObj);
+                        onAddTime(resultObj, saveScramble);
                     }}
                     title={trans('add')}
                 />

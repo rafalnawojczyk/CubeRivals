@@ -19,7 +19,7 @@ export const ScramblePreviewBlock = ({
     onChangeScramble: (scramble: string) => void;
     scramble: string;
     showRegenerateScramble?: boolean;
-    onAddTime: (result: Result) => void;
+    onAddTime: (result: Result, saveScramble: boolean) => void;
 }) => {
     const { timerSettings } = useContext(TimerSettingsContext);
     const [showAddScrambleModal, setShowAddScrambleModal] = useState(false);
@@ -44,8 +44,8 @@ export const ScramblePreviewBlock = ({
         onChangeScramble(scr[0]);
     };
 
-    const onAddTimeHandler = (result: Result) => {
-        onAddTime(result);
+    const onAddTimeHandler = (result: Result, saveScramble: boolean) => {
+        onAddTime(result, saveScramble);
     };
 
     useEffect(() => {
