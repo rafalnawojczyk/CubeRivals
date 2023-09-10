@@ -9,34 +9,6 @@ import { Session } from '../models/realm-models/SessionSchema';
 import { TimerSettingsContext } from '../store/timer-settings-context';
 import { BSON } from 'realm';
 
-const data: Result[] = [
-    {
-        time: 11215, // in ms
-        date: Date.now(), // in ms
-        scramble: "R L D U2 R2 B F'",
-        note: 'Custom note for testing purposes',
-        flag: 'dnf',
-    },
-    {
-        time: 6145, // in ms
-        date: Date.now(), // in ms
-        scramble: "R L D U2 R2 B F'",
-    },
-    {
-        time: 9415, // in ms
-        date: Date.now(), // in ms
-        scramble: "R L D U2 R2 B F'",
-        note: 'Custom note for testing purposes',
-        flag: 'dns',
-    },
-    {
-        time: 64185, // in ms
-        date: Date.now(), // in ms
-        scramble: "R L D U2 R2 B F'",
-        flag: '+2',
-    },
-];
-
 export const TimesListScreen = () => {
     const { timerSettings } = useContext(TimerSettingsContext);
     const currentSession = useObject(Session, new BSON.ObjectID(timerSettings.session));

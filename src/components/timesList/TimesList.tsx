@@ -1,7 +1,8 @@
-import { FlatList, View, Text } from 'react-native';
+import { FlatList } from 'react-native';
 import { TimeListItem } from './TimeListItem';
 import { Solve } from '../../models/realm-models/SolveSchema';
 import Realm from 'realm';
+import { EmptyFallbackAnimation } from '../EmptyFallbackAnimation';
 
 interface TimesListProps {
     data: Realm.List<Solve> | undefined;
@@ -11,10 +12,7 @@ export const TimesList = ({ data }: TimesListProps) => {
     return (
         <>
             {!data || data.length === 0 ? (
-                <View>
-                    <Text>FALLBACK TEXT</Text>
-                    {/* TODO: FALLBACK MESSAGE WITH SOME CUBE ANIMATION? */}
-                </View>
+                <EmptyFallbackAnimation />
             ) : (
                 <FlatList
                     data={data}
