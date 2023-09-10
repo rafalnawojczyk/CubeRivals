@@ -1,4 +1,4 @@
-import { useState, useRef, useContext } from 'react';
+import { useState, useRef, useContext, useEffect } from 'react';
 import { Pressable, View, Text, StyleSheet } from 'react-native';
 import { DIMENSIONS, FONTS, PADDING } from '../../styles/base';
 import { TimerBorder } from './TimerBorder';
@@ -118,6 +118,13 @@ export const Timer = () => {
         // @ts-ignore
         requestRef.current = requestAnimationFrame(updateStopwatch.bind(null, startTime));
     };
+
+    useEffect(() => {
+        setResult({ ...initialResult });
+        setElapsedTime(0);
+        setEndingTime(0);
+        setLastSolve(undefined);
+    }, [timerSettings.session, timerSettings.cube]);
 
     return (
         <>
