@@ -9,10 +9,11 @@ interface AddNoteModalProps {
     showModal: boolean;
     onClose: () => void;
     onAddNote: (note: string) => void;
+    currentNote: string;
 }
 
-export const AddNoteModal = ({ showModal, onClose, onAddNote }: AddNoteModalProps) => {
-    const [commentInput, setCommentInput] = useState('');
+export const AddNoteModal = ({ showModal, onClose, onAddNote, currentNote }: AddNoteModalProps) => {
+    const [commentInput, setCommentInput] = useState(currentNote);
     const getColor = useColors();
     const trans = useTranslation();
 

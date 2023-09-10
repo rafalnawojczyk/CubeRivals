@@ -126,6 +126,7 @@ export const ModifyResultBlock = ({
                 showModal={showCommentModal}
                 onAddNote={addCommentHandler}
                 onClose={() => setShowCommentModal(false)}
+                currentNote={solve?.note ? solve.note : ''}
             />
             <View style={styles.outerContainer}>
                 <View style={styles.innerContainer}>

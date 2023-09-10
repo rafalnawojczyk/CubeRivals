@@ -1,4 +1,3 @@
-import { Text, View } from 'react-native';
 import { useContext } from 'react';
 import { SafeAreaCard } from '../components/UI/SafeAreaCard';
 import { useObject } from '@realm/react';
