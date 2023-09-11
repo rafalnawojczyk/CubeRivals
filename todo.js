@@ -10,10 +10,11 @@
 // 10. Timer should have some nice animation in background when user breaks his best record in this session. It should count in all sessions starting from X time(not for first X times, because that is pointless). It should also show "Gratulacje, Pobiłeś swój rekord o X:xx!"
 // 11. Timer should also point if there is "Nowa najlepsza średnia" with current solve. If yes - on time somehow pop average that is best rn and show some info above?
 // 3. set finished when there is any gyro - Add options to timer settings, if on - use gyro.
+// 12. Expo keep awake - make sure that screen is always visible. Maybe dim it down on long solves?
 
 // ********************************** MODERATE **********************************
 // 1. Statistics based on days, not counting every solve?
-// 2. set ready when front camera is covered?
+// 2. Set ready when front light sensor is covered.
 // 4. Export to CSV/ import/export compatible with csTimer
 // 5. maybe add option to create own colors for whole app? and background image for timer screen? It should be dimmed by default
 // 6. add "custom" cube option so users can add their own cube without scramble/ Maybe add "custom" and users will place there their sessions?
@@ -38,36 +39,4 @@
 // 11. Daily statistics of solves, which shows avg of solves today
 // 12. Scrambling trainer?
 // 13. Let user choose vibration patterns and sound alerts in inspection settings
-
-const arr = [
-    {
-        _id: [ObjectId],
-        amount: 0,
-        average: 0,
-        cube: '333',
-        name: 'New session 1',
-        owner_id: [ObjectId],
-        solves: [Array],
-        used: '2023-09-09T15:00:24.807Z',
-    },
-    {
-        _id: [ObjectId],
-        amount: 0,
-        average: 0,
-        cube: '333',
-        name: 'New session 1',
-        owner_id: [ObjectId],
-        solves: [Array],
-        used: '2023-09-09T15:00:29.341Z',
-    },
-    {
-        _id: [ObjectId],
-        amount: 0,
-        average: 0,
-        cube: '333',
-        name: 'New session 1',
-        owner_id: [ObjectId],
-        solves: [Array],
-        used: '2023-09-09T15:05:01.132Z',
-    },
-];
+// 14. use expo storeReview package o ask for review after X solves? save in user that app asked for that already
