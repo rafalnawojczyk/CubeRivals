@@ -1,4 +1,5 @@
 import { useState, useRef, useContext, useEffect } from 'react';
+import { activateKeepAwake, deactivateKeepAwake } from 'expo-keep-awake';
 import { Pressable, View, Text, StyleSheet } from 'react-native';
 import { DIMENSIONS, FONTS, PADDING } from '../../styles/base';
 import { TimerBorder } from './TimerBorder';
@@ -48,6 +49,7 @@ export const Timer = () => {
         // TODO: give some visual indicator that user is pressing button
 
         if (isRunning) {
+            deactivateKeepAwake();
             // finish counting
             const endTime = Math.floor(performance.now());
 
@@ -89,6 +91,7 @@ export const Timer = () => {
 
     const onPressOutHandler = () => {
         if (showReadyState) {
+            activateKeepAwake();
             setShowReadyState(false);
             setIsRunning(true);
             const startTime = Math.floor(performance.now());
