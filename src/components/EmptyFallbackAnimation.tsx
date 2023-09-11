@@ -4,7 +4,7 @@ import { useColors } from '../hooks/useColors';
 import { useTranslation } from '../hooks/useTranslation';
 import { FONTS } from '../styles/base';
 
-const LOTTIE_JSON = require('../../assets/empty-animation.json');
+const LOTTIE_JSON = require('../../assets/animations/empty-animation.json');
 
 export const EmptyFallbackAnimation = () => {
     const getColor = useColors();
