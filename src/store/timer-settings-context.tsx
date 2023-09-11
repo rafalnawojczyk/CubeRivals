@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useEffect, useState } from 'react';
 import { CubeType } from '../models/cubes';
 import { BSON } from 'realm';
 
@@ -45,7 +45,7 @@ export const TimerSettingsContext = createContext<TimerSettingsContextInterface>
 export const TimerSettingsContextProvider = ({ children }: { children?: React.ReactNode }) => {
     const [timerSettings, setTimerSettings] = useState(DEFAULT_SETTINGS);
 
-    const updateTimerSettings = (newSettings: Partial<TimerSettingsType>) => {
+    const updateTimerSettings = useCallback((newSettings: Partial<TimerSettingsType>) => {
         setTimerSettings(prevSettings => {
             const updatedSettings = { ...prevSettings, ...newSettings };
 
@@ -53,7 +53,7 @@ export const TimerSettingsContextProvider = ({ children }: { children?: React.Re
 
             return updatedSettings;
         });
-    };
+    }, []);
 
     useEffect(() => {
         const getSettingsFromStorage = async () => {

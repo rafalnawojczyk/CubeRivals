@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createContext, useLayoutEffect, useState } from 'react';
+import { createContext, useCallback, useLayoutEffect, useState } from 'react';
 import { useColorScheme } from 'react-native';
 
 type ThemeType = 'dark' | 'light';
@@ -19,7 +19,7 @@ export const ThemeContextProvider = ({ children }: { children?: React.ReactNode 
 
     const [isDarkTheme, setIsDarkTheme] = useState(false);
 
-    const setThemeByUser = async (theme: ThemeType) => {
+    const setThemeByUser = useCallback(async (theme: ThemeType) => {
         try {
             await AsyncStorage.setItem('theme', theme);
         } catch (err) {
@@ -27,7 +27,7 @@ export const ThemeContextProvider = ({ children }: { children?: React.ReactNode 
         } finally {
             setIsDarkTheme(theme === 'dark');
         }
-    };
+    }, []);
 
     useLayoutEffect(() => {
         const getThemeFromStorage = async () => {

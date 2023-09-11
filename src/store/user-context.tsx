@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createContext, useState, useLayoutEffect } from 'react';
+import { createContext, useState, useLayoutEffect, useCallback } from 'react';
 import * as Localization from 'expo-localization';
 import { CubeType } from '../models/cubes';
 import { TranslationCodes } from '../hooks/useTranslation';
@@ -36,7 +36,7 @@ export const UserContextProvider = ({ children }: { children?: React.ReactNode }
         lang: 'en',
     });
 
-    const updateUser = (updatedUser: PartialUserDataType) => {
+    const updateUser = useCallback((updatedUser: PartialUserDataType) => {
         setUserData(prevData => {
             const newUserData = { ...prevData, ...updatedUser };
 
@@ -44,7 +44,7 @@ export const UserContextProvider = ({ children }: { children?: React.ReactNode }
 
             return newUserData;
         });
-    };
+    }, []);
 
     const value: UserDataInterface = {
         isLoaded: userData.isLoaded,
