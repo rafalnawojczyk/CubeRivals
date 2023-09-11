@@ -11,7 +11,6 @@
 // 10. Timer should have some nice animation in background when user breaks his best record in this session. It should count in all sessions starting from X time(not for first X times, because that is pointless). It should also show "Gratulacje, Pobiłeś swój rekord o X:xx!"
 // 11. Timer should also point if there is "Nowa najlepsza średnia" with current solve. If yes - on time somehow pop average that is best rn and show some info above?
 // 3. set finished when there is any gyro - Add options to timer settings, if on - use gyro.
-// 12. Expo keep awake - make sure that screen is always visible. Maybe dim it down on long solves?
 
 // ********************************** MODERATE **********************************
 // 1. Statistics based on days, not counting every solve?
