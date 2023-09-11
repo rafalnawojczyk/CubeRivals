@@ -4,7 +4,7 @@ import LottieView from 'lottie-react-native';
 import { useColors } from '../hooks/useColors';
 import { FONTS } from '../styles/base';
 
-const LOTTIE_JSON = require('../../assets/rocket-animation.json');
+const LOTTIE_JSON = require('../../assets/animations/rocket-animation.json');
 
 export const RivalsScreen = () => {
     const getColor = useColors();

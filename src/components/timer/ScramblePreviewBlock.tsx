@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { generateScramble } from '../../utils/generateScramble';
 import { TimerSettingsContext } from '../../store/timer-settings-context';
-import { CubeType } from '../../models/cubes';
 import { useColors } from '../../hooks/useColors';
 import { DIMENSIONS, FONTS, PADDING } from '../../styles/base';
 import { IconButton } from '../UI/IconButton';
@@ -14,12 +13,16 @@ export const ScramblePreviewBlock = ({
     onChangeScramble,
     scramble,
     showRegenerateScramble = true,
+    isWarmup,
+    toggleWarmup,
     onAddTime,
 }: {
     onChangeScramble: (scramble: string) => void;
     scramble: string;
     showRegenerateScramble?: boolean;
     onAddTime: (result: Result, saveScramble: boolean) => void;
+    isWarmup: boolean;
+    toggleWarmup: () => void;
 }) => {
     const { timerSettings } = useContext(TimerSettingsContext);
     const [showAddScrambleModal, setShowAddScrambleModal] = useState(false);
@@ -70,6 +73,12 @@ export const ScramblePreviewBlock = ({
                 <View style={styles.container}>
                     <Text style={[styles.scramble, { color: getColor('gray100') }]}>{scramble}</Text>
                     <View style={styles.buttonsContainer}>
+                        <IconButton
+                            icon="local-fire-department"
+                            size={FONTS.lg}
+                            color={isWarmup ? getColor('error') : getColor('gray100')}
+                            onPress={toggleWarmup}
+                        />
                         <IconButton
                             icon="add-alarm"
                             size={FONTS.lg}

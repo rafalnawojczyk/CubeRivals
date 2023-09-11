@@ -21,6 +21,7 @@ const initialResult: Result = {
 
 export const Timer = () => {
     const [result, setResult] = useState({ ...initialResult });
+    const [isWarmup, setIsWarmup] = useState(false);
     const [lastSolve, setLastSolve] = useState<undefined | Solve>();
     const [scramble, setScramble] = useState('');
     const [elapsedTime, setElapsedTime] = useState(0);
@@ -57,17 +58,19 @@ export const Timer = () => {
             cancelAnimationFrame(requestRef.current!);
             setIsRunning(false);
 
-            setResult(prev => {
-                const updatedResult = { ...prev, time: endTime - startingTime };
+            if (!isWarmup) {
+                setResult(prev => {
+                    const updatedResult = { ...prev, time: endTime - startingTime };
 
-                const addedSolve = addSolve(updatedResult);
+                    const addedSolve = addSolve(updatedResult);
 
-                if (addedSolve) {
-                    setLastSolve(addedSolve);
-                }
+                    if (addedSolve) {
+                        setLastSolve(addedSolve);
+                    }
 
-                return updatedResult;
-            });
+                    return updatedResult;
+                });
+            }
         }
     };
 
@@ -149,6 +152,8 @@ export const Timer = () => {
             )}
             <View>
                 <ScramblePreviewBlock
+                    isWarmup={isWarmup}
+                    toggleWarmup={() => setIsWarmup(prev => !prev)}
                     onChangeScramble={onChangeScramble}
                     scramble={scramble}
                     onAddTime={onManualAddTime}
@@ -197,11 +202,13 @@ export const Timer = () => {
                                         </>
                                     )}
                                 </View>
-                                <ModifyResultBlock
-                                    setSolveResult={setResult}
-                                    solve={lastSolve}
-                                    onDelete={() => resetTimer()}
-                                />
+                                {!isWarmup && (
+                                    <ModifyResultBlock
+                                        setSolveResult={setResult}
+                                        solve={lastSolve}
+                                        onDelete={() => resetTimer()}
+                                    />
+                                )}
                             </>
                         )}
                         {!showReadyState && !isRunning && (
