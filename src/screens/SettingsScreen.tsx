@@ -1,6 +1,6 @@
 import { StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaCard } from '../components/UI/SafeAreaCard';
-import { useTranslation } from '../hooks/useTranslation';
+import { TranslationCodes, useTranslation } from '../hooks/useTranslation';
 import { CustomButton } from '../components/UI/CustomButton';
 
 import { FONTS, PADDING } from '../styles/base';
@@ -15,7 +15,7 @@ import { CustomSettingItem } from '../components/timerSettingsModal/CustomSettin
 import { LinkButton } from '../components/UI/LinkButton';
 import { UserContext } from '../store/user-context';
 import { langMap } from '../locales/langMap';
-import { LanguageSelectModal } from '../components/LanguageSelectModal';
+import { ListSelectModal } from '../components/ListSelectModal';
 
 export const SettingsScreen = () => {
     const { setThemeByUser, isDarkTheme } = useContext(ThemeContext);
@@ -64,12 +64,14 @@ export const SettingsScreen = () => {
                 </ScrollView>
             </SafeAreaCard>
             <TimerSettingsModal showModal={showTimerSettings} onClose={() => setShowTimerSettings(false)} />
-            <LanguageSelectModal
+            <ListSelectModal
+                optionsList={Object.keys(langMap)}
                 showModal={showLangModal}
                 onClose={() => setShowLangModal(false)}
-                currentLang={lang}
-                onSelectLanguage={lang => {
-                    updateUser({ lang });
+                currentItem={langMap[lang]}
+                onSelect={lang => {
+                    const selectedLang = lang as TranslationCodes;
+                    updateUser({ lang: selectedLang });
                     setShowLangModal(false);
                 }}
             />

@@ -2,42 +2,33 @@ import { StyleSheet, FlatList, Text, View, Pressable } from 'react-native';
 import { CustomModal } from './UI/modal/CustomModal';
 import { DIMENSIONS, FONTS } from '../styles/base';
 import { useColors } from '../hooks/useColors';
-import { TranslationCodes, useTranslation } from '../hooks/useTranslation';
-import { langMap } from '../locales/langMap';
+import { useTranslation } from '../hooks/useTranslation';
+
 import { SettingItem } from './timerSettingsModal/SettingItem';
 
-interface LanguageSelectModalProps {
+interface ListSelectModalProps {
     showModal: boolean;
     onClose: () => void;
-    onSelectLanguage: (lang: TranslationCodes) => void;
-    currentLang: TranslationCodes;
+    onSelect: (item: string) => void;
+    optionsList: string[];
+    currentItem: string;
 }
 
-interface LangItemProps {
-    langCode: TranslationCodes;
-    langName: string;
-}
-
-export const LanguageSelectModal = ({
-    showModal,
-    onClose,
-    onSelectLanguage,
-    currentLang,
-}: LanguageSelectModalProps) => {
+export const ListSelectModal = ({ showModal, onClose, onSelect, currentItem, optionsList }: ListSelectModalProps) => {
     const getColor = useColors();
     const trans = useTranslation();
 
-    const LangItem = ({ langCode, langName }: LangItemProps) => (
-        <Pressable onPress={() => onSelectLanguage(langCode)}>
+    const ListItem = ({ itemName }: { itemName: string }) => (
+        <Pressable onPress={() => onSelect(itemName)}>
             <SettingItem>
                 <View>
                     <Text
                         style={[
-                            styles.langName,
-                            { color: currentLang === langCode ? getColor('primary200') : getColor('text') },
+                            styles.itemName,
+                            { color: currentItem === itemName ? getColor('primary200') : getColor('text') },
                         ]}
                     >
-                        {langName}
+                        {itemName}
                     </Text>
                 </View>
             </SettingItem>
@@ -47,16 +38,16 @@ export const LanguageSelectModal = ({
     return (
         <CustomModal isVisible={showModal} onClose={onClose} title={trans('settings.selectLang')} size="md">
             <FlatList
-                data={Object.entries(langMap) as [TranslationCodes, string][]}
+                data={optionsList}
                 keyExtractor={item => item[0]}
-                renderItem={({ item }) => <LangItem langCode={item[0]} langName={item[1]} />}
+                renderItem={({ item }) => <ListItem itemName={item} />}
             />
         </CustomModal>
     );
 };
 
 const styles = StyleSheet.create({
-    langName: {
+    itemName: {
         textAlign: 'center',
         fontWeight: 'bold',
         width: DIMENSIONS.fullWidth * 0.5,
