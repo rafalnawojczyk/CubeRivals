@@ -1,5 +1,5 @@
 import { useState, useRef, useContext, useEffect } from 'react';
-import { activateKeepAwake, deactivateKeepAwake } from 'expo-keep-awake';
+import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
 import { Pressable, View, Text, StyleSheet } from 'react-native';
 import { DIMENSIONS, FONTS, PADDING } from '../../styles/base';
 import { TimerBorder } from './TimerBorder';
@@ -13,6 +13,8 @@ import { ScramblePreviewBlock } from './ScramblePreviewBlock';
 import { SolvesContext } from '../../store/solves-context';
 import { Solve } from '../../models/realm-models/SolveSchema';
 import { IconButton } from '../UI/IconButton';
+
+const AWAKE_TAG = 'timer';
 
 const initialResult: Result = {
     scramble: '',
@@ -50,7 +52,7 @@ export const Timer = () => {
         // TODO: give some visual indicator that user is pressing button
 
         if (isRunning) {
-            deactivateKeepAwake();
+            deactivateKeepAwake(AWAKE_TAG);
             // finish counting
             const endTime = Math.floor(performance.now());
 
@@ -58,19 +60,19 @@ export const Timer = () => {
             cancelAnimationFrame(requestRef.current!);
             setIsRunning(false);
 
-            if (!isWarmup) {
-                setResult(prev => {
-                    const updatedResult = { ...prev, time: endTime - startingTime };
+            setResult(prev => {
+                const updatedResult = { ...prev, time: endTime - startingTime };
 
+                if (!isWarmup) {
                     const addedSolve = addSolve(updatedResult);
 
                     if (addedSolve) {
                         setLastSolve(addedSolve);
                     }
+                }
 
-                    return updatedResult;
-                });
-            }
+                return updatedResult;
+            });
         }
     };
 
@@ -94,7 +96,7 @@ export const Timer = () => {
 
     const onPressOutHandler = () => {
         if (showReadyState) {
-            activateKeepAwake();
+            activateKeepAwakeAsync(AWAKE_TAG);
             setShowReadyState(false);
             setIsRunning(true);
             const startTime = Math.floor(performance.now());
@@ -134,7 +136,7 @@ export const Timer = () => {
 
     useEffect(() => {
         resetTimer();
-    }, [timerSettings.session, timerSettings.cube]);
+    }, [timerSettings.session, timerSettings.cube, isWarmup]);
 
     return (
         <>
