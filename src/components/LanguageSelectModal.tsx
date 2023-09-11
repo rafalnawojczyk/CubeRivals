@@ -1,7 +1,6 @@
 import { StyleSheet, FlatList, Text, View, Pressable } from 'react-native';
-import { useState } from 'react';
 import { CustomModal } from './UI/modal/CustomModal';
-import { DIMENSIONS, FONTS, PADDING } from '../styles/base';
+import { DIMENSIONS, FONTS } from '../styles/base';
 import { useColors } from '../hooks/useColors';
 import { TranslationCodes, useTranslation } from '../hooks/useTranslation';
 import { langMap } from '../locales/langMap';

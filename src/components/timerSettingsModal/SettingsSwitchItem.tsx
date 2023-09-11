@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { CustomSwitch } from '../UI/CustomSwitch';
-import { DIMENSIONS, FONTS, PADDING } from '../../styles/base';
+import { DIMENSIONS, FONTS } from '../../styles/base';
 import { useColors } from '../../hooks/useColors';
 
 interface SettingsSwitchItemProps {
@@ -28,7 +28,6 @@ export const SettingsSwitchItem = ({ title, onSwitch, value, subtitle }: Setting
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
     },

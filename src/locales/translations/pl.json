@@ -55,12 +55,21 @@
     "settings.darkModeDesc": "Przełączaj się pomiędzy jasnym a ciemnym motywem aplikacji.",
     "settings.selectLang": "Wybierz język aplikacji",
 
-    "timerSettings.inspectionTime": "Włącz inspekcję przed ułożeniem",
-    "timerSettings.inspectionTimeDesc": "Korzystaj z 15 sekundowej inspekcji przed każdym ułożeniem.",
+    "timerSettings.inspection": "Włącz inspekcję przed ułożeniem",
+    "timerSettings.inspectionDesc": "Korzystaj z 15 sekundowej inspekcji przed każdym ułożeniem.",
     "timerSettings.hideUi": "Ukryj interfejs podczas ułożenia",
     "timerSettings.hideUiDesc": "Ukryj wszystkie elementy interfejsu(poza czasem) podczas układania aby zwiększyć skupienie.",
     "timerSettings.hideTime": "Ukryj czas podczas układania",
     "timerSettings.hideTimeDesc": "Ukryj dosłownie wszystko podczas układania.",
     "timerSettings.showWholeMs": "Pokaż wszystkie milisekundy",
-    "timerSettings.showWholeMsDesc": "Pokaż czas ułożenia jako ss:mmm(12.152) lub ss:mm(12.15)."
+    "timerSettings.showWholeMsDesc": "Pokaż czas ułożenia jako ss:mmm(12.152) lub ss:mm(12.15).",
+    "timerSettings.editInspection": "Edytuj ustawienia inspekcji",
+    "timerSettings.inspectionTime": "Czas na inspekcję:",
+    "timerSettings.inspectionAlert": "Informuj o upływie czasu",
+    "timerSettings.inspectionAlertDesc": "Aplikacja poinformuje Cię o upływie czasu w %1% i %2% sekundzie inspekcji.",
+    "timerSettings.inspectionTimeAlertType": "Typ alarmu:",
+    "timerSettings.inspectionTimeAlert-none": "Brak",
+    "timerSettings.inspectionTimeAlert-sound": "Dźwięk",
+    "timerSettings.inspectionTimeAlert-both": "Dźwięk i wibracja",
+    "timerSettings.inspectionTimeAlert-vibration": "Wibracja"
 }

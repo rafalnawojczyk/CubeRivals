@@ -161,5 +161,3 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
     },
 });
-
-// TODO: +2 / DNF  should show updated time on screen with option to revert changes and back to measured time state with refresh-outline but flipped horizontally?

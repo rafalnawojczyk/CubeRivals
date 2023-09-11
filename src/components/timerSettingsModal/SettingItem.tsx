@@ -2,10 +2,14 @@ import { View, StyleSheet } from 'react-native';
 import { useColors } from '../../hooks/useColors';
 import { DIMENSIONS, PADDING } from '../../styles/base';
 
-export const SettingItem = ({ children }: { children: React.ReactNode }) => {
+export const SettingItem = ({ children, showBorder = true }: { children: React.ReactNode; showBorder?: boolean }) => {
     const getColor = useColors();
 
-    return <View style={[styles.container, { borderBottomColor: getColor('gray100') }]}>{children}</View>;
+    return (
+        <View style={[styles.container, { borderBottomColor: showBorder ? getColor('gray100') : 'transparent' }]}>
+            {children}
+        </View>
+    );
 };
 
 const styles = StyleSheet.create({

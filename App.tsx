@@ -1,4 +1,5 @@
 import 'react-native-gesture-handler';
+import 'react-native-get-random-values';
 import { useCallback, useState, useRef, useEffect } from 'react';
 import { StyleSheet, View, Animated, Easing } from 'react-native';
 import * as Font from 'expo-font';
@@ -9,10 +10,6 @@ import { UserContextProvider } from './src/store/user-context';
 import { Navigation } from './src/navigation/Navigation';
 import { CubeAnimation } from './src/components/CubeAnimation';
 import { TimerSettingsContextProvider } from './src/store/timer-settings-context';
-import { AppProvider, RealmProvider, UserProvider } from '@realm/react';
-import { schemas } from './src/models/realm-models';
-import { OpenRealmBehaviorType, OpenRealmTimeOutBehavior } from 'realm/dist/bundle';
-import Constants from 'expo-constants';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
