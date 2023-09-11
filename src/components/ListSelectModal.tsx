@@ -12,9 +12,19 @@ interface ListSelectModalProps {
     onSelect: (item: string) => void;
     optionsList: string[];
     currentItem: string;
+    modalTitle: string;
+    listNameRender: (arg: string) => string;
 }
 
-export const ListSelectModal = ({ showModal, onClose, onSelect, currentItem, optionsList }: ListSelectModalProps) => {
+export const ListSelectModal = ({
+    showModal,
+    onClose,
+    onSelect,
+    currentItem,
+    optionsList,
+    modalTitle,
+    listNameRender,
+}: ListSelectModalProps) => {
     const getColor = useColors();
     const trans = useTranslation();
 
@@ -28,7 +38,7 @@ export const ListSelectModal = ({ showModal, onClose, onSelect, currentItem, opt
                             { color: currentItem === itemName ? getColor('primary200') : getColor('text') },
                         ]}
                     >
-                        {itemName}
+                        {listNameRender(itemName)}
                     </Text>
                 </View>
             </SettingItem>
@@ -36,7 +46,7 @@ export const ListSelectModal = ({ showModal, onClose, onSelect, currentItem, opt
     );
 
     return (
-        <CustomModal isVisible={showModal} onClose={onClose} title={trans('settings.selectLang')} size="md">
+        <CustomModal isVisible={showModal} onClose={onClose} title={modalTitle} size="md">
             <FlatList
                 data={optionsList}
                 keyExtractor={item => item[0]}

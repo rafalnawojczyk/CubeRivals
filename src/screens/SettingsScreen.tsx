@@ -65,10 +65,12 @@ export const SettingsScreen = () => {
             </SafeAreaCard>
             <TimerSettingsModal showModal={showTimerSettings} onClose={() => setShowTimerSettings(false)} />
             <ListSelectModal
+                modalTitle={trans('settings.selectLang')}
                 optionsList={Object.keys(langMap)}
                 showModal={showLangModal}
                 onClose={() => setShowLangModal(false)}
                 currentItem={langMap[lang]}
+                listNameRender={(item: string) => langMap[item as TranslationCodes]}
                 onSelect={lang => {
                     const selectedLang = lang as TranslationCodes;
                     updateUser({ lang: selectedLang });

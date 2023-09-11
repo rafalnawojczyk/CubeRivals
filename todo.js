@@ -1,6 +1,7 @@
 // ********************************** HIGH **********************************
 // Add useCallback in all context functions that can be wrapped in this
 // EDIT LangSelectModal to a  listSelectmodal, which will take all type of string lists and make it reusable
+// User should be able to pick inspection time and should have a switch to use ALL WCA penalties
 // 0. There should be feature that saves user preferences/settings inside user? or some other Schema, so it will sync between devices
 // 1. Visual representation of what has been changed in solve. If it's DNF, +2. There is no info if used clicked that properly
 // 2. add "Warmup" mode where solves are not saved
