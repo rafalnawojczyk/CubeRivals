@@ -1,10 +1,7 @@
 // ********************************** HIGH **********************************
-// Add useCallback in all context functions that can be wrapped in this
-// EDIT LangSelectModal to a  listSelectmodal, which will take all type of string lists and make it reusable
+// Add option to reset all timer settings
 // User should be able to pick inspection time and should have a switch to use ALL WCA penalties
 // 0. There should be feature that saves user preferences/settings inside user? or some other Schema, so it will sync between devices
-// 1. Visual representation of what has been changed in solve. If it's DNF, +2. There is no info if used clicked that properly
-// 2. add "Warmup" mode where solves are not saved
 // 3. add image of scrambled cube
 // 8. Add option to choose "Ready signal", so timer will somehow show user that it is ready to count time. Maybe color some parts of screen/change time color
 // 9. Each sessions should store best time so app will not need to cycle through all times
@@ -30,7 +27,7 @@
 // 2. Timer numbers turns to yellow/red when you exceeds your avg5/avg12 time?
 // 3. Timer shows only full seconds, without any milliseconds
 // 4. maybe 3 presets for how long to tap screen to start solve?
-// 5. Read about not dimming screen/ not blocking screen while in use
+// 5. Dimm screen down while solving?
 // 6. Splash screen should be really looking good. It should have some kind of fading effect, animation should start when all assets are done fetching. Should use animated to do this.
 // 7. OLL/PLL trainer, where user can choose one of X algs for each case, add his own alg, train one/all selected at the same time
 // 8. More advanced trainers like  VLS cases, ZBLL, and OLLCP
@@ -40,3 +37,4 @@
 // 12. Scrambling trainer?
 // 13. Let user choose vibration patterns and sound alerts in inspection settings
 // 14. use expo storeReview package o ask for review after X solves? save in user that app asked for that already
+// 15. Maybe create some walkthrough tutorials in app or maybe in form of video? About all features?

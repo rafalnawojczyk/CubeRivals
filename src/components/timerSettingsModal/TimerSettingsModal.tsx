@@ -2,12 +2,15 @@ import { useContext, useState } from 'react';
 import { CustomModal } from '../UI/modal/CustomModal';
 import { TimerSettingsContext, TimerSettingsType } from '../../store/timer-settings-context';
 import { useTranslation } from '../../hooks/useTranslation';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, View, Text } from 'react-native';
 import { SettingsSwitchItem } from './SettingsSwitchItem';
 import { SettingItem } from './SettingItem';
 import { LinkButton } from '../UI/LinkButton';
 import { useColors } from '../../hooks/useColors';
 import { InspectionSettingsModal } from './InspectionSettingsModal';
+import { FONTS, PADDING } from '../../styles/base';
+import { NumberPickerModal } from '../NumberPickerModal';
+import { RemoveConfirmModal } from '../timer/modals/RemoveConfirmModal';
 
 interface TimerSettingsModalProps {
     showModal: boolean;
@@ -15,7 +18,9 @@ interface TimerSettingsModalProps {
 }
 
 export const TimerSettingsModal = ({ showModal, onClose }: TimerSettingsModalProps) => {
-    const { timerSettings, updateSettings } = useContext(TimerSettingsContext);
+    const { timerSettings, updateSettings, resetSettings } = useContext(TimerSettingsContext);
+    const [showResetConfirmModal, setShowResetConfirmModal] = useState(false);
+    const [showHoldDelayModal, setShowHoldDelayModal] = useState(false);
     const [showInspectionModal, setShowInspectionModal] = useState(false);
     const trans = useTranslation();
     const getColor = useColors();
@@ -52,6 +57,10 @@ export const TimerSettingsModal = ({ showModal, onClose }: TimerSettingsModalPro
         onClose();
     };
 
+    const resetTimerSettingsHandler = () => {
+        resetSettings();
+    };
+
     return (
         <>
             <CustomModal
@@ -80,13 +89,46 @@ export const TimerSettingsModal = ({ showModal, onClose }: TimerSettingsModalPro
                             )}
                         </SettingItem>
                     ))}
+                    <SettingItem showBorder={false}>
+                        <View style={styles.settingContainer}>
+                            <Text style={{ color: getColor('text'), fontSize: FONTS.md }}>
+                                {trans('timerSettings.holdDelay')}
+                            </Text>
+                            <LinkButton
+                                textStyle={{ fontSize: FONTS.md }}
+                                title={`${timerSettings.holdDelay}ms`}
+                                onPress={() => setShowHoldDelayModal(true)}
+                                color={getColor('primary200')}
+                            />
+                        </View>
+                    </SettingItem>
                 </ScrollView>
                 <CustomModal.ButtonsContainer>
                     <CustomModal.Button type="cancel" onPress={onClose} title={trans('cancel')} />
+                    <CustomModal.Button
+                        type="error"
+                        onPress={() => setShowResetConfirmModal(true)}
+                        title={trans('reset')}
+                    />
                     <CustomModal.Button type="primary" onPress={onSaveSettingsHandler} title={trans('save')} />
                 </CustomModal.ButtonsContainer>
             </CustomModal>
             <InspectionSettingsModal showModal={showInspectionModal} onClose={() => setShowInspectionModal(false)} />
+            <NumberPickerModal
+                showModal={showHoldDelayModal}
+                onClose={() => setShowHoldDelayModal(false)}
+                currentNumber={timerSettings.holdDelay}
+                modalTitle={trans('timerSettings.holdDelayModalTitle')}
+                onSelect={(newTime: number) => updateSettings({ holdDelay: newTime })}
+            />
+            <RemoveConfirmModal
+                size="lg"
+                title={trans('timerSettings.resetDesc')}
+                confirmTitle={trans('reset')}
+                showModal={showResetConfirmModal}
+                onClose={() => setShowResetConfirmModal(false)}
+                onConfirm={resetTimerSettingsHandler}
+            />
         </>
     );
 };
@@ -94,5 +136,11 @@ export const TimerSettingsModal = ({ showModal, onClose }: TimerSettingsModalPro
 const styles = StyleSheet.create({
     settingsContainer: {
         flex: 1,
+    },
+    settingContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingRight: PADDING.sm,
     },
 });

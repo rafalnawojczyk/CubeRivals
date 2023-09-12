@@ -9,6 +9,7 @@ import { LinkButton } from '../UI/LinkButton';
 import { SettingsSwitchItem } from './SettingsSwitchItem';
 import { InspectionAlertsType, TimerSettingsContext } from '../../store/timer-settings-context';
 import { ListSelectModal } from '../ListSelectModal';
+import { NumberPickerModal } from '../NumberPickerModal';
 
 interface InspectionSettingsModalProps {
     showModal: boolean;
@@ -103,6 +104,13 @@ export const InspectionSettingsModal = ({ showModal, onClose }: InspectionSettin
                     });
                     setShowInspectionAlertModal(false);
                 }}
+            />
+            <NumberPickerModal
+                showModal={showTimeModal}
+                onClose={() => setShowTimeModal(false)}
+                currentNumber={timerSettings.inspectionTime}
+                modalTitle={trans('timerSettings.inspectionTimeChange')}
+                onSelect={(newTime: number) => updateSettings({ inspectionTime: newTime })}
             />
         </>
     );

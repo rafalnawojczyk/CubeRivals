@@ -6,9 +6,10 @@ import { AddNoteModal } from './modals/AddNoteModal';
 import { IconButton } from '../UI/IconButton';
 import { FONTS } from '../../styles/base';
 import { useColors } from '../../hooks/useColors';
-import { RemoveResultConfirmModal } from './modals/RemoveResultConfirmModal';
+import { RemoveConfirmModal } from './modals/RemoveConfirmModal';
 import { Solve } from '../../models/realm-models/SolveSchema';
 import { SolvesContext } from '../../store/solves-context';
+import { useTranslation } from '../../hooks/useTranslation';
 
 export type ButtonName = 'remove' | 'dnf' | '+2' | 'note';
 
@@ -51,6 +52,7 @@ export const ModifyResultBlock = ({
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const { deleteSolve, editSolve } = useContext(SolvesContext);
     const getColor = useColors();
+    const trans = useTranslation();
 
     const handleConfirmDeleteSolve = () => {
         if (solve) {
@@ -121,7 +123,9 @@ export const ModifyResultBlock = ({
 
     return (
         <>
-            <RemoveResultConfirmModal
+            <RemoveConfirmModal
+                confirmTitle={trans('delete')}
+                title={trans('removeSolveTitle')}
                 showModal={showDeleteModal}
                 onClose={() => setShowDeleteModal(false)}
                 onConfirm={handleConfirmDeleteSolve}

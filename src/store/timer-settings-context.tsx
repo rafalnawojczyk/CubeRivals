@@ -16,6 +16,7 @@ export type TimerSettingsType = {
     stickerColors: string[];
     inspectionTime: number;
     inspectionAlerts: InspectionAlertsType;
+    holdDelay: number;
 };
 
 const DEFAULT_SETTINGS: TimerSettingsType = {
@@ -29,16 +30,18 @@ const DEFAULT_SETTINGS: TimerSettingsType = {
     inspection: false,
     inspectionTime: 15,
     inspectionAlerts: 'none',
+    holdDelay: 500,
 };
 
 interface TimerSettingsContextInterface {
     updateSettings: (newSettings: Partial<TimerSettingsType>) => void;
-
+    resetSettings: () => void;
     timerSettings: TimerSettingsType;
 }
 
 export const TimerSettingsContext = createContext<TimerSettingsContextInterface>({
     timerSettings: DEFAULT_SETTINGS,
+    resetSettings: () => {},
     updateSettings: () => {},
 });
 
@@ -55,6 +58,15 @@ export const TimerSettingsContextProvider = ({ children }: { children?: React.Re
         });
     }, []);
 
+    const resetSettings = useCallback(() => {
+        const newSettings: Partial<TimerSettingsType> = { ...DEFAULT_SETTINGS };
+
+        delete newSettings.session;
+        delete newSettings.cube;
+
+        updateTimerSettings(DEFAULT_SETTINGS);
+    }, []);
+
     useEffect(() => {
         const getSettingsFromStorage = async () => {
             const storedSettings = await AsyncStorage.getItem('timerSettings');
@@ -69,7 +81,7 @@ export const TimerSettingsContextProvider = ({ children }: { children?: React.Re
     }, []);
 
     return (
-        <TimerSettingsContext.Provider value={{ timerSettings, updateSettings: updateTimerSettings }}>
+        <TimerSettingsContext.Provider value={{ timerSettings, updateSettings: updateTimerSettings, resetSettings }}>
             {children}
         </TimerSettingsContext.Provider>
     );

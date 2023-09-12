@@ -164,6 +164,7 @@ export const Timer = () => {
             <Pressable
                 onPressIn={onPressInHandler}
                 onLongPress={onLongPressHandler}
+                delayLongPress={timerSettings.holdDelay}
                 onPressOut={onPressOutHandler}
                 style={styles.touchableContainer}
             >
