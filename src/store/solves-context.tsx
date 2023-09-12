@@ -8,6 +8,7 @@ import { TimerSettingsContext } from './timer-settings-context';
 import { Result } from '../models/result';
 
 interface SolvesDataInterface {
+    currentSession: Session;
     // @ts-ignore
     sessions?: Results<Session>;
     addSolve: (result: Result) => Solve | undefined;
@@ -19,6 +20,8 @@ interface SolvesDataInterface {
 
 export const SolvesContext = createContext<SolvesDataInterface>({
     sessions: [],
+    // @ts-ignore
+    currentSession: {},
     // @ts-ignore
     addSolve: (result: Result) => {},
     // @ts-ignore
@@ -39,7 +42,9 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
 
     const solves = useQuery(Solve);
 
-    const currentSession = useObject(Session, new BSON.ObjectID(timerSettings.session));
+    const sessionIdToQuery = timerSettings.session || sessions[0]._id;
+
+    const currentSession = useObject(Session, new BSON.ObjectID(sessionIdToQuery))!;
 
     const handleEditSession = useCallback(
         (session: Session, sessionEdit: Partial<Session>): void => {
@@ -101,12 +106,9 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
             if (currentSession) {
                 const solve = realm.write(() => {
                     currentSession.used = new Date();
-
                     const solve = realm.create(Solve, result);
-
                     // @ts-ignore
                     currentSession.solves.unshift(solve);
-
                     return solve;
                 });
                 return solve;
@@ -145,6 +147,7 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
         editSolve: handleEditSolve,
         deleteSolve: handleDeleteSolve,
         editSession: handleEditSession,
+        currentSession,
     };
 
     return <SolvesContext.Provider value={value}>{children}</SolvesContext.Provider>;

@@ -7,17 +7,14 @@ import { IconButton } from '../UI/IconButton';
 import { TimerSettingsModal } from '../timerSettingsModal/TimerSettingsModal';
 import { ManageSessionModal } from './modals/ManageSessionsModal';
 import { TopBarCubeButton } from './TopBarCubeButton';
-import { BSON } from 'realm';
-import { useObject } from '@realm/react';
-import { Session } from '../../models/realm-models/SessionSchema';
+import { SolvesContext } from '../../store/solves-context';
 
 export const TopTimerBar = () => {
     const [showSettings, setShowSettings] = useState(false);
     const [showSessionModal, setShowSessionModal] = useState(false);
     const { timerSettings } = useContext(TimerSettingsContext);
+    const { currentSession: session } = useContext(SolvesContext);
     const getColor = useColors();
-
-    const session = useObject(Session, new BSON.ObjectID(timerSettings.session));
 
     return (
         <>

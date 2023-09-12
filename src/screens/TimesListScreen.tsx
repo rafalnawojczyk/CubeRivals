@@ -2,7 +2,6 @@ import { StyleSheet, View } from 'react-native';
 import { SafeAreaCard } from '../components/UI/SafeAreaCard';
 import { useContext } from 'react';
 import { TimesList } from '../components/timesList/TimesList';
-import { Result } from '../models/result';
 import { PADDING } from '../styles/base';
 import { useObject } from '@realm/react';
 import { Session } from '../models/realm-models/SessionSchema';
