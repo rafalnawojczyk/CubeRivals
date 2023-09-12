@@ -1,6 +1,6 @@
 import { StyleSheet, View, TextInput } from 'react-native';
 import { CustomModal } from './UI/modal/CustomModal';
-import { DIMENSIONS, FONTS, PADDING } from '../styles/base';
+import { FONTS, PADDING } from '../styles/base';
 import { useState } from 'react';
 import { useTranslation } from '../hooks/useTranslation';
 import { useColors } from '../hooks/useColors';

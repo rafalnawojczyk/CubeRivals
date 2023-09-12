@@ -3,7 +3,6 @@ import { useContext } from 'react';
 import { CustomModal } from '../UI/modal/CustomModal';
 import { FONTS, PADDING } from '../../styles/base';
 import { useColors } from '../../hooks/useColors';
-import { useTranslation } from '../../hooks/useTranslation';
 import { formatTime } from '../../utils/formatTime';
 import { TimerSettingsContext } from '../../store/timer-settings-context';
 import { MaterialIcons } from '@expo/vector-icons';

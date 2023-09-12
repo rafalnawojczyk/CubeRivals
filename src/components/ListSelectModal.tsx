@@ -2,7 +2,6 @@ import { StyleSheet, FlatList, Text, View, Pressable } from 'react-native';
 import { CustomModal } from './UI/modal/CustomModal';
 import { DIMENSIONS, FONTS } from '../styles/base';
 import { useColors } from '../hooks/useColors';
-import { useTranslation } from '../hooks/useTranslation';
 
 import { SettingItem } from './timerSettingsModal/SettingItem';
 
@@ -26,7 +25,6 @@ export const ListSelectModal = ({
     listNameRender,
 }: ListSelectModalProps) => {
     const getColor = useColors();
-    const trans = useTranslation();
 
     const ListItem = ({ itemName }: { itemName: string }) => (
         <Pressable onPress={() => onSelect(itemName)}>
