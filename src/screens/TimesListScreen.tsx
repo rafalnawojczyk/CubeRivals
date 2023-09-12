@@ -3,15 +3,11 @@ import { SafeAreaCard } from '../components/UI/SafeAreaCard';
 import { useContext } from 'react';
 import { TimesList } from '../components/timesList/TimesList';
 import { PADDING } from '../styles/base';
-import { useObject } from '@realm/react';
-import { Session } from '../models/realm-models/SessionSchema';
-import { TimerSettingsContext } from '../store/timer-settings-context';
-import { BSON } from 'realm';
 import { TopTimerBar } from '../components/timer/TopTimerBar';
+import { SolvesContext } from '../store/solves-context';
 
 export const TimesListScreen = () => {
-    const { timerSettings } = useContext(TimerSettingsContext);
-    const currentSession = useObject(Session, new BSON.ObjectID(timerSettings.session));
+    const { currentSession } = useContext(SolvesContext);
 
     return (
         <SafeAreaCard>
