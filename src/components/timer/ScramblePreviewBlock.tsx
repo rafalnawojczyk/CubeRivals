@@ -49,6 +49,7 @@ export const ScramblePreviewBlock = ({
 
     const onAddTimeHandler = (result: Result, saveScramble: boolean) => {
         onAddTime(result, saveScramble);
+        setShowAddTimeModal(false);
     };
 
     useEffect(() => {

@@ -13,10 +13,11 @@ import { Solve } from '../../models/realm-models/SolveSchema';
 interface TimeDetailsModalProps {
     showModal: boolean;
     onClose: () => void;
+    onDelete: () => void;
     result: Solve;
 }
 
-export const TimeDetailsModal = ({ showModal, onClose, result }: TimeDetailsModalProps) => {
+export const TimeDetailsModal = ({ showModal, onClose, onDelete, result }: TimeDetailsModalProps) => {
     const { timerSettings } = useContext(TimerSettingsContext);
     const getColor = useColors();
 
@@ -48,7 +49,15 @@ export const TimeDetailsModal = ({ showModal, onClose, result }: TimeDetailsModa
                 <Text style={[styles.scramble, { color: getColor('text') }]}>{result.scramble}</Text>
             </View>
             <View style={styles.buttonContainer}>
-                <ModifyResultBlock solve={result} showDelete setSolveResult={() => {}} onDelete={onClose} />
+                <ModifyResultBlock
+                    solve={result}
+                    showDelete
+                    setSolveResult={() => {}}
+                    onDelete={() => {
+                        onDelete();
+                        onClose();
+                    }}
+                />
             </View>
         </CustomModal>
     );
@@ -97,13 +106,3 @@ const styles = StyleSheet.create({
         paddingTop: PADDING.md,
     },
 });
-
-// This modal should show:
-// TIME as a big one - maybe the same size as on timer screen
-// Scramble beneath time,
-// somewhere put a date of a solve?
-// of course add ModifyResultBlock - before time or ?
-// buttons to  cancel and save modifications
-// time modifications should be done only on save? or cancel will just close modal?
-
-// TODO:  onChangeScramble should get a function that will update result in realm database

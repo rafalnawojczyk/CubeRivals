@@ -69,6 +69,7 @@ export const AddTimeModal = ({ showModal, onClose, onAddTime }: AddTimeModalProp
                             resultObj.note = result.note;
                         }
                         onAddTime(resultObj, saveScramble);
+                        setTime('');
                     }}
                     title={trans('add')}
                 />

@@ -59,8 +59,10 @@ export const TimeListItem = ({ result }: { result: Solve }) => {
             <TimeDetailsModal
                 showModal={showTimeDetailsModal}
                 onClose={() => {
-                    setHideTime(true);
                     setShowTimeDetailsModal(false);
+                }}
+                onDelete={() => {
+                    setHideTime(true);
                 }}
                 result={result}
             />
