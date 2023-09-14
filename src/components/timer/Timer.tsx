@@ -35,7 +35,7 @@ export const Timer = () => {
     const getColor = useColors();
     const trans = useTranslation();
     const { timerSettings } = useContext(TimerSettingsContext);
-    const { addSolve, editSolve } = useContext(SolvesContext);
+    const { addSolve, editSolve, currentSession } = useContext(SolvesContext);
 
     const onChangeScramble = (scramble: string) => {
         setScramble(scramble);
@@ -136,7 +136,7 @@ export const Timer = () => {
 
     useEffect(() => {
         resetTimer();
-    }, [timerSettings.session, timerSettings.cube, isWarmup]);
+    }, [timerSettings.cube, isWarmup, currentSession]);
 
     return (
         <>
