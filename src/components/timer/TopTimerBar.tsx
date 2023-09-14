@@ -14,6 +14,7 @@ export const TopTimerBar = () => {
     const [showSessionModal, setShowSessionModal] = useState(false);
     const { timerSettings } = useContext(TimerSettingsContext);
     const { currentSession: session } = useContext(SolvesContext);
+
     const getColor = useColors();
 
     return (

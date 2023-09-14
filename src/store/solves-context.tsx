@@ -1,11 +1,12 @@
-import { createContext, useCallback, useEffect, useContext } from 'react';
+import { createContext, useCallback, useEffect, useContext, useState } from 'react';
 import { CubeType } from '../models/cubes';
-import { useObject, useQuery, useRealm, useUser } from '@realm/react';
+import { useQuery, useRealm, useUser } from '@realm/react';
 import { Solve } from '../models/realm-models/SolveSchema';
 import { Results, BSON } from 'realm';
 import { Session } from '../models/realm-models/SessionSchema';
 import { TimerSettingsContext } from './timer-settings-context';
 import { Result } from '../models/result';
+import { useTranslation } from '../hooks/useTranslation';
 
 interface SolvesDataInterface {
     currentSession: Session;
@@ -34,17 +35,16 @@ export const SolvesContext = createContext<SolvesDataInterface>({
 export const SolvesContextProvider = ({ children }: { children?: React.ReactNode }) => {
     const realm = useRealm();
     const user = useUser();
+    const trans = useTranslation();
     const { timerSettings } = useContext(TimerSettingsContext);
 
     const sessions = useQuery(Session, collection => collection.filtered('cube == $0', timerSettings.cube), [
         timerSettings.cube,
     ]);
 
+    const currentSession = sessions.sorted('used', true)[0];
+
     const solves = useQuery(Solve);
-
-    const sessionIdToQuery = timerSettings.session || sessions[0]._id;
-
-    const currentSession = useObject(Session, new BSON.ObjectID(sessionIdToQuery))!;
 
     const handleEditSession = useCallback(
         (session: Session, sessionEdit: Partial<Session>): void => {
@@ -57,6 +57,9 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
             realm.write(() => {
                 if (sessionEdit.name) {
                     session.name = sessionEdit.name;
+                }
+                if (sessionEdit.used) {
+                    session.used = sessionEdit.used;
                 }
             });
         },
@@ -107,14 +110,18 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
                 const solve = realm.write(() => {
                     currentSession.used = new Date();
                     const solve = realm.create(Solve, result);
-                    // @ts-ignore
-                    currentSession.solves.unshift(solve);
+
+                    if (currentSession.solves.length === 0) {
+                        currentSession.solves.push(solve);
+                    } else {
+                        currentSession.solves.unshift(solve);
+                    }
                     return solve;
                 });
                 return solve;
             }
         },
-        [realm]
+        [realm, currentSession]
     );
 
     const handleAddSession = useCallback(
@@ -125,8 +132,14 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
 
             return item._id;
         },
-        [realm]
+        [realm, user]
     );
+
+    useEffect(() => {
+        if (sessions.length === 0) {
+            handleAddSession(trans('defaultSessionName'), timerSettings.cube);
+        }
+    }, [timerSettings.cube, sessions]);
 
     useEffect(() => {
         realm.subscriptions.update(mutableSubs => {

@@ -24,7 +24,7 @@ const SessionModalItem = ({
     onPickSessionHandler,
 }: {
     session: Session;
-    onPickSessionHandler: (id: BSON.ObjectId) => void;
+    onPickSessionHandler: () => void;
 }) => {
     const [showEditSessionModal, setShowEditSessionModal] = useState(false);
     const { editSession } = useContext(SolvesContext);
@@ -49,7 +49,10 @@ const SessionModalItem = ({
                 />
             )}
             <Pressable
-                onPress={() => onPickSessionHandler(session._id)}
+                onPress={() => {
+                    editSession(session, { used: new Date() });
+                    onPickSessionHandler();
+                }}
                 onLongPress={() => setShowEditSessionModal(true)}
             >
                 <View style={[styles.listItem, { borderBottomColor: getColor('gray100') }]}>
@@ -61,9 +64,8 @@ const SessionModalItem = ({
 };
 
 export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalProps) => {
-    const { timerSettings, updateSettings } = useContext(TimerSettingsContext);
+    const { timerSettings } = useContext(TimerSettingsContext);
     const { sessions, addSession } = useContext(SolvesContext);
-    const { isLoaded } = useContext(UserContext);
     const [showAddSessionModal, setShowAddSessionModal] = useState(false);
     const getColor = useColors();
     const trans = useTranslation();
@@ -75,35 +77,15 @@ export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalPro
             return;
         }
 
-        const newSessionId = addSession(trimmedSessionName, timerSettings.cube);
+        addSession(trimmedSessionName, timerSettings.cube);
 
-        onPickSessionHandler(newSessionId);
+        onPickSessionHandler();
     };
 
-    const onPickSessionHandler = (id: BSON.ObjectId) => {
-        updateSettings({ session: id });
+    const onPickSessionHandler = () => {
         setShowAddSessionModal(false);
         onClose();
     };
-
-    useEffect(() => {
-        if (isLoaded) {
-            // if (sessions.length > 0) {
-            //     // TODO: SHOULD SET CURRENT SESSION TO LAST USED SESSION
-            //     // @ts-ignore
-            //     const lastUsedSession = sessions.reduce((maxObject, currentObject) => {
-            //         return currentObject.used > maxObject.used ? currentObject : maxObject;
-            //     }, sessions[0]);
-            //     updateSettings({ session: lastUsedSession._id });
-            //     return;
-            // }
-
-            if (sessions.length === 0) {
-                const newSessionId = addSession(trans('defaultSessionName'), timerSettings.cube);
-                updateSettings({ session: newSessionId });
-            }
-        }
-    }, [isLoaded, timerSettings.cube]);
 
     return (
         <>
