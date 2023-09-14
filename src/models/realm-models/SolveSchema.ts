@@ -5,6 +5,7 @@ export interface SolveInterface {
     scramble: string;
     note?: string;
     flag?: '+2' | 'dnf' | 'dns';
+    inspection?: number;
 }
 
 export class Solve extends Realm.Object<Solve> {
@@ -14,6 +15,7 @@ export class Solve extends Realm.Object<Solve> {
     scramble!: string;
     note?: string;
     flag?: string;
+    inspection?: number;
 
     static primaryKey = '_id';
 }

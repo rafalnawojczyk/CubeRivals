@@ -13,6 +13,7 @@ import { ScramblePreviewBlock } from './ScramblePreviewBlock';
 import { SolvesContext } from '../../store/solves-context';
 import { Solve } from '../../models/realm-models/SolveSchema';
 import { IconButton } from '../UI/IconButton';
+import { InspectionOverlay } from './InspectionOverlay';
 
 const AWAKE_TAG = 'timer';
 
@@ -25,6 +26,8 @@ export const Timer = () => {
     const [result, setResult] = useState({ ...initialResult });
     const [isWarmup, setIsWarmup] = useState(false);
     const [lastSolve, setLastSolve] = useState<undefined | Solve>();
+    const [showInspection, setShowInspection] = useState(false);
+    const [inspectionTimes, setInspectionTimes] = useState([0, 0]);
     const [scramble, setScramble] = useState('');
     const [elapsedTime, setElapsedTime] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
@@ -48,31 +51,52 @@ export const Timer = () => {
         setResult({ ...initialResult, scramble });
     };
 
+    const finishSolve = (dns = false) => {
+        deactivateKeepAwake(AWAKE_TAG);
+
+        const endTime = Math.floor(performance.now());
+
+        setEndingTime(endTime);
+        cancelAnimationFrame(requestRef.current!);
+        setIsRunning(false);
+
+        setResult(prev => {
+            const inspectionDuration = inspectionTimes[1] - inspectionTimes[0];
+
+            const updatedResult = {
+                ...prev,
+                time: endTime - startingTime,
+                inspection: inspectionDuration,
+            };
+
+            if (dns) {
+                updatedResult.flag = 'dns';
+            }
+
+            if (inspectionDuration - timerSettings.inspectionTime * 1000 >= 0) {
+                updatedResult.flag = '+2';
+            }
+            
+            if (!isWarmup) {
+                const addedSolve = addSolve(updatedResult);
+
+                if (addedSolve) {
+                    setLastSolve(addedSolve);
+                }
+            }
+
+            return updatedResult;
+        });
+    };
+
     const onPressInHandler = () => {
-        // TODO: give some visual indicator that user is pressing button
+        if (timerSettings.inspection) {
+            setInspectionTimes([Math.floor(performance.now()), 0]);
+            setShowInspection(true);
+        }
 
         if (isRunning) {
-            deactivateKeepAwake(AWAKE_TAG);
-            // finish counting
-            const endTime = Math.floor(performance.now());
-
-            setEndingTime(endTime);
-            cancelAnimationFrame(requestRef.current!);
-            setIsRunning(false);
-
-            setResult(prev => {
-                const updatedResult = { ...prev, time: endTime - startingTime };
-
-                if (!isWarmup) {
-                    const addedSolve = addSolve(updatedResult);
-
-                    if (addedSolve) {
-                        setLastSolve(addedSolve);
-                    }
-                }
-
-                return updatedResult;
-            });
+            finishSolve();
         }
     };
 
@@ -94,17 +118,30 @@ export const Timer = () => {
         });
     };
 
+    const startTiming = () => {
+        if (timerSettings.inspection) {
+            setShowInspection(false);
+            setInspectionTimes(prev => [...prev, Math.floor(performance.now())]);
+        }
+
+        activateKeepAwakeAsync(AWAKE_TAG);
+        setShowReadyState(false);
+        setIsRunning(true);
+        const startTime = Math.floor(performance.now());
+        setStartingTime(startTime);
+
+        // @ts-ignore
+        requestRef.current = requestAnimationFrame(updateStopwatch.bind(null, startTime));
+    };
+
     const onPressOutHandler = () => {
         if (showReadyState) {
-            activateKeepAwakeAsync(AWAKE_TAG);
-            setShowReadyState(false);
-            setIsRunning(true);
-            const startTime = Math.floor(performance.now());
-            setStartingTime(startTime);
-
-            // @ts-ignore
-            requestRef.current = requestAnimationFrame(updateStopwatch.bind(null, startTime));
+            startTiming();
         }
+    };
+
+    const inspectionEndHandler = () => {
+        finishSolve(true);
     };
 
     const onClearFlagHandler = () => {
@@ -132,6 +169,7 @@ export const Timer = () => {
         setElapsedTime(0);
         setEndingTime(0);
         setLastSolve(undefined);
+        setInspectionTimes([0, 0]);
     };
 
     useEffect(() => {
@@ -232,6 +270,7 @@ export const Timer = () => {
                     </View>
                 </View>
             </Pressable>
+            {showInspection && <InspectionOverlay onStartTimer={startTiming} onTimeEnd={inspectionEndHandler} />}
         </>
     );
 };

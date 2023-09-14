@@ -1,5 +1,5 @@
 // ********************************** HIGH **********************************
-// User should be able to pick inspection time and should have a switch to use ALL WCA penalties
+// If it is set to hideUI - hide navigation bar as well.
 // 0. There should be feature that saves user preferences/settings inside user? or some other Schema, so it will sync between devices
 // 3. add image of scrambled cube  https://github.com/tdecker91/puzzle-gen
 // 8. Add option to choose "Ready signal", so timer will somehow show user that it is ready to count time. Maybe color some parts of screen/change time color

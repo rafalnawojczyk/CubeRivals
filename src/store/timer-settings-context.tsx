@@ -1,13 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useCallback, useEffect, useState } from 'react';
 import { CubeType } from '../models/cubes';
-import { BSON } from 'realm';
 
 export type InspectionAlertsType = 'none' | 'vibration' | 'sound' | 'both';
 
 export type TimerSettingsType = {
     cube: CubeType;
-    session: BSON.ObjectId | '';
     inspection: boolean;
     hideTime: boolean;
     hideUi: boolean;
@@ -21,7 +19,6 @@ export type TimerSettingsType = {
 
 const DEFAULT_SETTINGS: TimerSettingsType = {
     cube: '333',
-    session: '',
     hideTime: false,
     hideUi: true,
     showWholeMs: false,
@@ -61,7 +58,6 @@ export const TimerSettingsContextProvider = ({ children }: { children?: React.Re
     const resetSettings = useCallback(() => {
         const newSettings: Partial<TimerSettingsType> = { ...DEFAULT_SETTINGS };
 
-        delete newSettings.session;
         delete newSettings.cube;
 
         updateTimerSettings(DEFAULT_SETTINGS);
