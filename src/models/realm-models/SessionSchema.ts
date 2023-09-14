@@ -10,6 +10,7 @@ export class Session extends Realm.Object<Session> {
     used: Date = new Date();
     amount: number = 0;
     average: number = 0;
+    best: number = 0;
 
     static primaryKey = '_id';
 }

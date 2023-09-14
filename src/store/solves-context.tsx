@@ -98,6 +98,18 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
     const handleDeleteSolve = useCallback(
         (solve: Solve): void => {
             realm.write(() => {
+                const newMean = currentSession.amount * currentSession.average - solve.time / currentSession.amount - 1;
+
+                currentSession.average = newMean;
+                currentSession.amount = currentSession.amount - 1;
+
+                if (currentSession.best === solve.time) {
+                    const timesMap = [...currentSession.solves.map(el => el.time)];
+                    const newBest = Math.max(...timesMap);
+
+                    currentSession.best = newBest;
+                }
+
                 realm.delete(solve);
             });
         },
@@ -109,7 +121,20 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
             if (currentSession) {
                 const solve = realm.write(() => {
                     currentSession.used = new Date();
+
                     const solve = realm.create(Solve, result);
+
+                    // Check if that's the new best time
+                    if (currentSession.best > result.time || currentSession.best === 0) {
+                        currentSession.best = result.time;
+                    }
+
+                    // Calc mean of whole session and update
+                    const newMean =
+                        currentSession.amount * currentSession.average + result.time / currentSession.amount + 1;
+
+                    currentSession.average = newMean;
+                    currentSession.amount = currentSession.amount + 1;
 
                     if (currentSession.solves.length === 0) {
                         currentSession.solves.push(solve);
