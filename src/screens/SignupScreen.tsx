@@ -36,7 +36,6 @@ export const SignupScreen = () => {
 
     const handleSignup = async (values: { email: string; password: string }) => {
         const { email, password } = values;
-        console.log(values);
         register({ email, password });
         setCredentials({ email, password });
     };

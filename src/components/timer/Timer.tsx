@@ -84,7 +84,6 @@ export const Timer = () => {
 
         setResult(prev => {
             const inspectionDuration = inspectionTimes[1] - inspectionTimes[0];
-            console.log(inspectionTimes);
 
             const updatedResult = {
                 ...prev,

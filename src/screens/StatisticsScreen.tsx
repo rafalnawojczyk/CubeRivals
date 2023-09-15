@@ -7,8 +7,6 @@ import { SolvesContext } from '../store/solves-context';
 export const StatisticsScreen = () => {
     const { currentSession, sessions } = useContext(SolvesContext);
 
-    console.log(sessions);
-
     return (
         <SafeAreaCard>
             <TopTimerBar />
