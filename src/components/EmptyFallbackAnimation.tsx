@@ -1,18 +1,17 @@
 import LottieView from 'lottie-react-native';
 import { View, Text, StyleSheet } from 'react-native';
 import { useColors } from '../hooks/useColors';
-import { useTranslation } from '../hooks/useTranslation';
 import { FONTS } from '../styles/base';
 
 const LOTTIE_JSON = require('../../assets/animations/empty-animation.json');
 
-export const EmptyFallbackAnimation = () => {
+export const EmptyFallbackAnimation = ({ title, renderItem }: { title: string; renderItem?: React.ReactNode }) => {
     const getColor = useColors();
-    const trans = useTranslation();
 
     return (
         <View style={[styles.container, { backgroundColor: getColor('background') }]}>
-            <Text style={[styles.comingSoonText, { color: getColor('text') }]}>{trans('itsEmptyHere')}</Text>
+            <Text style={[styles.comingSoonText, { color: getColor('text') }]}>{title}</Text>
+            {renderItem && renderItem}
             <LottieView
                 style={{
                     width: '100%',

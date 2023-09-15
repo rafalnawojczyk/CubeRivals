@@ -3,14 +3,16 @@ import { SafeAreaCard } from '../components/UI/SafeAreaCard';
 import { EmptyFallbackAnimation } from '../components/EmptyFallbackAnimation';
 import { TopTimerBar } from '../components/timer/TopTimerBar';
 import { SolvesContext } from '../store/solves-context';
+import { useTranslation } from '../hooks/useTranslation';
 
 export const StatisticsScreen = () => {
-    const { currentSession, sessions } = useContext(SolvesContext);
+    const { currentSession } = useContext(SolvesContext);
+    const trans = useTranslation();
 
     return (
         <SafeAreaCard>
             <TopTimerBar />
-            {currentSession?.solves.length === 0 && <EmptyFallbackAnimation />}
+            {currentSession?.solves.length === 0 && <EmptyFallbackAnimation title={trans('itsEmptyHere')} />}
         </SafeAreaCard>
     );
 };
