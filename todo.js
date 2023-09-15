@@ -12,9 +12,7 @@
 // 17. Add feature that lets user choose inspection alerts audio and vibration patterns
 // 18. In times list when user longPress any of times - it changes their look and adds checkbox to all of them. User can easily check all times and move them to another session/cube
 // 19. Add possibility to add new "cubes" to timer, maybe they should be separated by horizontal line. User can name them as he wants, pick any scramble generator(or no scrambler), choose icon, maybe even choose multiple scrambles together for relays?
-// 20. Add 'star' functionality to solves, so user can star some solves and then filter by starred in timesList.
 // 21. Try to make SolveModifiers icons bigger, so user will not start new solve accidentaly?
-// 22. Maybe add small X on top of inspection, so user can stop inspection without changing scramble?
 // 23. Statistics should be zoomable(zooming in, moving around, changing the Y axis)
 // 24. Changing arrangement of elements in timer, maybe putting scramble down instead of above timer - to not be hidden behind notifications?
 // 25. While adding notes - let user predefine some notes and show them as a clickable buttons. So user can add 'lucky scramble' 'great solve' 'great cross' and stuff like that so he doesnt need to write these things all the time
@@ -26,7 +24,6 @@
 // 6. add "custom" cube option so users can add their own cube without scramble/ Maybe add "custom" and users will place there their sessions?
 // 7. add by default more categories, like bld, multi blind
 // 10. read about connecting bluetooth cubes/stackmat timers to app?
-// 11. ability to use the same scramble as before solve?
 // 12. ability to change amount of moves in scramble?
 // 13. history of PB's - how they changed/fast overtime
 // 16. Sessions should have some icons? User could pick predefined icon

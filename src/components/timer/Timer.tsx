@@ -14,6 +14,7 @@ import { SolvesContext } from '../../store/solves-context';
 import { Solve } from '../../models/realm-models/SolveSchema';
 import { IconButton } from '../UI/IconButton';
 import { InspectionOverlay } from './InspectionOverlay';
+import { generateScramble } from '../../utils/generateScramble';
 
 const AWAKE_TAG = 'timer';
 
@@ -28,7 +29,7 @@ export const Timer = () => {
     const [lastSolve, setLastSolve] = useState<undefined | Solve>();
     const [showInspection, setShowInspection] = useState(false);
     const [inspectionTimes, setInspectionTimes] = useState([0, 0]);
-    const [scramble, setScramble] = useState('');
+    const [scramble, setScramble] = useState<string[]>([]);
     const [elapsedTime, setElapsedTime] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
     const [showReadyState, setShowReadyState] = useState(false);
@@ -40,8 +41,24 @@ export const Timer = () => {
     const { timerSettings } = useContext(TimerSettingsContext);
     const { addSolve, editSolve } = useContext(SolvesContext);
 
-    const onChangeScramble = (scramble: string) => {
-        setScramble(scramble);
+    const onChangeScramble = (scramble: string, newCube: boolean) => {
+        setScramble(prevScramble => {
+            if (newCube) {
+                return [scramble];
+            } else {
+                return [prevScramble[prevScramble.length - 1], scramble];
+            }
+        });
+    };
+
+    const onSetPrevScramble = () => {
+        setScramble(prevScramble => {
+            if (prevScramble.length === 1) {
+                return prevScramble;
+            } else {
+                return [prevScramble[scramble.length - 2]];
+            }
+        });
     };
 
     const onLongPressHandler = () => {
@@ -49,7 +66,7 @@ export const Timer = () => {
             setStartingTime(0);
             setEndingTime(0);
             setShowReadyState(true);
-            setResult({ ...initialResult, scramble });
+            setResult({ ...initialResult, scramble: scramble[scramble.length - 1] });
         }
     };
 
@@ -61,6 +78,9 @@ export const Timer = () => {
         setEndingTime(endTime);
         cancelAnimationFrame(requestRef.current!);
         setIsRunning(false);
+
+        const scr = generateScramble(timerSettings.cube);
+        onChangeScramble(scr[0], false);
 
         setResult(prev => {
             const inspectionDuration = inspectionTimes[1] - inspectionTimes[0];
@@ -129,7 +149,7 @@ export const Timer = () => {
             setStartingTime(0);
             setEndingTime(0);
             setShowReadyState(true);
-            setResult({ ...initialResult, scramble });
+            setResult({ ...initialResult, scramble: scramble[scramble.length - 1] });
             setShowInspection(false);
             setInspectionTimes(prev => [prev[0], Math.floor(performance.now())]);
         }
@@ -218,6 +238,7 @@ export const Timer = () => {
                     toggleWarmup={() => setIsWarmup(prev => !prev)}
                     onChangeScramble={onChangeScramble}
                     scramble={scramble}
+                    onSetPrevScramble={onSetPrevScramble}
                     onAddTime={onManualAddTime}
                 />
             </View>

@@ -11,10 +11,11 @@ import { Solve } from '../../models/realm-models/SolveSchema';
 import { SolvesContext } from '../../store/solves-context';
 import { useTranslation } from '../../hooks/useTranslation';
 
-export type ButtonName = 'remove' | 'dnf' | '+2' | 'note';
+export type ButtonName = 'remove' | 'dnf' | '+2' | 'note' | 'star';
 
 interface ModifyButton {
     name: ButtonName;
+    activeIcon?: keyof typeof MaterialIcons.glyphMap;
     icon: keyof typeof MaterialIcons.glyphMap;
 }
 
@@ -117,6 +118,24 @@ export const ModifyResultBlock = ({
         if (name === 'remove') {
             setShowDeleteModal(true);
         }
+
+        if (name === 'star') {
+            let newStarValue;
+
+            setSolveResult(prev => {
+                newStarValue = prev.star ? !prev.star : true;
+
+                return { ...prev, star: newStarValue };
+            });
+
+            if (solve) {
+                if (newStarValue === undefined) {
+                    newStarValue = solve?.star ? !solve.star : true;
+                }
+
+                editSolve(solve, { star: newStarValue });
+            }
+        }
     };
 
     const buttonsToRender = showDelete ? buttonsMap : buttonsMap.filter(button => button.name !== 'remove');
@@ -147,6 +166,13 @@ export const ModifyResultBlock = ({
                             color={getColor('gray100')}
                         />
                     ))}
+                    <IconButton
+                        key="star"
+                        onPress={() => onButtonPress('star')}
+                        icon={solve?.star ? 'star-rate' : 'star-border'}
+                        size={FONTS.lg}
+                        color={solve?.star ? getColor('primary200') : getColor('gray100')}
+                    />
                 </View>
             </View>
         </>

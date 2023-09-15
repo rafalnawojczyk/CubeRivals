@@ -13,24 +13,26 @@ export const ScramblePreviewBlock = ({
     onChangeScramble,
     scramble,
     showRegenerateScramble = true,
+    onSetPrevScramble,
     isWarmup,
     toggleWarmup,
     onAddTime,
 }: {
-    onChangeScramble: (scramble: string) => void;
-    scramble: string;
+    onChangeScramble: (scramble: string, newCube: boolean) => void;
+    scramble: string[];
     showRegenerateScramble?: boolean;
     onAddTime: (result: Result, saveScramble: boolean) => void;
     isWarmup: boolean;
     toggleWarmup: () => void;
+    onSetPrevScramble: () => void;
 }) => {
     const { timerSettings } = useContext(TimerSettingsContext);
     const [showAddScrambleModal, setShowAddScrambleModal] = useState(false);
     const [showAddTimeModal, setShowAddTimeModal] = useState(false);
     const getColor = useColors();
 
-    const onAddOwnScramble = (scramble: string) => {
-        onChangeScramble(scramble);
+    const onAddOwnScramble = (ownScramble: string) => {
+        onChangeScramble(ownScramble, false);
     };
 
     const onShowAddScramble = () => {
@@ -41,10 +43,9 @@ export const ScramblePreviewBlock = ({
         setShowAddTimeModal(true);
     };
 
-    const onRegenerateScramble = () => {
+    const onRegenerateScramble = (newCube: boolean = false) => {
         const scr = generateScramble(timerSettings.cube);
-
-        onChangeScramble(scr[0]);
+        onChangeScramble(scr[0], newCube);
     };
 
     const onAddTimeHandler = (result: Result, saveScramble: boolean) => {
@@ -53,7 +54,7 @@ export const ScramblePreviewBlock = ({
     };
 
     useEffect(() => {
-        onRegenerateScramble();
+        onRegenerateScramble(true);
     }, [timerSettings.cube]);
 
     return (
@@ -72,8 +73,18 @@ export const ScramblePreviewBlock = ({
 
             <View style={styles.outerContainer}>
                 <View style={styles.container}>
-                    <Text style={[styles.scramble, { color: getColor('gray100') }]}>{scramble}</Text>
+                    <Text style={[styles.scramble, { color: getColor('gray100') }]}>
+                        {scramble[scramble.length - 1]}
+                    </Text>
                     <View style={styles.buttonsContainer}>
+                        {scramble.length > 1 && (
+                            <IconButton
+                                icon="fast-rewind"
+                                size={FONTS.lg}
+                                color={getColor('gray100')}
+                                onPress={onSetPrevScramble}
+                            />
+                        )}
                         <IconButton
                             icon="local-fire-department"
                             size={FONTS.lg}
@@ -97,7 +108,7 @@ export const ScramblePreviewBlock = ({
                                 icon="refresh"
                                 size={FONTS.lg}
                                 color={getColor('gray100')}
-                                onPress={onRegenerateScramble}
+                                onPress={() => onRegenerateScramble(false)}
                             />
                         )}
                     </View>

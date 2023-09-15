@@ -3,4 +3,6 @@ export interface Result {
     scramble: string;
     note?: string;
     flag?: 'dnf' | 'dns' | '+2';
+    inspection?: number;
+    star?: boolean;
 }

@@ -90,6 +90,10 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
                 if (solveEdit.hasOwnProperty('scramble')) {
                     solve.scramble = solveEdit.scramble ? solveEdit.scramble : '';
                 }
+
+                if (solveEdit.hasOwnProperty('star')) {
+                    solve.star = solveEdit.star;
+                }
             });
         },
         [realm]
@@ -128,7 +132,7 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
                     if (currentSession.best > result.time || currentSession.best === 0) {
                         currentSession.best = result.time;
                     }
-
+                    // TODO: here and above - I should take into account how I'm going to count DNF's and +2/ DNS TIMES
                     // Calc mean of whole session and update
                     const newMean =
                         currentSession.amount * currentSession.average + result.time / currentSession.amount + 1;
