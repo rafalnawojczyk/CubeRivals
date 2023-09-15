@@ -1,9 +1,7 @@
 // ********************************** HIGH **********************************
-// If it is set to hideUI - hide navigation bar as well.
 // 0. There should be feature that saves user preferences/settings inside user? or some other Schema, so it will sync between devices
 // 3. add image of scrambled cube  https://github.com/tdecker91/puzzle-gen
 // 8. Add option to choose "Ready signal", so timer will somehow show user that it is ready to count time. Maybe color some parts of screen/change time color
-// 9. Each sessions should store best time so app will not need to cycle through all times
 // 10. Timer should have some nice animation in background when user breaks his best record in this session. It should count in all sessions starting from X time(not for first X times, because that is pointless). It should also show "Gratulacje, Pobiłeś swój rekord o X:xx!"
 // 11. Timer should also point if there is "Nowa najlepsza średnia" with current solve. If yes - on time somehow pop average that is best rn and show some info above?
 // 12. set finished when there is any gyro - Add options to timer settings, if on - use gyro.
@@ -11,6 +9,15 @@
 // 14. Add search bar in times list to search by comments.
 // 15. Add possibility to user to add his own cubes, so he can assign each solve to a certain cube(like X-man tornado and so on) so it will be easier to filter by cube also
 // 16. Try to implement better scramble generator: Scramble: https://github.com/cubing/create-cubing-app / https://js.cubing.net/cubing/
+// 17. Add feature that lets user choose inspection alerts audio and vibration patterns
+// 18. In times list when user longPress any of times - it changes their look and adds checkbox to all of them. User can easily check all times and move them to another session/cube
+// 19. Add possibility to add new "cubes" to timer, maybe they should be separated by horizontal line. User can name them as he wants, pick any scramble generator(or no scrambler), choose icon, maybe even choose multiple scrambles together for relays?
+// 20. Add 'star' functionality to solves, so user can star some solves and then filter by starred in timesList.
+// 21. Try to make SolveModifiers icons bigger, so user will not start new solve accidentaly?
+// 22. Maybe add small X on top of inspection, so user can stop inspection without changing scramble?
+// 23. Statistics should be zoomable(zooming in, moving around, changing the Y axis)
+// 24. Changing arrangement of elements in timer, maybe putting scramble down instead of above timer - to not be hidden behind notifications?
+// 25. While adding notes - let user predefine some notes and show them as a clickable buttons. So user can add 'lucky scramble' 'great solve' 'great cross' and stuff like that so he doesnt need to write these things all the time
 
 // ********************************** MODERATE **********************************
 // 2. Set ready when front light sensor is covered.
@@ -25,6 +32,7 @@
 // 16. Sessions should have some icons? User could pick predefined icon
 // 17. If users adds time, and click "do not use this scramble" - maybe let him paste his own scramble?
 // 18. When clicking on rolling averages - user can choose if he wants to count best/worse 5% of solves in averages, all ao5/ao12 would have checkbox if user wants to see them, place where user can add his own numbers?
+// If it is set to hideUI - hide navigation bar as well.
 
 // ********************************** LOW **********************************
 // 2. Timer numbers turns to yellow/red when you exceeds your avg5/avg12 time?

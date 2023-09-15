@@ -126,5 +126,6 @@ const styles = StyleSheet.create({
     scramble: {
         fontSize: FONTS.md,
         textAlign: 'center',
+        marginBottom: PADDING.sm,
     },
 });

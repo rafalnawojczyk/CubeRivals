@@ -6,9 +6,10 @@ import { useColors } from '../../hooks/useColors';
 import { formatTime } from '../../utils/formatTime';
 import { TimerSettingsContext } from '../../store/timer-settings-context';
 import { MaterialIcons } from '@expo/vector-icons';
-import { ModifyResultBlock, buttonsMap } from '../timer/ModifyResultBlock';
+import { ModifyResultBlock } from '../timer/ModifyResultBlock';
 import { formatTimestamp } from '../../utils/formatTimestamp';
 import { Solve } from '../../models/realm-models/SolveSchema';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface TimeDetailsModalProps {
     showModal: boolean;
@@ -20,6 +21,7 @@ interface TimeDetailsModalProps {
 export const TimeDetailsModal = ({ showModal, onClose, onDelete, result }: TimeDetailsModalProps) => {
     const { timerSettings } = useContext(TimerSettingsContext);
     const getColor = useColors();
+    const trans = useTranslation();
 
     const date = formatTimestamp(result.createdAt);
 
@@ -48,6 +50,13 @@ export const TimeDetailsModal = ({ showModal, onClose, onDelete, result }: TimeD
             <View style={[styles.scrambleContainer, { borderBlockColor: getColor('gray100') }]}>
                 <Text style={[styles.scramble, { color: getColor('text') }]}>{result.scramble}</Text>
             </View>
+            {result.inspection && (
+                <View style={[styles.scrambleContainer, { borderBlockColor: getColor('gray100') }]}>
+                    <Text style={[styles.inspection, { color: getColor('text') }]}>{`${trans(
+                        'inspectionTime'
+                    )}: ${formatTime(result.inspection)}`}</Text>
+                </View>
+            )}
             <View style={styles.buttonContainer}>
                 <ModifyResultBlock
                     solve={result}
@@ -98,6 +107,11 @@ const styles = StyleSheet.create({
     },
     scramble: {
         alignSelf: 'center',
+    },
+    inspection: {
+        alignSelf: 'center',
+        fontSize: FONTS.md,
+        fontWeight: 'bold',
     },
     buttonContainer: {
         flexDirection: 'row',

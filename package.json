@@ -36,7 +36,9 @@
     "realm": "^12.1.0",
     "scrambo": "^0.3.0",
     "yup": "^1.2.0",
-    "expo-keep-awake": "~12.3.0"
+    "expo-keep-awake": "~12.3.0",
+    "expo-av": "~13.4.1",
+    "expo-haptics": "~12.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

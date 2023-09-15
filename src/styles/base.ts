@@ -21,4 +21,5 @@ export const FONTS = {
     xl: 36,
     '1xl': 52,
     '2xl': 64,
+    '3xl': 72,
 };

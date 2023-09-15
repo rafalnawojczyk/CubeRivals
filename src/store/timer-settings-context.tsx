@@ -14,6 +14,8 @@ export type TimerSettingsType = {
     stickerColors: string[];
     inspectionTime: number;
     inspectionAlerts: InspectionAlertsType;
+    inspectionAudioNumber: number;
+    inspectionVibrationPattern: 'Error' | 'Success' | 'Warning';
     holdDelay: number;
 };
 
@@ -27,6 +29,8 @@ const DEFAULT_SETTINGS: TimerSettingsType = {
     inspection: false,
     inspectionTime: 15,
     inspectionAlerts: 'none',
+    inspectionVibrationPattern: 'Warning',
+    inspectionAudioNumber: 0,
     holdDelay: 500,
 };
 

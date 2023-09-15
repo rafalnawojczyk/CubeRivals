@@ -38,17 +38,19 @@ export const Timer = () => {
     const getColor = useColors();
     const trans = useTranslation();
     const { timerSettings } = useContext(TimerSettingsContext);
-    const { addSolve, editSolve, currentSession } = useContext(SolvesContext);
+    const { addSolve, editSolve } = useContext(SolvesContext);
 
     const onChangeScramble = (scramble: string) => {
         setScramble(scramble);
     };
 
     const onLongPressHandler = () => {
-        setStartingTime(0);
-        setEndingTime(0);
-        setShowReadyState(true);
-        setResult({ ...initialResult, scramble });
+        if (!timerSettings.inspection) {
+            setStartingTime(0);
+            setEndingTime(0);
+            setShowReadyState(true);
+            setResult({ ...initialResult, scramble });
+        }
     };
 
     const finishSolve = (dns = false) => {
@@ -62,6 +64,7 @@ export const Timer = () => {
 
         setResult(prev => {
             const inspectionDuration = inspectionTimes[1] - inspectionTimes[0];
+            console.log(inspectionTimes);
 
             const updatedResult = {
                 ...prev,
@@ -71,12 +74,15 @@ export const Timer = () => {
 
             if (dns) {
                 updatedResult.flag = 'dns';
+                updatedResult.time = 0;
+                updatedResult.inspection = Math.floor(performance.now()) - inspectionTimes[0];
+                updatedResult.scramble = result.scramble;
             }
 
             if (inspectionDuration - timerSettings.inspectionTime * 1000 >= 0) {
                 updatedResult.flag = '+2';
             }
-            
+
             if (!isWarmup) {
                 const addedSolve = addSolve(updatedResult);
 
@@ -90,7 +96,7 @@ export const Timer = () => {
     };
 
     const onPressInHandler = () => {
-        if (timerSettings.inspection) {
+        if (timerSettings.inspection && !isRunning) {
             setInspectionTimes([Math.floor(performance.now()), 0]);
             setShowInspection(true);
         }
@@ -120,8 +126,12 @@ export const Timer = () => {
 
     const startTiming = () => {
         if (timerSettings.inspection) {
+            setStartingTime(0);
+            setEndingTime(0);
+            setShowReadyState(true);
+            setResult({ ...initialResult, scramble });
             setShowInspection(false);
-            setInspectionTimes(prev => [...prev, Math.floor(performance.now())]);
+            setInspectionTimes(prev => [prev[0], Math.floor(performance.now())]);
         }
 
         activateKeepAwakeAsync(AWAKE_TAG);
@@ -141,6 +151,7 @@ export const Timer = () => {
     };
 
     const inspectionEndHandler = () => {
+        setShowInspection(false);
         finishSolve(true);
     };
 
@@ -171,13 +182,24 @@ export const Timer = () => {
         setLastSolve(undefined);
         setInspectionTimes([0, 0]);
     };
+    const cancelInspectionHandler = () => {
+        setShowInspection(false);
+        setInspectionTimes([0, 0]);
+    };
 
     useEffect(() => {
         resetTimer();
-    }, [timerSettings.cube, isWarmup, currentSession]);
+    }, [timerSettings.cube, isWarmup]);
 
     return (
         <>
+            {showInspection && (
+                <InspectionOverlay
+                    onCancelInspection={cancelInspectionHandler}
+                    onStartTimer={startTiming}
+                    onTimeEnd={inspectionEndHandler}
+                />
+            )}
             {timerSettings.hideUi && isRunning && (
                 <Pressable
                     style={[styles.overlay, { backgroundColor: getColor('background') }]}
@@ -233,13 +255,15 @@ export const Timer = () => {
                                             <Text style={[styles.flagText, { color: getColor('error') }]}>
                                                 {result.flag.toUpperCase()}
                                             </Text>
-                                            <IconButton
-                                                icon="refresh"
-                                                size={FONTS.lg}
-                                                color={getColor('text')}
-                                                onPress={onClearFlagHandler}
-                                                style={styles.revertFlagIcon}
-                                            />
+                                            {result.flag !== 'dns' && (
+                                                <IconButton
+                                                    icon="refresh"
+                                                    size={FONTS.lg}
+                                                    color={getColor('text')}
+                                                    onPress={onClearFlagHandler}
+                                                    style={styles.revertFlagIcon}
+                                                />
+                                            )}
                                         </>
                                     )}
                                 </View>
@@ -270,7 +294,6 @@ export const Timer = () => {
                     </View>
                 </View>
             </Pressable>
-            {showInspection && <InspectionOverlay onStartTimer={startTiming} onTimeEnd={inspectionEndHandler} />}
         </>
     );
 };
