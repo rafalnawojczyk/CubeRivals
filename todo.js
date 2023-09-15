@@ -14,7 +14,6 @@
 // 19. Add possibility to add new "cubes" to timer, maybe they should be separated by horizontal line. User can name them as he wants, pick any scramble generator(or no scrambler), choose icon, maybe even choose multiple scrambles together for relays?
 // 21. Try to make SolveModifiers icons bigger, so user will not start new solve accidentaly?
 // 23. Statistics should be zoomable(zooming in, moving around, changing the Y axis)
-// 24. Changing arrangement of elements in timer, maybe putting scramble down instead of above timer - to not be hidden behind notifications?
 // 25. While adding notes - let user predefine some notes and show them as a clickable buttons. So user can add 'lucky scramble' 'great solve' 'great cross' and stuff like that so he doesnt need to write these things all the time
 
 // ********************************** MODERATE **********************************

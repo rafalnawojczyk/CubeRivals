@@ -231,16 +231,18 @@ export const Timer = () => {
                     )}
                 </Pressable>
             )}
-            <View>
-                <ScramblePreviewBlock
-                    isWarmup={isWarmup}
-                    toggleWarmup={() => setIsWarmup(prev => !prev)}
-                    onChangeScramble={onChangeScramble}
-                    scramble={scramble}
-                    onSetPrevScramble={onSetPrevScramble}
-                    onAddTime={onManualAddTime}
-                />
-            </View>
+            {timerSettings.scrambleBlockPlacement === 'top' && (
+                <View>
+                    <ScramblePreviewBlock
+                        isWarmup={isWarmup}
+                        toggleWarmup={() => setIsWarmup(prev => !prev)}
+                        onChangeScramble={onChangeScramble}
+                        scramble={scramble}
+                        onSetPrevScramble={onSetPrevScramble}
+                        onAddTime={onManualAddTime}
+                    />
+                </View>
+            )}
             <Pressable
                 onPressIn={onPressInHandler}
                 onLongPress={onLongPressHandler}
@@ -314,6 +316,18 @@ export const Timer = () => {
                     </View>
                 </View>
             </Pressable>
+            {timerSettings.scrambleBlockPlacement === 'bottom' && (
+                <View style={{ marginBottom: PADDING.md }}>
+                    <ScramblePreviewBlock
+                        isWarmup={isWarmup}
+                        toggleWarmup={() => setIsWarmup(prev => !prev)}
+                        onChangeScramble={onChangeScramble}
+                        scramble={scramble}
+                        onSetPrevScramble={onSetPrevScramble}
+                        onAddTime={onManualAddTime}
+                    />
+                </View>
+            )}
         </>
     );
 };

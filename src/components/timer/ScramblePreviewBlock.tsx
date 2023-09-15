@@ -72,7 +72,12 @@ export const ScramblePreviewBlock = ({
             />
 
             <View style={styles.outerContainer}>
-                <View style={styles.container}>
+                <View
+                    style={[
+                        styles.container,
+                        { flexDirection: timerSettings.scrambleBlockPlacement === 'top' ? 'column' : 'column-reverse' },
+                    ]}
+                >
                     <Text style={[styles.scramble, { color: getColor('gray100') }]}>
                         {scramble[scramble.length - 1]}
                     </Text>

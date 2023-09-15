@@ -11,6 +11,7 @@ import { InspectionSettingsModal } from './InspectionSettingsModal';
 import { FONTS, PADDING } from '../../styles/base';
 import { NumberPickerModal } from '../NumberPickerModal';
 import { RemoveConfirmModal } from '../timer/modals/RemoveConfirmModal';
+import { ListSelectModal } from '../ListSelectModal';
 
 interface TimerSettingsModalProps {
     showModal: boolean;
@@ -21,6 +22,7 @@ export const TimerSettingsModal = ({ showModal, onClose }: TimerSettingsModalPro
     const { timerSettings, updateSettings, resetSettings } = useContext(TimerSettingsContext);
     const [showResetConfirmModal, setShowResetConfirmModal] = useState(false);
     const [showHoldDelayModal, setShowHoldDelayModal] = useState(false);
+    const [showScramblePlacementModal, setShowScramblePlacementModal] = useState(false);
     const [showInspectionModal, setShowInspectionModal] = useState(false);
     const trans = useTranslation();
     const getColor = useColors();
@@ -89,7 +91,7 @@ export const TimerSettingsModal = ({ showModal, onClose }: TimerSettingsModalPro
                             )}
                         </SettingItem>
                     ))}
-                    <SettingItem showBorder={false}>
+                    <SettingItem>
                         <View style={styles.settingContainer}>
                             <Text style={{ color: getColor('text'), fontSize: FONTS.md }}>
                                 {trans('timerSettings.holdDelay')}
@@ -98,6 +100,21 @@ export const TimerSettingsModal = ({ showModal, onClose }: TimerSettingsModalPro
                                 textStyle={{ fontSize: FONTS.md }}
                                 title={`${timerSettings.holdDelay}ms`}
                                 onPress={() => setShowHoldDelayModal(true)}
+                                color={getColor('primary200')}
+                            />
+                        </View>
+                    </SettingItem>
+                    <SettingItem showBorder={false}>
+                        <View style={styles.settingContainer}>
+                            <Text style={{ color: getColor('text'), fontSize: FONTS.md }}>
+                                {trans('timerSettings.scrambleBlockPlacement')}
+                            </Text>
+                            <LinkButton
+                                textStyle={{ fontSize: FONTS.md }}
+                                title={trans(
+                                    `timerSettings.scrambleBlockPlacement-${timerSettings.scrambleBlockPlacement}`
+                                )}
+                                onPress={() => setShowScramblePlacementModal(true)}
                                 color={getColor('primary200')}
                             />
                         </View>
@@ -120,6 +137,20 @@ export const TimerSettingsModal = ({ showModal, onClose }: TimerSettingsModalPro
                 currentNumber={timerSettings.holdDelay}
                 modalTitle={trans('timerSettings.holdDelayModalTitle')}
                 onSelect={(newTime: number) => updateSettings({ holdDelay: newTime })}
+            />
+            <ListSelectModal
+                showModal={showScramblePlacementModal}
+                onClose={() => setShowScramblePlacementModal(false)}
+                optionsList={['top', 'bottom']}
+                listNameRender={(item: string) =>
+                    trans(`timerSettings.scrambleBlockPlacement-${item as 'top' | 'bottom'}`)
+                }
+                currentItem={timerSettings.scrambleBlockPlacement}
+                modalTitle={trans('timerSettings.scramblePlacementModal')}
+                onSelect={(item: string) => {
+                    updateSettings({ scrambleBlockPlacement: item as 'top' | 'bottom' });
+                    setShowScramblePlacementModal(false);
+                }}
             />
             <RemoveConfirmModal
                 size="lg"

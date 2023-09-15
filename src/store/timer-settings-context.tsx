@@ -16,6 +16,7 @@ export type TimerSettingsType = {
     inspectionAlerts: InspectionAlertsType;
     inspectionAudioNumber: number;
     inspectionVibrationPattern: 'Error' | 'Success' | 'Warning';
+    scrambleBlockPlacement: 'top' | 'bottom';
     holdDelay: number;
 };
 
@@ -31,6 +32,7 @@ const DEFAULT_SETTINGS: TimerSettingsType = {
     inspectionAlerts: 'none',
     inspectionVibrationPattern: 'Warning',
     inspectionAudioNumber: 0,
+    scrambleBlockPlacement: 'top',
     holdDelay: 500,
 };
 

@@ -79,5 +79,9 @@
     "timerSettings.inspectionTimeAlert-both": "Sound and vibration",
     "timerSettings.inspectionTimeAlert-vibration": "Vibration",
     "timerSettings.holdDelay": "Activation hold delay",
-    "timerSettings.holdDelayModalTitle": "Set new hold delay (in ms)"
+    "timerSettings.holdDelayModalTitle": "Set new hold delay (in ms)",
+    "timerSettings.scrambleBlockPlacement": "Scramble placement",
+    "timerSettings.scrambleBlockPlacement-top": "Above timer",
+    "timerSettings.scrambleBlockPlacement-bottom": "Below timer",
+    "timerSettings.scramblePlacementModal": "Pick scramble placement"
 }
