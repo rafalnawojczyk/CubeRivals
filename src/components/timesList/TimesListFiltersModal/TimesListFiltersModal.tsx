@@ -26,7 +26,7 @@ export const TimesListFiltersModal = ({
                 <CustomModal.Button
                     type="error"
                     onPress={() => {
-                        setFilters({});
+                        setFilters({ filter: 'createdAt', order: 'asc' });
                         onClose();
                     }}
                     title={trans('reset')}

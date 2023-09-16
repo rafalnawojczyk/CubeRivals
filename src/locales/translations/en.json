@@ -95,5 +95,9 @@
     "timesList.pickSorting": "Sorting order",
     "timesList.searchPlaceholder": "Search comments",
     "timesList.noSolvesForFilter": "No solves for given filters.",
-    "timesList.resetFilters": "Reset filters"
+    "timesList.resetFilters": "Reset filters",
+    "timesList.deselectAll": "Deselect all",
+    "timesList.selectAll": "Select all",
+    "timesList.selected": "Selected",
+    "timesList.moveSessionTo": "Move selected to session..."
 }

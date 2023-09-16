@@ -1,14 +1,16 @@
-import Realm from 'realm';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { TimeListItem } from './TimeListItem';
 import { Solve } from '../../models/realm-models/SolveSchema';
 import { EmptyFallbackAnimation } from '../EmptyFallbackAnimation';
 import { DIMENSIONS, PADDING } from '../../styles/base';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { TopTimesListBar } from './TopTimesListBar';
 import { useTranslation } from '../../hooks/useTranslation';
 import { LinkButton } from '../UI/LinkButton';
 import { TimesListFiltersList } from './TimesListFiltersList';
+import { MoveElementsBar } from './MoveElementsBar';
+import { Session } from '../../models/realm-models/SessionSchema';
+import { SolvesContext } from '../../store/solves-context';
 
 interface TimesListProps {
     data: Realm.List<Solve> | undefined;
@@ -84,25 +86,16 @@ const filterAndSortData = (filters: TimesListFilterObj, search: string, prevData
 export const TimesList = ({ data }: TimesListProps) => {
     const [selectedElements, setSelectedElements] = useState<Solve[]>([]);
     const [search, setSearch] = useState('');
-    const [filters, setFilters] = useState<TimesListFilterObj>({});
+    const [filters, setFilters] = useState<TimesListFilterObj>({ filter: 'createdAt', order: 'asc' });
     const [dataToShow, setDataToShow] = useState<Solve[]>(data ? [...data] : []);
+    const { currentSession, moveSolves } = useContext(SolvesContext);
     const trans = useTranslation();
 
     useEffect(() => {
         setDataToShow(filterAndSortData(filters, search, data));
-    }, [search, filters.starred, filters.filter, filters.order]);
-
-    // TODO: each item should be pressable with onLongPress. When its longPressed - it is selected and UI changes to "choose element" -
-    // probably show checkbox in unused corner of item, or change whole UI - color clicked elements.
-    // if user clicks element that is chosen already - it removes from chosen arr. If chosen arr.length === 0 - back to normal state (no checkbox)
-    // when in this state, user can move all selected solves to any other session/cube
-    // when moving - delete solves in current session, and add them to new session one after another(to let app recalc best/avg and so on)
-
-    // if there are selected elements - show new bar below topBar which will tell user how many elements are selected and button to deselect, below that show "Move solves to session"
+    }, [search, filters.starred, filters.filter, filters.order, data]);
 
     // Think how to address problem with picking solves and then changing filters. Maybe if filter/session changes - reset all of the selected items?
-
-    // TODO: show flat list horizontally with pressable items that are filters. So if user picks some filters - he can press these tiles and these filters will be removed
 
     const selectItemHandler = (item: Solve) => {
         setSelectedElements(prevSelectedElements => {
@@ -122,6 +115,12 @@ export const TimesList = ({ data }: TimesListProps) => {
         });
     };
 
+    const moveTimesHandler = (session: Session) => {
+        moveSolves(currentSession, session, selectedElements);
+        setSelectedElements([]);
+        setDataToShow([]);
+    };
+
     return (
         <>
             {(!data || data.length === 0) && <EmptyFallbackAnimation title={trans('itsEmptyHere')} />}
@@ -130,6 +129,15 @@ export const TimesList = ({ data }: TimesListProps) => {
                     <TopTimesListBar filters={filters} search={search} setSearch={setSearch} setFilters={setFilters} />
                     {(!!filters.filter || filters.starred) && (
                         <TimesListFiltersList setFilters={setFilters} filters={filters} />
+                    )}
+                    {selectedElements.length > 0 && (
+                        <MoveElementsBar
+                            selectedAll={selectedElements.length === dataToShow.length}
+                            amount={selectedElements.length}
+                            onDeselectAll={() => setSelectedElements([])}
+                            onSelectAll={() => setSelectedElements(dataToShow)}
+                            onMoveElements={moveTimesHandler}
+                        />
                     )}
                     {dataToShow.length === 0 && (
                         <EmptyFallbackAnimation

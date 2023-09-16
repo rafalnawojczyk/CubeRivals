@@ -93,5 +93,9 @@
     "timesList.pickSorting": "Wybierz sortowanie",
     "timesList.searchPlaceholder": "Przeszukaj komentarze",
     "timesList.noSolvesForFilter": "Brak ułożeń dla podanych filtrów.",
-    "timesList.resetFilters": "Reset filters"
+    "timesList.resetFilters": "Reset filters",
+    "timesList.deselectAll": "Odznacz wszystkie",
+    "timesList.selectAll": "Zaznacz wszystkie",
+    "timesList.selected": "Wybrane",
+    "timesList.moveSessionTo": "Przenieś wybrane do sesji..."
 }
