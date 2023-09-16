@@ -27,6 +27,7 @@
 // 17. If users adds time, and click "do not use this scramble" - maybe let him paste his own scramble?
 // 18. When clicking on rolling averages - user can choose if he wants to count best/worse 5% of solves in averages, all ao5/ao12 would have checkbox if user wants to see them, place where user can add his own numbers?
 // If it is set to hideUI - hide navigation bar as well.
+// In timesList filters - add possibility to choose time-frame like last day/last week/last month
 
 // ********************************** LOW **********************************
 // 2. Timer numbers turns to yellow/red when you exceeds your avg5/avg12 time?

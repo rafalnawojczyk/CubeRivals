@@ -1,5 +1,5 @@
 import { Dispatch, useRef, useState } from 'react';
-import { View, TextInput, StyleSheet, Text } from 'react-native';
+import { View, TextInput, StyleSheet } from 'react-native';
 import { FONTS, PADDING } from '../../styles/base';
 import { useColors } from '../../hooks/useColors';
 import { IconButton } from '../UI/IconButton';
