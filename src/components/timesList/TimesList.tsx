@@ -95,7 +95,9 @@ export const TimesList = ({ data }: TimesListProps) => {
         setDataToShow(filterAndSortData(filters, search, data));
     }, [search, filters.starred, filters.filter, filters.order, data]);
 
-    // Think how to address problem with picking solves and then changing filters. Maybe if filter/session changes - reset all of the selected items?
+    useEffect(() => {
+        setSelectedElements([]);
+    }, [filters.filter, filters.starred]);
 
     const selectItemHandler = (item: Solve) => {
         setSelectedElements(prevSelectedElements => {
