@@ -27,11 +27,16 @@ export const MoveElementsBar = ({
     const { sessions, currentSession } = useContext(SolvesContext);
     const trans = useTranslation();
     const [sessionsToMove, setSessionsToMove] = useState(
-        sessions.map((el: Session) => ({
-            value: el._id,
-            label: el.name,
-            disabled: el._id.toString() === currentSession._id.toString(),
-        }))
+        sessions
+            .map((el: Session) =>
+                el._id.toString() === currentSession._id.toString()
+                    ? {
+                          value: el._id,
+                          label: el.name,
+                      }
+                    : undefined
+            )
+            .filter((el: any) => !!el)
     );
     const getColor = useColors();
 
