@@ -28,6 +28,9 @@
     "useThisScramble": "Use this scramble",
     "itsEmptyHere": "It's empty here. Start solving!",
     "inspectionTime": "Inspection time",
+    "date": "Date",
+    "ascending": "Ascending",
+    "descending": "Descending",
 
     "auth.welcome": "Hi, Welcome Back!",
     "auth.email": "Email",
@@ -83,5 +86,14 @@
     "timerSettings.scrambleBlockPlacement": "Scramble placement",
     "timerSettings.scrambleBlockPlacement-top": "Above timer",
     "timerSettings.scrambleBlockPlacement-bottom": "Below timer",
-    "timerSettings.scramblePlacementModal": "Pick scramble placement"
+    "timerSettings.scramblePlacementModal": "Pick scramble placement",
+
+    "timesList.filterModal": "Filter times list",
+    "timesList.addFilter": "Add filter",
+    "timesList.starredOnly": "Starred only",
+    "timesList.pickFilter": "Pick filter field",
+    "timesList.pickSorting": "Sorting order",
+    "timesList.searchPlaceholder": "Search comments",
+    "timesList.noSolvesForFilter": "No solves for given filters.",
+    "timesList.resetFilters": "Reset filters"
 }

@@ -5,8 +5,6 @@
 // 10. Timer should have some nice animation in background when user breaks his best record in this session. It should count in all sessions starting from X time(not for first X times, because that is pointless). It should also show "Gratulacje, Pobiłeś swój rekord o X:xx!"
 // 11. Timer should also point if there is "Nowa najlepsza średnia" with current solve. If yes - on time somehow pop average that is best rn and show some info above?
 // 12. set finished when there is any gyro - Add options to timer settings, if on - use gyro.
-// 13. Add sorting/filtering in times list, so user can sort it by date/time/show solves from specific date only, filter by flags?, sort by inspection times length? sort by ratio inspectionTime to solveTime?
-// 14. Add search bar in times list to search by comments.
 // 15. Add possibility to user to add his own cubes, so he can assign each solve to a certain cube(like X-man tornado and so on) so it will be easier to filter by cube also
 // 16. Try to implement better scramble generator: Scramble: https://github.com/cubing/create-cubing-app / https://js.cubing.net/cubing/
 // 17. Add feature that lets user choose inspection alerts audio and vibration patterns
@@ -49,3 +47,4 @@
 // 16. Add special tab where users will see scrambles that will produce nice looking patterns on cubes. Especially big cubes are interesting
 // 17. Add easy scramble submission?
 // 18. Add trainers for ROUX
+// 19. In Solves list - when user selects times - let him mass edit them?

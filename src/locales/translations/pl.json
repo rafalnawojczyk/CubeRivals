@@ -26,6 +26,9 @@
     "addTime": "Dodaj czas",
     "useThisScramble": "Zapisz ten scramble",
     "itsEmptyHere": "Ale tutaj pusto. Zacznij układać!",
+    "date": "Data",
+    "ascending": "Rosnąco",
+    "descending": "Malejąco",
 
     "auth.welcome": "Witaj ponownie!",
     "auth.email": "Email",
@@ -81,5 +84,14 @@
     "timerSettings.scrambleBlockPlacement": "Położenie scrambla",
     "timerSettings.scrambleBlockPlacement-top": "Nad timerem",
     "timerSettings.scrambleBlockPlacement-bottom": "Pod timerem",
-    "timerSettings.scramblePlacementModal": "Wybierz pozycję scrambla"
+    "timerSettings.scramblePlacementModal": "Wybierz pozycję scrambla",
+
+    "timesList.filterModal": "Filtry listy czasów",
+    "timesList.addFilter": "Dodaj filtr",
+    "timesList.starredOnly": "Tylko z gwiazdką",
+    "timesList.pickFilter": "Wybierz filtr",
+    "timesList.pickSorting": "Wybierz sortowanie",
+    "timesList.searchPlaceholder": "Przeszukaj komentarze",
+    "timesList.noSolvesForFilter": "Brak ułożeń dla podanych filtrów.",
+    "timesList.resetFilters": "Reset filters"
 }

@@ -2,11 +2,12 @@ import { Pressable, View, Text, StyleSheet } from 'react-native';
 import { formatTime } from '../../utils/formatTime';
 import { DIMENSIONS, FONTS, PADDING } from '../../styles/base';
 import { useColors } from '../../hooks/useColors';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { formatDateToDDMM } from '../../utils/formatDateToDDMM';
 import { MaterialIcons } from '@expo/vector-icons';
 import { TimeDetailsModal } from './TimeDetailsModal';
 import { Solve } from '../../models/realm-models/SolveSchema';
+import { TimerSettingsContext } from '../../store/timer-settings-context';
 
 const showTimeResult = (result: Solve) => {
     if (result.flag === 'dnf') {
@@ -23,8 +24,17 @@ const showTimeResult = (result: Solve) => {
     return formatTime(result.time);
 };
 
-export const TimeListItem = ({ result }: { result: Solve }) => {
+export const TimeListItem = ({
+    result,
+    onSelectItem,
+    isSelected,
+}: {
+    result: Solve;
+    isSelected: boolean;
+    onSelectItem: (item: Solve) => void;
+}) => {
     const [showTimeDetailsModal, setShowTimeDetailsModal] = useState(false);
+    const { timerSettings } = useContext(TimerSettingsContext);
     const [hideTime, setHideTime] = useState(false);
     const getColor = useColors();
 
@@ -34,8 +44,17 @@ export const TimeListItem = ({ result }: { result: Solve }) => {
 
     return (
         <>
-            <Pressable onPress={() => setShowTimeDetailsModal(true)}>
-                <View style={[styles.container, { backgroundColor: getColor('primary200') }]}>
+            <Pressable
+                onPress={() => setShowTimeDetailsModal(true)}
+                delayLongPress={timerSettings.holdDelay}
+                onLongPress={() => onSelectItem(result)}
+            >
+                <View
+                    style={[
+                        styles.container,
+                        { backgroundColor: getColor('primary200'), borderColor: isSelected ? 'red' : 'transparent' },
+                    ]}
+                >
                     <View style={styles.topBar}>
                         <Text style={[styles.date, { color: getColor('gray100') }]}>
                             {formatDateToDDMM(result.createdAt)}
@@ -48,11 +67,18 @@ export const TimeListItem = ({ result }: { result: Solve }) => {
                     <Text numberOfLines={1} style={[styles.time, { color: getColor('text') }]}>
                         {showTimeResult(result)}
                     </Text>
-                    {result.note ? (
-                        <MaterialIcons name="chat" color={getColor('gray100')} size={FONTS.sm} />
-                    ) : (
-                        <Text></Text>
-                    )}
+                    <View style={styles.bottomIconsContainer}>
+                        {result.note ? (
+                            <MaterialIcons name="chat" color={getColor('gray100')} size={FONTS.sm} />
+                        ) : (
+                            <Text></Text>
+                        )}
+                        {result.star ? (
+                            <MaterialIcons name="star" color={getColor('gray100')} size={FONTS.sm} />
+                        ) : (
+                            <Text></Text>
+                        )}
+                    </View>
                 </View>
             </Pressable>
 
@@ -81,6 +107,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingVertical: 4,
         paddingHorizontal: 8,
+        borderWidth: 2,
     },
     topBar: {
         flexDirection: 'row',
@@ -98,5 +125,10 @@ const styles = StyleSheet.create({
     penalty: {
         fontSize: FONTS.sm,
         fontWeight: 'bold',
+    },
+    bottomIconsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
     },
 });
