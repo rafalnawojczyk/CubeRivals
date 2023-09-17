@@ -91,6 +91,8 @@
     "timerSettings.scrambleBlockPlacement-bottom": "Pod timerem",
     "timerSettings.scramblePlacementModal": "Wybierz pozycję scrambla",
     "timerSettings.customizeAvgThresholds": "Dostosuj progi średnich",
+    "timerSettings.cutEndsAvg": "Obcinaj końce w średnich",
+    "timerSettings.cutEndsAvgDesc": "Przeliczaj prawdziwe średnie poprzez usuwanie 5% najlepszych i najgorszych czasów.",
 
     "timesList.filterModal": "Filtry listy czasów",
     "timesList.addFilter": "Dodaj filtr",

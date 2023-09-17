@@ -6,6 +6,7 @@ import { TimerSettingsContext } from '../../../store/timer-settings-context';
 import { LinkButton } from '../../UI/LinkButton';
 import { useColors } from '../../../hooks/useColors';
 import { NumberPickerModal } from '../../NumberPickerModal';
+import { SettingsSwitchItem } from '../../timerSettingsModal/SettingsSwitchItem';
 
 interface AverageThresholdsModalProps {
     showModal: boolean;
@@ -30,6 +31,12 @@ export const AverageThresholdsModal = ({ showModal, onClose }: AverageThresholds
                 title={trans('timerSettings.customizeAvgThresholds')}
                 size="lg"
             >
+                <SettingsSwitchItem
+                    title={trans('timerSettings.cutEndsAvg')}
+                    subtitle={trans('timerSettings.cutEndsAvgDesc')}
+                    value={timerSettings.cutEndsInAvgs}
+                    onSwitch={() => updateSettings({ cutEndsInAvgs: !timerSettings.cutEndsInAvgs })}
+                />
                 <View>
                     {thresholds.map((threshold, index) => (
                         <View key={index}>

@@ -19,6 +19,7 @@ export type TimerSettingsType = {
     scrambleBlockPlacement: 'top' | 'bottom';
     holdDelay: number;
     avgThresholds: number[];
+    cutEndsInAvgs: boolean;
 };
 
 const DEFAULT_SETTINGS: TimerSettingsType = {
@@ -36,6 +37,7 @@ const DEFAULT_SETTINGS: TimerSettingsType = {
     scrambleBlockPlacement: 'top',
     holdDelay: 500,
     avgThresholds: [5, 12, 50, 100],
+    cutEndsInAvgs: true,
 };
 
 interface TimerSettingsContextInterface {

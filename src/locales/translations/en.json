@@ -93,6 +93,8 @@
     "timerSettings.scrambleBlockPlacement-bottom": "Below timer",
     "timerSettings.scramblePlacementModal": "Pick scramble placement",
     "timerSettings.customizeAvgThresholds": "Customize average thresholds",
+    "timerSettings.cutEndsAvg": "Cut ends in average",
+    "timerSettings.cutEndsAvgDesc": "Calculate real average by trimming 5% of best and worst solves.",
 
     "timesList.filterModal": "Filter times list",
     "timesList.addFilter": "Add filter",

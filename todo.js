@@ -7,8 +7,6 @@
 // 12. set finished when there is any gyro - Add options to timer settings, if on - use gyro.
 // 15. Add possibility to user to add his own cubes, so he can assign each solve to a certain cube(like X-man tornado and so on) so it will be easier to filter by cube also
 // 16. Try to implement better scramble generator: Scramble: https://github.com/cubing/create-cubing-app / https://js.cubing.net/cubing/
-// 17. Add feature that lets user choose inspection alerts audio and vibration patterns
-// 18. In times list when user longPress any of times - it changes their look and adds checkbox to all of them. User can easily check all times and move them to another session/cube
 // 19. Add possibility to add new "cubes" to timer, maybe they should be separated by horizontal line. User can name them as he wants, pick any scramble generator(or no scrambler), choose icon, maybe even choose multiple scrambles together for relays?
 // 21. Try to make SolveModifiers icons bigger, so user will not start new solve accidentaly?
 // 23. Statistics should be zoomable(zooming in, moving around, changing the Y axis)
@@ -25,14 +23,12 @@
 // 13. history of PB's - how they changed/fast overtime
 // 16. Sessions should have some icons? User could pick predefined icon
 // 17. If users adds time, and click "do not use this scramble" - maybe let him paste his own scramble?
-// 18. When clicking on rolling averages - user can choose if he wants to count best/worse 5% of solves in averages, all ao5/ao12 would have checkbox if user wants to see them, place where user can add his own numbers?
 // If it is set to hideUI - hide navigation bar as well.
 // In timesList filters - add possibility to choose time-frame like last day/last week/last month
 
 // ********************************** LOW **********************************
 // 2. Timer numbers turns to yellow/red when you exceeds your avg5/avg12 time?
 // 3. Timer shows only full seconds, without any milliseconds
-// 4. maybe 3 presets for how long to tap screen to start solve?
 // 5. Dimm screen down while solving?
 // 6. Splash screen should be really looking good. It should have some kind of fading effect, animation should start when all assets are done fetching. Should use animated to do this.
 // 7. OLL/PLL trainer, where user can choose one of X algs for each case, add his own alg, train one/all selected at the same time
@@ -49,3 +45,4 @@
 // 17. Add easy scramble submission?
 // 18. Add trainers for ROUX
 // 19. In Solves list - when user selects times - let him mass edit them?
+// 20. Maybe add option in inspection that will let user solve even when he exceeded inspection?
