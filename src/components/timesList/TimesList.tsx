@@ -11,6 +11,7 @@ import { TimesListFiltersList } from './TimesListFiltersList';
 import { MoveElementsBar } from './MoveElementsBar';
 import { Session } from '../../models/realm-models/SessionSchema';
 import { SolvesContext } from '../../store/solves-context';
+import { useColors } from '../../hooks/useColors';
 
 interface TimesListProps {
     data: Realm.List<Solve> | undefined;
@@ -90,6 +91,7 @@ export const TimesList = ({ data }: TimesListProps) => {
     const [dataToShow, setDataToShow] = useState<Solve[]>(data ? [...data] : []);
     const { currentSession, moveSolves } = useContext(SolvesContext);
     const trans = useTranslation();
+    const getColor = useColors();
 
     useEffect(() => {
         setDataToShow(filterAndSortData(filters, search, data));
@@ -144,7 +146,15 @@ export const TimesList = ({ data }: TimesListProps) => {
                     {dataToShow.length === 0 && (
                         <EmptyFallbackAnimation
                             renderItem={
-                                <LinkButton onPress={() => setFilters({})} title={trans('timesList.resetFilters')} />
+                                <LinkButton
+                                    style={{ alignSelf: 'center' }}
+                                    textStyle={{ color: getColor('primary200') }}
+                                    onPress={() => {
+                                        setFilters({});
+                                        setSearch('');
+                                    }}
+                                    title={trans('timesList.resetFilters')}
+                                />
                             }
                             title={trans('timesList.noSolvesForFilter')}
                         />
