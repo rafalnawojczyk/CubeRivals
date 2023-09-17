@@ -1,7 +1,4 @@
-import { calcAvg } from './calcAvg';
-
-export const calcDeviation = (times: number[]) => {
-    const mean = calcAvg(times, false);
+export const calcDeviation = (times: number[], mean: number) => {
     let deviationSum = 0;
 
     for (let i = 0; i <= times.length - 1; i++) {

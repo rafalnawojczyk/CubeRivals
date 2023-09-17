@@ -6,9 +6,12 @@ export class Session extends Realm.Object<Session> {
     name!: string;
     cube!: string;
     solves!: Realm.List<Solve>;
+    validTimes: number[] = [];
     owner_id!: Realm.BSON.ObjectId;
     used: Date = new Date();
     amount: number = 0;
+    fullAmount: number = 0;
+    stdev: number = 0;
     average: number = 0;
     best: number = 0;
 

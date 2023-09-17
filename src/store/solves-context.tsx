@@ -7,6 +7,8 @@ import { Session } from '../models/realm-models/SessionSchema';
 import { TimerSettingsContext } from './timer-settings-context';
 import { Result } from '../models/result';
 import { useTranslation } from '../hooks/useTranslation';
+import { calcDeviation } from '../utils/calcDeviation';
+import { removeElementFromArray } from '../utils/removeElementFromArray';
 
 interface SolvesToMoveInterface extends SolveInterface {
     createdAt: Date;
@@ -81,16 +83,109 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
             }
 
             realm.write(() => {
-                if (solveEdit.time) {
-                    solve.time = solveEdit.time;
+                if (solveEdit.hasOwnProperty('flag')) {
+                    // check how flags have changed
+                    if (solve.flag === 'dnf' || solve.flag === 'dns') {
+                        if (!solveEdit.flag || solveEdit.flag === '+2') {
+                            // from dns/dnf to no flag or +2
+                            const newAmount = currentSession.amount + 1;
+
+                            const newSolveTime = solveEdit.flag === '+2' ? solve.time + 2000 : solve.time;
+
+                            currentSession.validTimes.push(newSolveTime);
+
+                            currentSession.average =
+                                (currentSession.average * currentSession.amount + newSolveTime) / newAmount;
+                            currentSession.amount = newAmount;
+                            currentSession.stdev = calcDeviation(currentSession.validTimes, currentSession.average);
+
+                            if (currentSession.best > newSolveTime) {
+                                currentSession.best = newSolveTime;
+                            }
+                        }
+                    }
+
+                    if (solve.flag === '+2') {
+                        if (solveEdit.flag === 'dnf' || solveEdit.flag === 'dns') {
+                            // from +2 to dnf/dns
+                            const newAmount = currentSession.amount - 1;
+
+                            currentSession.validTimes = removeElementFromArray(
+                                currentSession.validTimes,
+                                solve.time + 2000
+                            );
+
+                            currentSession.average =
+                                (currentSession.average * currentSession.amount - solve.time + 2000) / newAmount;
+                            currentSession.amount = newAmount;
+
+                            currentSession.stdev = calcDeviation(currentSession.validTimes, currentSession.average);
+
+                            if (currentSession.best === solve.time + 2000) {
+                                currentSession.best = Math.min(...currentSession.validTimes);
+                            }
+                        }
+
+                        if (!solveEdit.flag) {
+                            // from +2 to no flags
+                            currentSession.validTimes = removeElementFromArray(
+                                currentSession.validTimes,
+                                solve.time + 2000
+                            );
+
+                            currentSession.validTimes.push(solve.time);
+
+                            currentSession.average =
+                                (currentSession.average * currentSession.amount - 2000) / currentSession.amount;
+
+                            currentSession.stdev = calcDeviation(currentSession.validTimes, currentSession.average);
+
+                            if (currentSession.best > solve.time) {
+                                currentSession.best = solve.time;
+                            }
+                        }
+                    }
+
+                    if (!solve.flag) {
+                        if (solveEdit.flag === 'dnf' || solveEdit.flag === 'dns') {
+                            // from no flags to dnf/dns
+                            const newAmount = currentSession.amount - 1;
+
+                            currentSession.average =
+                                (currentSession.average * currentSession.amount - solve.time) / newAmount;
+                            currentSession.amount = newAmount;
+
+                            currentSession.validTimes = removeElementFromArray(currentSession.validTimes, solve.time);
+
+                            currentSession.stdev = calcDeviation(currentSession.validTimes, currentSession.average);
+
+                            if (currentSession.best === solve.time) {
+                                currentSession.best = Math.min(...currentSession.validTimes);
+                            }
+                        }
+
+                        if (solveEdit.flag === '+2') {
+                            // from no flags to +2
+                            currentSession.average =
+                                (currentSession.average * currentSession.amount - solve.time + 2000) /
+                                currentSession.amount;
+
+                            currentSession.validTimes = removeElementFromArray(currentSession.validTimes, solve.time);
+                            currentSession.validTimes.push(solve.time + 2000);
+
+                            currentSession.stdev = calcDeviation(currentSession.validTimes, currentSession.average);
+
+                            if (currentSession.best === solve.time) {
+                                currentSession.best = Math.min(...currentSession.validTimes);
+                            }
+                        }
+                    }
+
+                    solve.flag = solveEdit.flag;
                 }
 
                 if (solveEdit.hasOwnProperty('note')) {
                     solve.note = solveEdit.note;
-                }
-
-                if (solveEdit.hasOwnProperty('flag')) {
-                    solve.flag = solveEdit.flag;
                 }
 
                 if (solveEdit.hasOwnProperty('scramble')) {
@@ -102,32 +197,51 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
                 }
             });
         },
-        [realm]
+        [realm, currentSession]
     );
 
     const handleMoveSolves = useCallback(
         (delSession: Session, moveSession: Session, solves: Solve[]) => {
             realm.write(() => {
                 // solves array STATS
-                const solvesToMoveSumTime = solves.reduce((a, b) => a + b.time, 0);
-                const solvesToMoveAmount = solves.length;
-                const solvesToMoveBest = solves.reduce((a, b) => (b.time > a ? b.time : a), delSession.solves[0]?.time);
+                const solvesToMoveSumTime = solves.reduce((a, b) => {
+                    if (b.flag === '+2') {
+                        return a + b.time + 2000;
+                    }
+
+                    if (b.flag === 'dnf' || b.flag === 'dns') {
+                        return a;
+                    }
+
+                    return a + b.time;
+                }, 0);
+
+                const validSolves = solves.filter(el => el.flag !== 'dnf' && el.flag !== 'dns');
+
+                const solvesToMoveAmount = validSolves.length;
+                const solvesToMoveFullAmount = solves.length;
+                const solvesToMoveBest = validSolves.reduce(
+                    (a, b) =>
+                        (b.flag === '+2' ? b.time + 2000 : b.time) < a ? (b.flag === '+2' ? b.time + 2000 : b.time) : a,
+                    validSolves[0]?.time
+                );
 
                 // delSession logic
                 let currentSum = delSession.amount * delSession.average;
                 currentSum = currentSum - solvesToMoveSumTime;
-                const newAmount = delSession.amount - solves.length;
+                const newAmount = delSession.amount - solvesToMoveAmount;
                 delSession.amount = newAmount;
+                delSession.fullAmount = solvesToMoveFullAmount;
                 delSession.average = currentSum / newAmount;
-                // check for best times
-                if (solves.find(el => el.time === delSession.best)) {
-                    const newBest = delSession.solves.reduce(
-                        (a, b) => (b.time > a ? b.time : a),
-                        delSession.solves[0]?.time
-                    );
 
-                    delSession.best = newBest;
-                }
+                let newValidTimes = currentSession.validTimes;
+
+                validSolves.forEach(el => {
+                    newValidTimes = removeElementFromArray(newValidTimes, el.flag === '+2' ? el.time + 2000 : el.time);
+                });
+
+                delSession.validTimes = newValidTimes;
+                delSession.stdev = calcDeviation(newValidTimes, delSession.average);
 
                 // crete solves to push to moveSession and calc stats
                 const solvesToAdd = solves.map(el => {
@@ -168,13 +282,23 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
                     (moveSession.average * moveSession.amount + solvesToMoveSumTime) / moveSession.amount +
                     solvesToMoveAmount;
                 moveSession.amount = moveSession.amount + solvesToMoveAmount;
+                moveSession.fullAmount = moveSession.fullAmount + solvesToMoveFullAmount;
 
-                if (moveSession.best > solvesToMoveBest) {
+                moveSession.validTimes.push(...validSolves.map(el => (el.flag === '+2' ? el.time + 2000 : el.time)));
+
+                moveSession.stdev = calcDeviation(moveSession.validTimes, moveSession.average);
+
+                if (moveSession.best < solvesToMoveBest) {
                     moveSession.best = solvesToMoveBest;
                 }
 
                 // Remove solves from current obj
                 realm.delete(solves);
+
+                // check for best times
+                if (solvesToMoveBest === delSession.best) {
+                    delSession.best = Math.min(...delSession.validTimes);
+                }
             });
         },
         [realm]
@@ -183,14 +307,28 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
     const handleDeleteSolve = useCallback(
         (solve: Solve): void => {
             realm.write(() => {
-                const newMean = currentSession.amount * currentSession.average - solve.time / currentSession.amount - 1;
+                const currentSolveTime = solve.flag === '+2' ? solve.time + 2000 : solve.time;
 
-                currentSession.average = newMean;
-                currentSession.amount = currentSession.amount - 1;
+                const isValidSolve = solve.flag !== 'dnf' && solve.flag !== 'dns';
+                if (isValidSolve) {
+                    const newAmount = currentSession.amount - 1;
 
-                if (currentSession.best === solve.time) {
-                    const timesMap = [...currentSession.solves.map(el => el.time)];
-                    const newBest = Math.max(...timesMap);
+                    const newMean = (currentSession.amount * currentSession.average - currentSolveTime) / newAmount;
+
+                    const newValidTimes = removeElementFromArray(currentSession.validTimes, currentSolveTime);
+
+                    const newStdev = calcDeviation(newValidTimes, newMean);
+
+                    currentSession.stdev = newStdev;
+                    currentSession.validTimes = newValidTimes;
+                    currentSession.average = newMean;
+                    currentSession.amount = newAmount;
+                }
+
+                currentSession.fullAmount = currentSession.fullAmount - 1;
+
+                if (currentSession.best === currentSolveTime) {
+                    const newBest = Math.min(...currentSession.validTimes);
 
                     currentSession.best = newBest;
                 }
@@ -209,17 +347,30 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
 
                     const solve = realm.create(Solve, result);
 
-                    // Check if that's the new best time
-                    if (currentSession.best > result.time || currentSession.best === 0) {
-                        currentSession.best = result.time;
-                    }
-                    // TODO: here and above - I should take into account how I'm going to count DNF's and +2/ DNS TIMES
-                    // Calc mean of whole session and update
-                    const newMean =
-                        currentSession.amount * currentSession.average + result.time / currentSession.amount + 1;
+                    const currentSolveTime = result.flag === '+2' ? result.time + 2000 : result.time;
 
-                    currentSession.average = newMean;
-                    currentSession.amount = currentSession.amount + 1;
+                    const isValidSolve = result.flag !== 'dnf' && result.flag !== 'dns';
+
+                    // Check if that's the new best time
+                    if ((currentSession.best > currentSolveTime || currentSession.best === 0) && isValidSolve) {
+                        currentSession.best = currentSolveTime;
+                    }
+
+                    // Calc mean of whole session and update
+                    if (isValidSolve) {
+                        const newAmount = currentSession.amount + 1;
+                        const newMean = (currentSession.amount * currentSession.average + currentSolveTime) / newAmount;
+
+                        currentSession.validTimes.push(currentSolveTime);
+
+                        const newStdev = calcDeviation(currentSession.validTimes, newMean);
+
+                        currentSession.average = newMean;
+                        currentSession.stdev = newStdev;
+                        currentSession.amount = newAmount;
+                    }
+
+                    currentSession.fullAmount = currentSession.fullAmount + 1;
 
                     if (currentSession.solves.length === 0) {
                         currentSession.solves.push(solve);
