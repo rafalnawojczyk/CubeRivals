@@ -167,8 +167,7 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
                         if (solveEdit.flag === '+2') {
                             // from no flags to +2
                             currentSession.average =
-                                (currentSession.average * currentSession.amount - solve.time + 2000) /
-                                currentSession.amount;
+                                (currentSession.average * currentSession.amount + 2000) / currentSession.amount;
 
                             currentSession.validTimes = removeElementFromArray(currentSession.validTimes, solve.time);
                             currentSession.validTimes.push(solve.time + 2000);

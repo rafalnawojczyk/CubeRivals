@@ -60,7 +60,7 @@ export const AddTimeModal = ({ showModal, onClose, onAddTime }: AddTimeModalProp
                 <CustomModal.Button
                     type="primary"
                     onPress={() => {
-                        const resultObj: any = { time: +time };
+                        const resultObj: any = { time: +(time + '0') };
                         if (result.flag) {
                             resultObj.flag = result.flag;
                         }
