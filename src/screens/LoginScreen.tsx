@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { Text, StyleSheet, KeyboardAvoidingView, View } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-// import { auth } from '../../firebase.config';
 import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
 import { FormErrorMessage } from '../components/UI/FormErrorMessage';
 import { CustomButton } from '../components/UI/CustomButton';
