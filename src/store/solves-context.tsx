@@ -1,4 +1,4 @@
-import { createContext, useCallback, useEffect, useContext, useState } from 'react';
+import { createContext, useCallback, useEffect, useContext } from 'react';
 import { CubeType } from '../models/cubes';
 import { useQuery, useRealm, useUser } from '@realm/react';
 import { Solve, SolveInterface } from '../models/realm-models/SolveSchema';
@@ -388,19 +388,19 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
     const handleAddSession = useCallback(
         (name: string, cube: CubeType): BSON.ObjectId => {
             const item = realm.write(() => {
-                return realm.create(Session, { name, cube, owner_id: new BSON.ObjectId(user.id), solves: [] });
+                return realm.create(Session, {
+                    name,
+                    cube,
+                    owner_id: new BSON.ObjectId(user.id),
+                    solves: [],
+                    validTimes: [],
+                });
             });
 
             return item._id;
         },
         [realm, user]
     );
-
-    useEffect(() => {
-        if (sessions.length === 0) {
-            handleAddSession(trans('defaultSessionName'), timerSettings.cube);
-        }
-    }, [timerSettings.cube, sessions]);
 
     useEffect(() => {
         realm.subscriptions.update(mutableSubs => {
@@ -413,6 +413,12 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
             mutableSubs.add(solves);
         });
     }, [realm, solves]);
+
+    useEffect(() => {
+        if (sessions.length === 0) {
+            handleAddSession(trans('defaultSessionName'), timerSettings.cube);
+        }
+    }, [timerSettings.cube, sessions]);
 
     const value = {
         sessions,

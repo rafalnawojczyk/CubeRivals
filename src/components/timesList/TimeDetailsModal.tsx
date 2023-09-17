@@ -50,7 +50,7 @@ export const TimeDetailsModal = ({ showModal, onClose, onDelete, result }: TimeD
             <View style={[styles.scrambleContainer, { borderBlockColor: getColor('gray100') }]}>
                 <Text style={[styles.scramble, { color: getColor('text') }]}>{result.scramble}</Text>
             </View>
-            {result.inspection && (
+            {!!result.inspection && (
                 <View style={[styles.scrambleContainer, { borderBlockColor: getColor('gray100') }]}>
                     <Text style={[styles.inspection, { color: getColor('text') }]}>{`${trans(
                         'inspectionTime'

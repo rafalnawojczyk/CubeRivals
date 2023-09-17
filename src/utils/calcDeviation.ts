@@ -1,4 +1,4 @@
-export const calcDeviation = (times: number[], mean: number) => {
+export const calcDeviation = (times: Realm.List<number>, mean: number) => {
     let deviationSum = 0;
 
     for (let i = 0; i <= times.length - 1; i++) {

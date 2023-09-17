@@ -18,6 +18,7 @@ export type TimerSettingsType = {
     inspectionVibrationPattern: 'Error' | 'Success' | 'Warning';
     scrambleBlockPlacement: 'top' | 'bottom';
     holdDelay: number;
+    avgThresholds: number[];
 };
 
 const DEFAULT_SETTINGS: TimerSettingsType = {
@@ -34,6 +35,7 @@ const DEFAULT_SETTINGS: TimerSettingsType = {
     inspectionAudioNumber: 0,
     scrambleBlockPlacement: 'top',
     holdDelay: 500,
+    avgThresholds: [5, 12, 50, 100],
 };
 
 interface TimerSettingsContextInterface {

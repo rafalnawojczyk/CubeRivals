@@ -34,3 +34,10 @@ export const StatisticsScreen = () => {
 // Average times and stdev by time of day and day of week (the "too tired to cube" effect)
 
 // Average inspection time and correlation between inspection and solve time
+
+// ********************* FOR AVG STATS
+// when calculating overall mean(avg) for whole session - respect flag +2, DNF/DNS are skipped
+
+// for avg's / means - maybe add some setting that will ask users if they want to count DNF/DNS in their averages?
+// if they want to count them - for the 5% of worst solves use DNF/DNS as primary target
+//

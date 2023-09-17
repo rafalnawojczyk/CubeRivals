@@ -1,12 +1,14 @@
 import { SafeAreaCard } from '../components/UI/SafeAreaCard';
 import { Timer } from '../components/timer/Timer';
 import { TopTimerBar } from '../components/timer/TopTimerBar';
+import { BottomTimerBar } from '../components/timer/bottomTimerBar/BottomTimerBar';
 
 export const TimerScreen = () => {
     return (
         <SafeAreaCard>
             <TopTimerBar />
             <Timer />
+            <BottomTimerBar />
         </SafeAreaCard>
     );
 };
