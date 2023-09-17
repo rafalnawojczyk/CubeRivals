@@ -29,6 +29,11 @@
     "date": "Data",
     "ascending": "Rosnąco",
     "descending": "Malejąco",
+    "deviation": "Odchylenie",
+    "average": "Średnia",
+    "best": "Najlepszy",
+    "solves": "Ułożenia",
+    "averageOf": "Średnia z",
 
     "auth.welcome": "Witaj ponownie!",
     "auth.email": "Email",
@@ -85,6 +90,7 @@
     "timerSettings.scrambleBlockPlacement-top": "Nad timerem",
     "timerSettings.scrambleBlockPlacement-bottom": "Pod timerem",
     "timerSettings.scramblePlacementModal": "Wybierz pozycję scrambla",
+    "timerSettings.customizeAvgThresholds": "Dostosuj progi średnich",
 
     "timesList.filterModal": "Filtry listy czasów",
     "timesList.addFilter": "Dodaj filtr",

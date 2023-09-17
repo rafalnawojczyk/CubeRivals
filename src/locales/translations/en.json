@@ -31,6 +31,10 @@
     "date": "Date",
     "ascending": "Ascending",
     "descending": "Descending",
+    "deviation": "Deviation",
+    "average": "Average",
+    "best": "Best",
+    "solves": "Solves",
 
     "auth.welcome": "Hi, Welcome Back!",
     "auth.email": "Email",
@@ -53,6 +57,7 @@
     "auth.confirmPasswordRequired": "Confirm Password is required.",
     "auth.enterValidEmail": "Please enter a valid email address.",
     "auth.signout": "Sign Out",
+    "averageOf": "Average of",
 
     "settings.showTimerSettings": "Show Timer Settings",
     "settings.timerSettingsDesc": "Show settings that are specifically related to timer functionalities.",
@@ -87,6 +92,7 @@
     "timerSettings.scrambleBlockPlacement-top": "Above timer",
     "timerSettings.scrambleBlockPlacement-bottom": "Below timer",
     "timerSettings.scramblePlacementModal": "Pick scramble placement",
+    "timerSettings.customizeAvgThresholds": "Customize average thresholds",
 
     "timesList.filterModal": "Filter times list",
     "timesList.addFilter": "Add filter",
