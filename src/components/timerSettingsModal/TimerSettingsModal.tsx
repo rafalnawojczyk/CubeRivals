@@ -61,6 +61,7 @@ export const TimerSettingsModal = ({ showModal, onClose }: TimerSettingsModalPro
 
     const resetTimerSettingsHandler = () => {
         resetSettings();
+        setShowResetConfirmModal(false);
     };
 
     return (
