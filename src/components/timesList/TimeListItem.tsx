@@ -52,7 +52,10 @@ export const TimeListItem = ({
                 <View
                     style={[
                         styles.container,
-                        { backgroundColor: getColor('primary200'), borderColor: isSelected ? 'red' : 'transparent' },
+                        {
+                            backgroundColor: getColor('primary200'),
+                            borderColor: isSelected ? getColor('primary800') : 'transparent',
+                        },
                     ]}
                 >
                     <View style={styles.topBar}>

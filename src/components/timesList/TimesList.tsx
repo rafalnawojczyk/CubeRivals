@@ -88,14 +88,14 @@ export const TimesList = ({ data }: TimesListProps) => {
     const [selectedElements, setSelectedElements] = useState<Solve[]>([]);
     const [search, setSearch] = useState('');
     const [filters, setFilters] = useState<TimesListFilterObj>({ filter: 'createdAt', order: 'asc' });
-    const [dataToShow, setDataToShow] = useState<Solve[]>(data ? [...data] : []);
+    // const [dataToShow, setDataToShow] = useState<Solve[]>(data ? [...data] : []);
     const { currentSession, moveSolves } = useContext(SolvesContext);
     const trans = useTranslation();
     const getColor = useColors();
 
-    useEffect(() => {
-        setDataToShow(filterAndSortData(filters, search, data));
-    }, [search, filters.starred, filters.filter, filters.order, data]);
+    // useEffect(() => {
+    //     setDataToShow(filterAndSortData(filters, search, data));
+    // }, [search, filters.starred, filters.filter, filters.order, data]);
 
     useEffect(() => {
         setSelectedElements([]);
@@ -122,13 +122,13 @@ export const TimesList = ({ data }: TimesListProps) => {
     const moveTimesHandler = (session: Session) => {
         moveSolves(currentSession, session, selectedElements);
         setSelectedElements([]);
-        setDataToShow([]);
+        // setDataToShow([]);
     };
 
     return (
         <>
             {(!data || data.length === 0) && <EmptyFallbackAnimation title={trans('itsEmptyHere')} />}
-            {dataToShow.length >= 0 && (
+            {currentSession.solves.length >= 0 && (
                 <>
                     <TopTimesListBar filters={filters} search={search} setSearch={setSearch} setFilters={setFilters} />
                     {(!!filters.filter || filters.starred) && (
@@ -136,14 +136,14 @@ export const TimesList = ({ data }: TimesListProps) => {
                     )}
                     {selectedElements.length > 0 && (
                         <MoveElementsBar
-                            selectedAll={selectedElements.length === dataToShow.length}
+                            selectedAll={selectedElements.length === currentSession.solves.length}
                             amount={selectedElements.length}
                             onDeselectAll={() => setSelectedElements([])}
-                            onSelectAll={() => setSelectedElements(dataToShow)}
+                            onSelectAll={() => setSelectedElements(currentSession.solves.map(el => el))}
                             onMoveElements={moveTimesHandler}
                         />
                     )}
-                    {dataToShow.length === 0 && (
+                    {currentSession.solves.length === 0 && (
                         <EmptyFallbackAnimation
                             renderItem={
                                 <LinkButton
@@ -159,9 +159,9 @@ export const TimesList = ({ data }: TimesListProps) => {
                             title={trans('timesList.noSolvesForFilter')}
                         />
                     )}
-                    {dataToShow.length > 0 && (
+                    {currentSession.solves.length > 0 && (
                         <FlatList
-                            data={dataToShow}
+                            data={filterAndSortData(filters, search, currentSession.solves)}
                             style={{ flex: 1 }}
                             contentContainerStyle={{
                                 flexWrap: 'wrap',
