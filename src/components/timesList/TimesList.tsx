@@ -88,14 +88,9 @@ export const TimesList = ({ data }: TimesListProps) => {
     const [selectedElements, setSelectedElements] = useState<Solve[]>([]);
     const [search, setSearch] = useState('');
     const [filters, setFilters] = useState<TimesListFilterObj>({ filter: 'createdAt', order: 'asc' });
-    // const [dataToShow, setDataToShow] = useState<Solve[]>(data ? [...data] : []);
     const { currentSession, moveSolves } = useContext(SolvesContext);
     const trans = useTranslation();
     const getColor = useColors();
-
-    // useEffect(() => {
-    //     setDataToShow(filterAndSortData(filters, search, data));
-    // }, [search, filters.starred, filters.filter, filters.order, data]);
 
     useEffect(() => {
         setSelectedElements([]);
@@ -122,7 +117,6 @@ export const TimesList = ({ data }: TimesListProps) => {
     const moveTimesHandler = (session: Session) => {
         moveSolves(currentSession, session, selectedElements);
         setSelectedElements([]);
-        // setDataToShow([]);
     };
 
     return (
