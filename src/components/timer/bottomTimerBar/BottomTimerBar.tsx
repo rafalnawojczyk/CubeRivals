@@ -26,6 +26,12 @@ export const BottomTimerBar = () => {
     const thresholds = [5, 12, 50, 100];
     const isAvg = true;
 
+    if (!currentSession) {
+        return null;
+    }
+
+    console.log(currentSession);
+
     return (
         <>
             <View style={styles.container}>

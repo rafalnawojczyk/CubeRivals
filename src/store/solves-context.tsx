@@ -99,7 +99,7 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
                             currentSession.amount = newAmount;
                             currentSession.stdev = calcDeviation(currentSession.validTimes, currentSession.average);
 
-                            if (currentSession.best > newSolveTime) {
+                            if (currentSession.best > newSolveTime || currentSession.best === 0) {
                                 currentSession.best = newSolveTime;
                             }
                         }
@@ -122,7 +122,11 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
                             currentSession.stdev = calcDeviation(currentSession.validTimes, currentSession.average);
 
                             if (currentSession.best === solve.time + 2000) {
-                                currentSession.best = Math.min(...currentSession.validTimes);
+                                if (currentSession.amount !== 0) {
+                                    currentSession.best = Math.min(...currentSession.validTimes);
+                                } else {
+                                    currentSession.best = 0;
+                                }
                             }
                         }
 
@@ -151,8 +155,13 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
                             // from no flags to dnf/dns
                             const newAmount = currentSession.amount - 1;
 
-                            currentSession.average =
-                                (currentSession.average * currentSession.amount - solve.time) / newAmount;
+                            if (newAmount === 0) {
+                                currentSession.average = 0;
+                            } else {
+                                currentSession.average =
+                                    (currentSession.average * currentSession.amount - solve.time) / newAmount;
+                            }
+
                             currentSession.amount = newAmount;
 
                             currentSession.validTimes = removeElementFromArray(currentSession.validTimes, solve.time);
@@ -160,7 +169,11 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
                             currentSession.stdev = calcDeviation(currentSession.validTimes, currentSession.average);
 
                             if (currentSession.best === solve.time) {
-                                currentSession.best = Math.min(...currentSession.validTimes);
+                                if (currentSession.amount !== 0) {
+                                    currentSession.best = Math.min(...currentSession.validTimes);
+                                } else {
+                                    currentSession.best = 0;
+                                }
                             }
                         }
 
@@ -307,6 +320,22 @@ export const SolvesContextProvider = ({ children }: { children?: React.ReactNode
         (solve: Solve): void => {
             realm.write(() => {
                 const currentSolveTime = solve.flag === '+2' ? solve.time + 2000 : solve.time;
+
+                if (currentSession.solves.length === 1) {
+                    currentSession.stdev = 0;
+
+                    currentSession.average = 0;
+                    currentSession.amount = 0;
+                    currentSession.best = 0;
+
+                    if (currentSession.fullAmount === 1) {
+                        currentSession.validTimes = removeElementFromArray(currentSession.validTimes, currentSolveTime);
+                    }
+                    currentSession.fullAmount = 0;
+                    realm.delete(solve);
+
+                    return;
+                }
 
                 const isValidSolve = solve.flag !== 'dnf' && solve.flag !== 'dns';
                 if (isValidSolve) {

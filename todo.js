@@ -1,3 +1,5 @@
+// ********************************** BUGS **********************************
+
 // ********************************** HIGH **********************************
 // 0. There should be feature that saves user preferences/settings inside user? or some other Schema, so it will sync between devices
 // 3. add image of scrambled cube  https://github.com/tdecker91/puzzle-gen
