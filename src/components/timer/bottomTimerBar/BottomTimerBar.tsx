@@ -8,6 +8,9 @@ import { formatTime } from '../../../utils/formatTime';
 import { AverageThresholdsModal } from '../averageThresholdsModal/AverageThresholdsModal';
 import { useColors } from '../../../hooks/useColors';
 import { useTranslation } from '../../../hooks/useTranslation';
+import { TimerSettingsContext } from '../../../store/timer-settings-context';
+
+const emptyTimePlaceholder = '-- : --';
 
 const getTimeResult = (time: any) => {
     if (time === 'DNF') {
@@ -19,18 +22,14 @@ const getTimeResult = (time: any) => {
 
 export const BottomTimerBar = () => {
     const { currentSession } = useContext(SolvesContext);
+    const { timerSettings } = useContext(TimerSettingsContext);
     const [showEditThresholds, setShowEditThresholds] = useState(false);
     const getColor = useColors();
     const trans = useTranslation();
 
-    const thresholds = [5, 12, 50, 100];
-    const isAvg = true;
-
     if (!currentSession) {
         return null;
     }
-
-    console.log(currentSession);
 
     return (
         <>
@@ -38,31 +37,42 @@ export const BottomTimerBar = () => {
                 <View style={[styles.statsContainer, { borderColor: getColor('gray100') }]}>
                     <BottomTimeStatsItem
                         title={`${trans('deviation')}: `}
-                        amount={currentSession.amount === 0 ? '-- : --' : formatTime(Math.floor(currentSession.stdev))}
+                        amount={
+                            currentSession.amount === 0
+                                ? emptyTimePlaceholder
+                                : formatTime(Math.floor(currentSession.stdev))
+                        }
                     />
                     <BottomTimeStatsItem
                         title={`${trans('average')}: `}
                         amount={
-                            currentSession.amount === 0 ? '-- : --' : formatTime(Math.floor(currentSession.average))
+                            currentSession.amount === 0
+                                ? emptyTimePlaceholder
+                                : formatTime(Math.floor(currentSession.average))
                         }
                     />
                     <BottomTimeStatsItem
                         title={`${trans('best')}: `}
-                        amount={currentSession.best === 0 ? '-- : --' : formatTime(currentSession.best)}
+                        amount={currentSession.best === 0 ? emptyTimePlaceholder : formatTime(currentSession.best)}
                     />
                     <BottomTimeStatsItem title={`${trans('solves')}: `} amount={currentSession.fullAmount.toString()} />
                 </View>
 
                 <Pressable onPress={() => setShowEditThresholds(true)}>
                     <View style={[styles.statsContainer]}>
-                        {thresholds.map(threshold => (
+                        {timerSettings.avgThresholds.map(threshold => (
                             <BottomTimeStatsItem
                                 key={Math.random() + threshold}
-                                title={`${isAvg ? 'Ao' : 'Mo'}${threshold}: `}
+                                title={`${timerSettings.cutEndsInAvgs ? 'Ao' : 'Mo'}${threshold}: `}
                                 amount={
                                     currentSession.fullAmount < threshold
-                                        ? '-- : --'
-                                        : getTimeResult(calcAvg(currentSession.solves.slice(0, threshold), isAvg))
+                                        ? emptyTimePlaceholder
+                                        : getTimeResult(
+                                              calcAvg(
+                                                  currentSession.solves.slice(0, threshold),
+                                                  timerSettings.cutEndsInAvgs
+                                              )
+                                          )
                                 }
                             />
                         ))}

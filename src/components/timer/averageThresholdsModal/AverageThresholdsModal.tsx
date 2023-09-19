@@ -7,6 +7,8 @@ import { LinkButton } from '../../UI/LinkButton';
 import { useColors } from '../../../hooks/useColors';
 import { NumberPickerModal } from '../../NumberPickerModal';
 import { SettingsSwitchItem } from '../../timerSettingsModal/SettingsSwitchItem';
+import { FONTS, PADDING } from '../../../styles/base';
+import { SettingItem } from '../../timerSettingsModal/SettingItem';
 
 interface AverageThresholdsModalProps {
     showModal: boolean;
@@ -31,23 +33,31 @@ export const AverageThresholdsModal = ({ showModal, onClose }: AverageThresholds
                 title={trans('timerSettings.customizeAvgThresholds')}
                 size="lg"
             >
-                <SettingsSwitchItem
-                    title={trans('timerSettings.cutEndsAvg')}
-                    subtitle={trans('timerSettings.cutEndsAvgDesc')}
-                    value={timerSettings.cutEndsInAvgs}
-                    onSwitch={() => updateSettings({ cutEndsInAvgs: !timerSettings.cutEndsInAvgs })}
-                />
-                <View>
-                    {thresholds.map((threshold, index) => (
-                        <View key={index}>
-                            <Text>{trans('averageOf')}:</Text>
+                <SettingItem>
+                    <SettingsSwitchItem
+                        title={trans('timerSettings.cutEndsAvg')}
+                        subtitle={trans('timerSettings.cutEndsAvgDesc')}
+                        value={timerSettings.cutEndsInAvgs}
+                        onSwitch={() => updateSettings({ cutEndsInAvgs: !timerSettings.cutEndsInAvgs })}
+                    />
+                </SettingItem>
+                <View style={styles.container}>
+                    <View>
+                        <Text style={{ color: getColor('text'), fontSize: FONTS.m, textAlign: 'center' }}>
+                            {trans('timerSettings.avgThresholdsDesc')}
+                        </Text>
+                    </View>
+                    <View style={styles.horizontalContainer}>
+                        {thresholds.map((threshold, index) => (
                             <LinkButton
+                                key={index}
                                 color={getColor('primary200')}
                                 title={threshold.toString()}
                                 onPress={() => setEditThreshold(index)}
+                                textStyle={styles.number}
                             />
-                        </View>
-                    ))}
+                        ))}
+                    </View>
                 </View>
 
                 <CustomModal.ButtonsContainer>
@@ -67,13 +77,13 @@ export const AverageThresholdsModal = ({ showModal, onClose }: AverageThresholds
                     showModal={editThreshold !== unusedNumber}
                     onClose={() => setEditThreshold(unusedNumber)}
                     currentNumber={thresholds[editThreshold]}
-                    modalTitle="Pick average threshold"
+                    modalTitle={trans('timerSettings.editAvgThreshold')}
                     onSelect={(pickedNumber: number) => {
                         setThresholds(prev => {
                             const newThresholds = [...prev];
                             newThresholds[editThreshold] = pickedNumber;
 
-                            return newThresholds;
+                            return newThresholds.sort((a, b) => a - b);
                         });
                         setEditThreshold(unusedNumber);
                     }}
@@ -83,4 +93,23 @@ export const AverageThresholdsModal = ({ showModal, onClose }: AverageThresholds
     );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    container: {
+        gap: PADDING.md,
+        width: '90%',
+        paddingVertical: PADDING.md,
+        alignItems: 'center',
+    },
+    horizontalContainer: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+    },
+    text: {
+        fontSize: FONTS.md,
+    },
+    number: {
+        fontSize: FONTS.lg,
+    },
+});

@@ -93,6 +93,8 @@
     "timerSettings.customizeAvgThresholds": "Dostosuj progi średnich",
     "timerSettings.cutEndsAvg": "Obcinaj końce w średnich",
     "timerSettings.cutEndsAvgDesc": "Przeliczaj prawdziwe średnie poprzez usuwanie 5% najlepszych i najgorszych czasów.",
+    "timerSettings.avgThresholdsDesc": "Kliknij na liczbę aby edytować progi dla średnich.",
+    "timerSettings.editAvgThreshold": "Zmień próg średniej",
 
     "timesList.filterModal": "Filtry listy czasów",
     "timesList.addFilter": "Dodaj filtr",

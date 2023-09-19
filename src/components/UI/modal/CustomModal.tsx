@@ -56,11 +56,11 @@ CustomModal.ButtonsContainer = CustomModalButtonContainer;
 const styles = StyleSheet.create({
     sm: {
         height: 'auto',
-        width: DIMENSIONS.fullWidth * 0.4,
+        width: DIMENSIONS.fullWidth * 0.6,
     },
     md: {
         height: 'auto',
-        width: DIMENSIONS.fullWidth * 0.6,
+        width: DIMENSIONS.fullWidth * 0.75,
     },
     lg: {
         height: 'auto',
