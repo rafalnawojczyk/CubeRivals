@@ -4,12 +4,11 @@ export const formatTime = (milliseconds: number, roundMilliseconds: boolean = tr
     const seconds = Math.floor(milliseconds / 1000);
     milliseconds %= 1000;
 
-    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes.toString();
-    const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds.toString();
-    const formattedMilliseconds =
-        milliseconds < 10 ? `00${milliseconds}` : milliseconds < 100 ? `0${milliseconds}` : milliseconds.toString();
+    const formattedMinutes = minutes.toString();
+    const formattedSeconds = seconds.toString();
+    const formattedMilliseconds = milliseconds.toString().padStart(3, '0');
 
-    return `${formattedMinutes === '00' ? '' : `${formattedMinutes}:`}${formattedSeconds}.${
+    return `${formattedMinutes === '0' ? '' : `${formattedMinutes}:`}${formattedSeconds}.${
         roundMilliseconds
             ? Math.round(+formattedMilliseconds / 10)
                   .toString()

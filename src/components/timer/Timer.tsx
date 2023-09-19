@@ -39,7 +39,7 @@ export const Timer = () => {
     const getColor = useColors();
     const trans = useTranslation();
     const { timerSettings } = useContext(TimerSettingsContext);
-    const { addSolve, editSolve } = useContext(SolvesContext);
+    const { addSolve, editSolve, currentSession } = useContext(SolvesContext);
 
     const onChangeScramble = (scramble: string, newCube: boolean) => {
         setScramble(prevScramble => {
@@ -103,6 +103,20 @@ export const Timer = () => {
             }
 
             if (!isWarmup) {
+                const resultTime = updatedResult.flag === '+2' ? result.time + 2000 : result.time;
+                if (
+                    result.flag !== 'dnf' &&
+                    result.flag !== 'dns' &&
+                    currentSession.best > resultTime &&
+                    currentSession.amount >= 4
+                ) {
+                    console.log(
+                        `New best time! You've beaten previous best in session by ${formatTime(
+                            resultTime - currentSession.best
+                        )}`
+                    );
+                }
+
                 const addedSolve = addSolve(updatedResult);
 
                 if (addedSolve) {
