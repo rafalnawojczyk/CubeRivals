@@ -157,6 +157,7 @@ export const TimesList = ({ data }: TimesListProps) => {
                         <FlatList
                             data={filterAndSortData(filters, search, currentSession.solves)}
                             style={{ flex: 1 }}
+                            removeClippedSubviews
                             contentContainerStyle={{
                                 flexWrap: 'wrap',
                                 flexDirection: 'row',

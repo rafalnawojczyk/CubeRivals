@@ -15,6 +15,7 @@ import { Solve, SolveFlagType } from '../../models/realm-models/SolveSchema';
 import { IconButton } from '../UI/IconButton';
 import { InspectionOverlay } from './InspectionOverlay';
 import { generateScramble } from '../../utils/generateScramble';
+import BestTimeAnimation from '../BestTimeAnimation';
 
 const AWAKE_TAG = 'timer';
 
@@ -81,7 +82,9 @@ export const Timer = () => {
             currentSession.amount >= 4 &&
             time !== 0
         ) {
-            setIsBestTimeBy(currentSession.best - resultTime);
+            if (isBestTimeBy !== currentSession.best - resultTime) {
+                setIsBestTimeBy(currentSession.best - resultTime);
+            }
         } else {
             setIsBestTimeBy(0);
         }
@@ -275,14 +278,17 @@ export const Timer = () => {
                 style={styles.touchableContainer}
             >
                 <View style={styles.container}>
+                    {isBestTimeBy > 0 && (
+                        <View style={styles.bestAnimation}>
+                            <BestTimeAnimation />
+                        </View>
+                    )}
                     <TimerBorder />
                     <View style={styles.innerContainer}>
                         {isBestTimeBy > 0 && (
-                            <Text
-                                style={[styles.newBestText, { color: getColor('primary500') }]}
-                            >{`New best time! You've beaten previous best in session by ${formatTime(
-                                isBestTimeBy
-                            )}`}</Text>
+                            <Text style={[styles.newBestText, { color: getColor('primary500') }]}>{`${trans(
+                                'newBestBy'
+                            )} ${formatTime(isBestTimeBy)}`}</Text>
                         )}
                         {isRunning && !timerSettings.hideTime && (
                             <Text style={[styles.timerText, { color: getColor('gray100') }]}>
@@ -423,5 +429,14 @@ const styles = StyleSheet.create({
         width: '80%',
         textAlign: 'center',
         lineHeight: 20,
+    },
+    bestAnimation: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        height: 0.35 * DIMENSIONS.fullHeight,
+        width: 0.95 * DIMENSIONS.fullWidth,
+
+        zIndex: 5001,
     },
 });

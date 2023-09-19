@@ -58,6 +58,7 @@
     "auth.signout": "Wyloguj się",
     "clickToStop": "Kliknij by zatrzymać",
     "inspectionTime": "Czas inspekcji",
+    "newBestBy": "Nowy najlepszy czas! Poprzedni rekord sesji pobity o",
 
     "settings.showTimerSettings": "Pokaż ustawienia timera",
     "settings.timerSettingsDesc": "Pokaż ustawienia ściśle powiązane z funkcjonalnością timera.",

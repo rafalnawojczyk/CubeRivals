@@ -58,6 +58,7 @@
     "auth.enterValidEmail": "Please enter a valid email address.",
     "auth.signout": "Sign Out",
     "averageOf": "Average of",
+    "newBestBy": "New best time! You've beaten previous best in session by",
 
     "settings.showTimerSettings": "Show Timer Settings",
     "settings.timerSettingsDesc": "Show settings that are specifically related to timer functionalities.",
