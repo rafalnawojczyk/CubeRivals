@@ -11,7 +11,7 @@ import { useTranslation } from '../../hooks/useTranslation';
 import { TimerSettingsContext } from '../../store/timer-settings-context';
 import { ScramblePreviewBlock } from './ScramblePreviewBlock';
 import { SolvesContext } from '../../store/solves-context';
-import { Solve } from '../../models/realm-models/SolveSchema';
+import { Solve, SolveFlagType } from '../../models/realm-models/SolveSchema';
 import { IconButton } from '../UI/IconButton';
 import { InspectionOverlay } from './InspectionOverlay';
 import { generateScramble } from '../../utils/generateScramble';
@@ -30,6 +30,7 @@ export const Timer = () => {
     const [showInspection, setShowInspection] = useState(false);
     const [inspectionTimes, setInspectionTimes] = useState([0, 0]);
     const [scramble, setScramble] = useState<string[]>([]);
+    const [isBestTimeBy, setIsBestTimeBy] = useState(0);
     const [elapsedTime, setElapsedTime] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
     const [showReadyState, setShowReadyState] = useState(false);
@@ -70,6 +71,22 @@ export const Timer = () => {
         }
     };
 
+    const checkForBestTime = (time: number, flag: SolveFlagType) => {
+        const resultTime = flag === '+2' ? time + 2000 : time;
+
+        if (
+            flag !== 'dnf' &&
+            flag !== 'dns' &&
+            currentSession.best > resultTime &&
+            currentSession.amount >= 4 &&
+            time !== 0
+        ) {
+            setIsBestTimeBy(currentSession.best - resultTime);
+        } else {
+            setIsBestTimeBy(0);
+        }
+    };
+
     const finishSolve = (dns = false) => {
         deactivateKeepAwake(AWAKE_TAG);
 
@@ -103,19 +120,7 @@ export const Timer = () => {
             }
 
             if (!isWarmup) {
-                const resultTime = updatedResult.flag === '+2' ? result.time + 2000 : result.time;
-                if (
-                    result.flag !== 'dnf' &&
-                    result.flag !== 'dns' &&
-                    currentSession.best > resultTime &&
-                    currentSession.amount >= 4
-                ) {
-                    console.log(
-                        `New best time! You've beaten previous best in session by ${formatTime(
-                            resultTime - currentSession.best
-                        )}`
-                    );
-                }
+                checkForBestTime(updatedResult.time, updatedResult.flag);
 
                 const addedSolve = addSolve(updatedResult);
 
@@ -167,6 +172,7 @@ export const Timer = () => {
             setInspectionTimes(prev => [prev[0], Math.floor(performance.now())]);
         }
 
+        setIsBestTimeBy(0);
         activateKeepAwakeAsync(AWAKE_TAG);
         setShowReadyState(false);
         setIsRunning(true);
@@ -221,6 +227,10 @@ export const Timer = () => {
     };
 
     useEffect(() => {
+        checkForBestTime(result.time, result.flag);
+    }, [result.flag]);
+
+    useEffect(() => {
         resetTimer();
     }, [timerSettings.cube, isWarmup]);
 
@@ -267,6 +277,13 @@ export const Timer = () => {
                 <View style={styles.container}>
                     <TimerBorder />
                     <View style={styles.innerContainer}>
+                        {isBestTimeBy > 0 && (
+                            <Text
+                                style={[styles.newBestText, { color: getColor('primary500') }]}
+                            >{`New best time! You've beaten previous best in session by ${formatTime(
+                                isBestTimeBy
+                            )}`}</Text>
+                        )}
                         {isRunning && !timerSettings.hideTime && (
                             <Text style={[styles.timerText, { color: getColor('gray100') }]}>
                                 {formatTime(elapsedTime, !timerSettings.showWholeMs)}
@@ -399,5 +416,12 @@ const styles = StyleSheet.create({
         right: -35,
         width: 30,
         top: 20,
+    },
+    newBestText: {
+        fontSize: FONTS.m,
+        fontWeight: 'bold',
+        width: '80%',
+        textAlign: 'center',
+        lineHeight: 20,
     },
 });

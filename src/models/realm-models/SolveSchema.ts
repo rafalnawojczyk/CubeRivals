@@ -1,10 +1,12 @@
 import { Realm } from '@realm/react';
 
+export type SolveFlagType = '+2' | 'dnf' | 'dns' | undefined;
+
 export interface SolveInterface {
     time: number;
     scramble: string;
     note?: string;
-    flag?: '+2' | 'dnf' | 'dns';
+    flag?: SolveFlagType;
     inspection?: number;
     star?: boolean;
 }

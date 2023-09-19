@@ -1,8 +1,10 @@
+import { SolveFlagType } from './realm-models/SolveSchema';
+
 export interface Result {
     time: number; // in ms
     scramble: string;
     note?: string;
-    flag?: 'dnf' | 'dns' | '+2';
+    flag?: SolveFlagType;
     inspection?: number;
     star?: boolean;
 }
