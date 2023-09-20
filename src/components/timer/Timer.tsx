@@ -76,10 +76,12 @@ export const Timer = () => {
         const resultTime = flag === '+2' ? time + 2000 : time;
 
         if (
+            currentSession &&
+            currentSession?.best &&
             flag !== 'dnf' &&
             flag !== 'dns' &&
-            currentSession.best > resultTime &&
-            currentSession.amount >= 4 &&
+            currentSession?.best > resultTime &&
+            currentSession?.amount >= 4 &&
             time !== 0
         ) {
             if (isBestTimeBy !== currentSession.best - resultTime) {

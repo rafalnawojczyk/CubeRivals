@@ -9,7 +9,7 @@ export default {
         icon: './assets/icons/icon.png',
         userInterfaceStyle: 'automatic',
         splash: {
-            image: './assets/splash.png',
+            image: './assets/icons/splash.png',
             resizeMode: 'contain',
             backgroundColor: '#ffffff',
         },
@@ -19,13 +19,13 @@ export default {
         },
         android: {
             adaptiveIcon: {
-                foregroundImage: './assets/adaptive-icon.png',
+                foregroundImage: './assets/icons/adaptive-icon.png',
                 backgroundColor: '#ffffff',
             },
             package: 'com.anonymous.Cuberivals',
         },
         web: {
-            favicon: './assets/favicon.png',
+            favicon: './assets/icons/favicon.png',
         },
         plugins: ['expo-localization'],
 

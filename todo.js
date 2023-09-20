@@ -1,10 +1,10 @@
 // ********************************** BUGS **********************************
+// APP crashes while creating account. It should login user automatically
 
 // ********************************** HIGH **********************************
 // 0. There should be feature that saves user preferences/settings inside user? or some other Schema, so it will sync between devices
 // 3. add image of scrambled cube  https://github.com/tdecker91/puzzle-gen
 // 8. Add option to choose "Ready signal", so timer will somehow show user that it is ready to count time. Maybe color some parts of screen/change time color
-// 10. Timer should have some nice animation in background when user breaks his best record in this session. It should count in all sessions starting from X time(not for first X times, because that is pointless). It should also show "Gratulacje, Pobiłeś swój rekord o X:xx!"
 // 11. Timer should also point if there is "Nowa najlepsza średnia" with current solve. If yes - on time somehow pop average that is best rn and show some info above?
 // 12. set finished when there is any gyro - Add options to timer settings, if on - use gyro.
 // 15. Add possibility to user to add his own cubes, so he can assign each solve to a certain cube(like X-man tornado and so on) so it will be easier to filter by cube also
