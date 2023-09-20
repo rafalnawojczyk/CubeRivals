@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { sendPasswordResetEmail } from 'firebase/auth';
-// import { auth } from '../../firebase.config';
 import { TextInput } from '../components/UI/TextInput';
 import { FormErrorMessage } from '../components/UI/FormErrorMessage';
 import { CustomButton } from '../components/UI/CustomButton';

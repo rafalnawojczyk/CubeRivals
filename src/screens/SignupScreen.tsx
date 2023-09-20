@@ -13,7 +13,8 @@ import { SafeAreaCard } from '../components/UI/SafeAreaCard';
 import { FONTS, PADDING } from '../styles/base';
 import { useNavigation } from '@react-navigation/native';
 import { LinkButton } from '../components/UI/LinkButton';
-import { AuthOperationName, useAuth, useEmailPasswordAuth } from '@realm/react';
+import { useApp, useAuth, useEmailPasswordAuth } from '@realm/react';
+import Realm from 'realm';
 
 export const SignupScreen = () => {
     const navigation = useNavigation();
@@ -23,6 +24,7 @@ export const SignupScreen = () => {
     const getColor = useColors();
     const trans = useTranslation();
     const { result, logInWithEmailPassword } = useAuth();
+    const app = useApp();
 
     const signupValidationSchema = Yup.object().shape({
         email: Yup.string().required().email().label('Email'),
@@ -36,20 +38,31 @@ export const SignupScreen = () => {
 
     const handleSignup = async (values: { email: string; password: string }) => {
         const { email, password } = values;
-        register({ email, password });
+        // register({ email, password });
+        try {
+            await app.emailPasswordAuth.registerUser({ email, password });
+
+            await app.logIn(Realm.Credentials.emailPassword(email, password));
+        } catch (err) {
+            console.log(err);
+        }
         setCredentials({ email, password });
     };
 
-    useEffect(() => {
-        if (result.success && result.operation === AuthOperationName.Register) {
-            logInWithEmailPassword(credentials);
-        }
-    }, [result, logInWithEmailPassword, credentials.email, credentials.password]);
+    // useEffect(() => {
+    //     console.log(result);
+    //     console.log(credentials);
+    //     if (result.success && result.operation === AuthOperationName.Register) {
+    //         console.log('logging in');
+    //         logInWithEmailPassword({ email: credentials.email, password: credentials.password });
+    //     }
+    // }, [result, logInWithEmailPassword, credentials.email, credentials.password]);
 
     return (
         <SafeAreaCard>
             <View style={[styles.container, { backgroundColor: getColor('background') }]}>
                 <KeyboardAvoidingView>
+                    <LinkButton onPress={() => logInWithEmailPassword(credentials)} title="LOGIN" />
                     <Text style={[styles.screenTitle, { color: getColor('text') }]}>{trans('auth.createNewAcc')}</Text>
 
                     <Formik
