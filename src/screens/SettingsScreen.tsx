@@ -16,16 +16,21 @@ import { LinkButton } from '../components/UI/LinkButton';
 import { UserContext } from '../store/user-context';
 import { langMap } from '../locales/langMap';
 import { ListSelectModal } from '../components/ListSelectModal';
+import { useAuth } from '@realm/react';
 
 export const SettingsScreen = () => {
     const { setThemeByUser, isDarkTheme } = useContext(ThemeContext);
     const [showLangModal, setShowLangModal] = useState(false);
     const { lang, updateUser } = useContext(UserContext);
     const [showTimerSettings, setShowTimerSettings] = useState(false);
+    const { logOut } = useAuth();
+
     const trans = useTranslation();
     const getColor = useColors();
 
-    const logoutHandler = () => {};
+    const logoutHandler = () => {
+        logOut();
+    };
 
     return (
         <>

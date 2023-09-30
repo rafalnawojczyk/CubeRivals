@@ -17,11 +17,6 @@ export const StatisticsScreen = () => {
     );
 };
 
-// Statistics should have at least:
-// 1. Graph with rolling avg5/avg12 - it should be a line?
-// 2. On the same graph add new PB's and how often they are occurring
-// 3. Statistics based on days, not counting every solve?
-
 // TODO: Maybe add some kind of weekly/monthly statistics page with text that will be like:
 // In past month you've beaten your PB in X events, and you did it X times more than last month, and X times more/less than your overall average. Your main event was 3x3x3 with 9000 measured solves. Event on which you've spent the most time is 6x6x6 - there was 500 solves, but it took you 15000minutes or 199hours.
 
@@ -33,11 +28,25 @@ export const StatisticsScreen = () => {
 
 // Average times and stdev by time of day and day of week (the "too tired to cube" effect)
 
-// Average inspection time and correlation between inspection and solve time
+// STATS I WILL SHOW:
+// 1. Inspection time:(add  inspection/solvetime field in solve?)
+//          - inspectionTime // how inspection time differs based on hours/days/weeks/
+//          - inspectionTime/solve * 100% // how inspection time impacts solve time
+// 2. Solve time:
+//          - solveTime // how solve time differs based on hours/days/weeks/
+//          -
+// 3. Rolling Averages:
+//          - DECIDE what to do with rolling averages when there is DNF/DNS? Maybe let user decide to hide these?
+//          - avg5/12/50/100 or any other if used specifies other in his profile. On linear graph with dots?
+// 4. Standard deviation - should be done the same as rolling averages, and maybe put on the same graph
+// 5. Best times changes (each session should have best times array that specify when newBest is set, its time and id of object?)
+//          - user will see how ofter his PB changes?
+// 6. Amount of solves:
+//          - amountOfSolves // how much solves user is doing hourly/daily/weekly
+//          - corelation between amountOfSolves and DNFs/DNSs - hourly/daily/weekly
+// 7. App uptime on timer screen?
+//          - app uptime graph(when user uses timer the most)
+//          - corelation between uptime and inspection+Solves to see how much time is wasted on scrambling + idle periods(concentration drops)
 
-// ********************* FOR AVG STATS
-// when calculating overall mean(avg) for whole session - respect flag +2, DNF/DNS are skipped
-
-// for avg's / means - maybe add some setting that will ask users if they want to count DNF/DNS in their averages?
-// if they want to count them - for the 5% of worst solves use DNF/DNS as primary target
-//
+// IDEA: Maybe let user decide if the wants to put more stats on one graph? If it has the same X and Y axis(e.g. solveTime/date).
+// IDEA: Maybe let user show stats from another session as well? SO he will have two/more lines on graph and can check his times on different sessions(maybe each session has another cube or so, or where he improves the most?)

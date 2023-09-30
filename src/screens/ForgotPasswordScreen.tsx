@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { sendPasswordResetEmail } from 'firebase/auth';
-// import { auth } from '../../firebase.config';
 import { TextInput } from '../components/UI/TextInput';
 import { FormErrorMessage } from '../components/UI/FormErrorMessage';
 import { CustomButton } from '../components/UI/CustomButton';
@@ -27,20 +25,6 @@ export const ForgotPasswordScreen = () => {
 
     const handleSendPasswordResetEmail = (values: { email: string }) => {
         const { email } = values;
-
-        // sendPasswordResetEmail(auth, email)
-        //     .then(() => {
-        //         console.log('Success: Password Reset Email sent.'); // TODO: show success screen?
-        //         // or show alert?and navigate to login?
-        //         navigation.navigate('Login');
-        //     })
-        //     .catch(error => {
-        //         if (error.code === 'auth/invalid-email' || error.code === 'auth/user-not-found') {
-        //             setErrorState(trans('auth.enterValidEmail'));
-        //             return;
-        //         }
-        //         setErrorState(error.message);
-        //     });
     };
 
     return (

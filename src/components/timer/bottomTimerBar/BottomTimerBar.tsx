@@ -31,6 +31,12 @@ export const BottomTimerBar = () => {
         return null;
     }
 
+    // In session there should be an array that will store all rolling averages.
+    // those averages needs to be reevaluated if there is change in any solve. If it is change in last 5 solves - just recalc last average.
+    // if not in last 5 solves - recalc all rolling averages
+
+    // TODO: this should be optimized in future to save all times that have made certain average. It should save average time, and id's of all saves, so it will be easy to show modal with all times that made this avg possible with scrambles. If user will delete any solve - it should start recalculating average starting from this solve up, so it will save resources.
+
     return (
         <>
             <View style={styles.container}>
