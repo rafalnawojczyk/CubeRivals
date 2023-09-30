@@ -1,5 +1,6 @@
 // ********************************** BUGS **********************************
 // APP crashes while creating account. It should login user automatically
+// Make a clean install of whole repo and check/write down all steps that are essential to run this app
 
 // ********************************** HIGH **********************************
 // 0. There should be feature that saves user preferences/settings inside user? or some other Schema, so it will sync between devices
@@ -48,3 +49,4 @@
 // 18. Add trainers for ROUX
 // 19. In Solves list - when user selects times - let him mass edit them?
 // 20. Maybe add option in inspection that will let user solve even when he exceeded inspection?
+// 21. Add indicator that will tell used if current time is better/worse than his last time
