@@ -1,20 +1,21 @@
 import { StyleSheet, View, Text, FlatList, Pressable } from 'react-native';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { CustomModal } from '../../UI/modal/CustomModal';
 import { DIMENSIONS, FONTS, PADDING } from '../../../styles/base';
 import { useColors } from '../../../hooks/useColors';
 import { useTranslation } from '../../../hooks/useTranslation';
 import { CustomButton } from '../../UI/CustomButton';
 import { MaterialIcons } from '@expo/vector-icons';
-import { UserContext } from '../../../store/user-context';
 import { TimerSettingsContext } from '../../../store/timer-settings-context';
 import { AddSessionModal } from './AddNewSessionModal';
-import { SolvesContext } from '../../../store/solves-context';
-import { Session } from '../../../models/realm-models/SessionSchema';
-import { BSON } from 'realm';
 import { ChangeSessionNameModal } from './ChangeSessionNameModal';
+import { createSession, getDb } from '../../../model/database';
+import { Model, Q } from '@nozbe/watermelondb';
+import { Session } from '../../../model/session.model';
+import { withObservables } from '@nozbe/watermelondb/react';
 
 interface ManageSessionModalProps {
+    sessions: Model[];
     showModal: boolean;
     onClose: () => void;
 }
@@ -22,20 +23,33 @@ interface ManageSessionModalProps {
 const SessionModalItem = ({
     session,
     onPickSessionHandler,
+    blockPickHandler = false,
 }: {
     session: Session;
     onPickSessionHandler: () => void;
+    blockPickHandler: boolean;
 }) => {
     const [showEditSessionModal, setShowEditSessionModal] = useState(false);
-    const { editSession } = useContext(SolvesContext);
     const getColor = useColors();
 
-    const onEditSessionName = (sessionName: string) => {
+    const onEditSessionName = async (sessionName: string) => {
         const trimmedSessionName = sessionName.trim();
 
         if (trimmedSessionName.length > 0) {
-            editSession(session, { name: trimmedSessionName });
+            await getDb().write(async () => {
+                await session.update(() => {
+                    session.name = trimmedSessionName;
+                });
+            });
         }
+    };
+
+    const onPickSession = async () => {
+        await getDb().write(async () => {
+            await session.update(() => {
+                session.lastSeenAt = new Date();
+            });
+        });
     };
 
     return (
@@ -50,7 +64,9 @@ const SessionModalItem = ({
             )}
             <Pressable
                 onPress={() => {
-                    editSession(session, { used: new Date() });
+                    if (!blockPickHandler) {
+                        onPickSession();
+                    }
                     onPickSessionHandler();
                 }}
                 onLongPress={() => setShowEditSessionModal(true)}
@@ -63,9 +79,8 @@ const SessionModalItem = ({
     );
 };
 
-export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalProps) => {
+const ManageSessionModal = ({ showModal, onClose, sessions }: ManageSessionModalProps) => {
     const { timerSettings } = useContext(TimerSettingsContext);
-    const { sessions, addSession } = useContext(SolvesContext);
     const [showAddSessionModal, setShowAddSessionModal] = useState(false);
     const getColor = useColors();
     const trans = useTranslation();
@@ -77,7 +92,7 @@ export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalPro
             return;
         }
 
-        addSession(trimmedSessionName, timerSettings.cube);
+        createSession(trimmedSessionName, timerSettings.cube);
 
         onPickSessionHandler();
     };
@@ -102,9 +117,13 @@ export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalPro
                 <View style={styles.listContainer}>
                     <FlatList
                         data={sessions}
-                        keyExtractor={item => item._id}
-                        renderItem={({ item }) => (
-                            <SessionModalItem session={item} onPickSessionHandler={onPickSessionHandler} />
+                        keyExtractor={item => item.id}
+                        renderItem={({ item, index }) => (
+                            <SessionModalItem
+                                blockPickHandler={index === 0}
+                                session={item as Session}
+                                onPickSessionHandler={onPickSessionHandler}
+                            />
                         )}
                     />
                 </View>
@@ -173,3 +192,11 @@ const styles = StyleSheet.create({
         fontSize: FONTS.md,
     },
 });
+
+const enhance = withObservables(['sessions', 'cube'], ({ sessions, cube }) => ({
+    sessions: getDb()
+        .collections.get('sessions')
+        .query(Q.where('cube', Q.like(`%${cube}%`)), Q.sortBy('last_seen_at', Q.desc)),
+}));
+
+export const EnhancedManageSessionModal = enhance(ManageSessionModal);

@@ -9,12 +9,19 @@ import { useTranslation } from '../../hooks/useTranslation';
 import { LinkButton } from '../UI/LinkButton';
 import { TimesListFiltersList } from './TimesListFiltersList';
 import { MoveElementsBar } from './MoveElementsBar';
-import { Session } from '../../models/realm-models/SessionSchema';
 import { SolvesContext } from '../../store/solves-context';
 import { useColors } from '../../hooks/useColors';
+import { CubeType } from '../../models/cubes';
+import { createSolve, getDb } from '../../model/database';
+import { Model, Q } from '@nozbe/watermelondb';
+import { withObservables } from '@nozbe/watermelondb/react';
+import { IconButton } from '../UI/IconButton';
+import { Session } from '../../model/session.model';
 
 interface TimesListProps {
-    data: Realm.List<Solve> | undefined;
+    sessions: Model[];
+    solves: Model[];
+    cube: CubeType;
 }
 
 export type filterType = 'time' | 'createdAt' | 'inspection';
@@ -84,17 +91,29 @@ const filterAndSortData = (filters: TimesListFilterObj, search: string, prevData
     return newData;
 };
 
-export const TimesList = ({ data }: TimesListProps) => {
+export const TimesList = ({ sessions, solves, cube }: TimesListProps) => {
+    const currentSession = sessions[0] as unknown as Session;
     const [selectedElements, setSelectedElements] = useState<Solve[]>([]);
     const [search, setSearch] = useState('');
-    const [filters, setFilters] = useState<TimesListFilterObj>({ filter: 'createdAt', order: 'asc' });
-    const { currentSession, moveSolves } = useContext(SolvesContext);
+    // const [filters, setFilters] = useState<TimesListFilterObj>({ filter: 'createdAt', order: 'asc' });
+    const { moveSolves } = useContext(SolvesContext);
     const trans = useTranslation();
     const getColor = useColors();
 
-    useEffect(() => {
-        setSelectedElements([]);
-    }, [filters.filter, filters.starred]);
+    // database.get('comments').query(
+    //     Q.on('posts', Q.where('author_id', Q.eq(john.id))),
+    //   )
+    const getSolves = async () => {
+        const solves = await currentSession.solves.query();
+
+        console.log(solves);
+    };
+
+    getSolves();
+
+    // useEffect(() => {
+    //     setSelectedElements([]);
+    // }, [filters.filter, filters.starred]);
 
     const selectItemHandler = (item: Solve) => {
         setSelectedElements(prevSelectedElements => {
@@ -115,20 +134,35 @@ export const TimesList = ({ data }: TimesListProps) => {
     };
 
     const moveTimesHandler = (session: Session) => {
-        moveSolves(currentSession, session, selectedElements);
+        // moveSolves(currentSession, session, selectedElements);
         setSelectedElements([]);
     };
 
     return (
         <>
-            {(!data || data.length === 0) && <EmptyFallbackAnimation title={trans('itsEmptyHere')} />}
+            <IconButton
+                icon="home"
+                size={24}
+                color={'#f4f479'}
+                onPress={() =>
+                    createSolve({
+                        time: 1231,
+                        scramble: 'ASDASD',
+                        isValid: true,
+                        sessionId: currentSession.id,
+                    })
+                }
+            />
+            {(!sessions || sessions.length === 0 || currentSession.solves.length === 0) && (
+                <EmptyFallbackAnimation title={trans('itsEmptyHere')} />
+            )}
             {currentSession.solves.length >= 0 && (
                 <>
-                    <TopTimesListBar filters={filters} search={search} setSearch={setSearch} setFilters={setFilters} />
+                    {/* <TopTimesListBar filters={filters} search={search} setSearch={setSearch} setFilters={setFilters} />
                     {(!!filters.filter || filters.starred) && (
                         <TimesListFiltersList setFilters={setFilters} filters={filters} />
-                    )}
-                    {selectedElements.length > 0 && (
+                    )} */}
+                    {/* {selectedElements.length > 0 && (
                         <MoveElementsBar
                             selectedAll={selectedElements.length === currentSession.solves.length}
                             amount={selectedElements.length}
@@ -136,7 +170,7 @@ export const TimesList = ({ data }: TimesListProps) => {
                             onSelectAll={() => setSelectedElements(currentSession.solves.map(el => el))}
                             onMoveElements={moveTimesHandler}
                         />
-                    )}
+                    )} */}
                     {currentSession.solves.length === 0 && (
                         <EmptyFallbackAnimation
                             renderItem={
@@ -144,7 +178,7 @@ export const TimesList = ({ data }: TimesListProps) => {
                                     style={{ alignSelf: 'center' }}
                                     textStyle={{ color: getColor('primary200') }}
                                     onPress={() => {
-                                        setFilters({});
+                                        // setFilters({});
                                         setSearch('');
                                     }}
                                     title={trans('timesList.resetFilters')}
@@ -155,7 +189,7 @@ export const TimesList = ({ data }: TimesListProps) => {
                     )}
                     {currentSession.solves.length > 0 && (
                         <FlatList
-                            data={filterAndSortData(filters, search, currentSession.solves)}
+                            data={currentSession.solves}
                             style={{ flex: 1 }}
                             removeClippedSubviews
                             contentContainerStyle={{
@@ -204,3 +238,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
     },
 });
+
+const enhance = withObservables(['sessions', 'cube'], ({ sessions, cube }) => ({
+    sessions: getDb()
+        .collections.get('sessions')
+        .query(Q.where('cube', Q.like(`%${cube}%`)), Q.sortBy('last_seen_at', Q.desc)),
+}));
+
+export const EnhancedTimesList = enhance(TimesList);

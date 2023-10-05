@@ -1,5 +1,6 @@
 {
     "cancel": "Cancel",
+    "confirm": "Confirm",
     "add": "Add",
     "save": "Save",
     "time": "Time",
@@ -47,6 +48,7 @@
     "auth.dontHaveAcc": "Don't have an account?",
     "auth.signup": "Sign up",
     "auth.signin": "Sign In",
+    "auth.goToLogin" : "Register account",
     "auth.emailRequired": "Email is required",
     "auth.passwordRequired": "Password is required",
     "auth.createNewAcc": "Create a new account!",
@@ -57,6 +59,9 @@
     "auth.confirmPasswordRequired": "Confirm Password is required.",
     "auth.enterValidEmail": "Please enter a valid email address.",
     "auth.signout": "Sign Out",
+    "auth.useWithoutAcc": "Continue without account",
+    "auth.useWithoutAccDesc": "If you choose to proceed without creating an account, please be aware that all of your times will be lost in the event of app deletion.",
+
     "averageOf": "Average of",
     "newBestBy": "New best time! You've beaten previous best in session by",
 
@@ -70,7 +75,7 @@
     "timerSettings.inspection": "Use WCA inspection",
     "timerSettings.inspectionDesc": "Use 15 seconds of inspection time before every solve.",
     "timerSettings.hideUi": "Hide all elements when solving",
-    "timerSettings.hideUiDesc": "Hide all elements, except time, while counting solve. It helps with distraction.",
+    "timerSettings.hideUiDesc": "Hide all elements, except time, while counting solve, to reduce distractions.",
     "timerSettings.hideTime": "Hide time when solving",
     "timerSettings.hideTimeDesc": "Hide literally everything while solving.",
     "timerSettings.showWholeMs": "Show all milliseconds",

@@ -10,6 +10,8 @@ import { UserContextProvider } from './src/store/user-context';
 import { Navigation } from './src/navigation/Navigation';
 import { CubeAnimation } from './src/components/CubeAnimation';
 import { TimerSettingsContextProvider } from './src/store/timer-settings-context';
+import { DatabaseProvider } from '@nozbe/watermelondb/react';
+import { getDb } from './src/model/database';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -64,18 +66,20 @@ export default function App() {
     const showAnimation = !(isAppReady && isLayoutReady && fontsReady);
 
     return (
-        <ThemeContextProvider>
-            <UserContextProvider>
-                <TimerSettingsContextProvider>
-                    {fontsReady && <Navigation onReady={onApplicationReady} />}
-                    {showAnimation && (
-                        <View pointerEvents="none" style={styles.animationContainer} onLayout={onLayoutRootView}>
-                            <CubeAnimation progress={animationProgress.current} />
-                        </View>
-                    )}
-                </TimerSettingsContextProvider>
-            </UserContextProvider>
-        </ThemeContextProvider>
+        <DatabaseProvider database={getDb()}>
+            <ThemeContextProvider>
+                <UserContextProvider>
+                    <TimerSettingsContextProvider>
+                        {fontsReady && <Navigation onReady={onApplicationReady} />}
+                        {showAnimation && (
+                            <View pointerEvents="none" style={styles.animationContainer} onLayout={onLayoutRootView}>
+                                <CubeAnimation progress={animationProgress.current} />
+                            </View>
+                        )}
+                    </TimerSettingsContextProvider>
+                </UserContextProvider>
+            </ThemeContextProvider>
+        </DatabaseProvider>
     );
 }
 

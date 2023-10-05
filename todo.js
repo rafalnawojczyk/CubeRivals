@@ -50,3 +50,9 @@
 // 19. In Solves list - when user selects times - let him mass edit them?
 // 20. Maybe add option in inspection that will let user solve even when he exceeded inspection?
 // 21. Add indicator that will tell used if current time is better/worse than his last time
+
+// ********************************** MIGRATION TASKS **********************************
+// Add error handling in login form
+// Add error handling in signupForm
+// Add user table in DB to store username, preferred lang
+// In settings on signout add some animation that starts on click and ends when user is logged out

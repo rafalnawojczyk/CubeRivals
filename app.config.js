@@ -31,6 +31,9 @@ export default {
 
         extra: {
             realmAppId: process.env.REALM_APP_ID,
+            supabaseUrl: process.env.SUPABASE_URL,
+            supabaseAnon: process.env.SUPABASE_ANON,
+            supabaseService: process.env.SUPABASE_SERVICE,
         },
     },
 };

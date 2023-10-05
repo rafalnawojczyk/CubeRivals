@@ -1,45 +1,88 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { ThemeContext } from '../store/theme-context';
 
 import { AppTabs } from './AppTabs';
 import { AuthStack } from './AuthStack';
 
-import { AppProvider, RealmProvider, UserProvider } from '@realm/react';
-import Constants from 'expo-constants';
-import { schemas } from '../models/realm-models';
-import { OpenRealmBehaviorType, OpenRealmTimeOutBehavior } from 'realm';
 import { SolvesContextProvider } from '../store/solves-context';
+import { Session } from '@supabase/supabase-js';
+import { supabase } from '../utils/supabase';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { UserContext } from '../store/user-context';
+import { generateInitialDb } from '../model/database';
 
 export const Navigation = ({ onReady }: { onReady: () => void }) => {
+    const [session, setSession] = useState<Session | null>(null);
+    const { userType } = useContext(UserContext);
+    const [showAuth, setShowAuth] = useState(true);
+
     const { isDarkTheme } = useContext(ThemeContext);
+
+    useEffect(() => {
+        const checkStorage = async () => {
+            const user = await AsyncStorage.getItem('appUser');
+
+            if (user === 'anonymous') {
+                setShowAuth(false);
+            }
+        };
+
+        checkStorage();
+
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            setSession(session);
+        });
+
+        supabase.auth.onAuthStateChange((_event, session) => {
+            setSession(session);
+        });
+    }, []);
+
+    useEffect(() => {
+        if (session && session.user) {
+            setShowAuth(false);
+        }
+    }, [session]);
+
+    useEffect(() => {
+        const checkFirstInit = async () => {
+            const firstInit = await AsyncStorage.getItem('firstInit');
+
+            if (firstInit === 'initialized') {
+                return;
+            }
+
+            if (!firstInit) {
+                generateInitialDb();
+                await AsyncStorage.setItem('firstInit', 'initialized');
+            }
+        };
+
+        if (userType === 'anonymous' || userType === 'registered') {
+            checkFirstInit();
+        }
+
+        if (userType === 'anonymous') {
+            setShowAuth(false);
+        }
+
+        if (!userType && !showAuth) {
+            setShowAuth(true);
+        }
+    }, [userType]);
 
     return (
         <>
             <StatusBar style={isDarkTheme ? 'light' : 'dark'} />
             <NavigationContainer onReady={onReady}>
-                <AppProvider id={Constants?.expoConfig?.extra?.realmAppId}>
-                    <UserProvider fallback={<AuthStack />}>
-                        <RealmProvider
-                            schema={schemas}
-                            sync={{
-                                flexible: true,
-                                existingRealmFileBehavior: {
-                                    type: OpenRealmBehaviorType.DownloadBeforeOpen,
-                                    timeOut: 1000,
-                                    timeOutBehavior:
-                                        // In v11 the enums are not set up correctly, so we need to use the string values
-                                        OpenRealmTimeOutBehavior?.OpenLocalRealm ?? 'openLocalRealm',
-                                },
-                            }}
-                        >
-                            <SolvesContextProvider>
-                                <AppTabs />
-                            </SolvesContextProvider>
-                        </RealmProvider>
-                    </UserProvider>
-                </AppProvider>
+                {!showAuth && (
+                    <SolvesContextProvider>
+                        <AppTabs />
+                    </SolvesContextProvider>
+                )}
+                {showAuth && <AuthStack />}
             </NavigationContainer>
         </>
     );

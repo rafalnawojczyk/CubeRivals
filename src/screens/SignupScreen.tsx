@@ -13,16 +13,15 @@ import { SafeAreaCard } from '../components/UI/SafeAreaCard';
 import { FONTS, PADDING } from '../styles/base';
 import { useNavigation } from '@react-navigation/native';
 import { LinkButton } from '../components/UI/LinkButton';
-import { AuthOperationName, useAuth, useEmailPasswordAuth } from '@realm/react';
+import { supabase } from '../utils/supabase';
 
 export const SignupScreen = () => {
+    const [isLoading, setIsLoading] = useState(false);
     const navigation = useNavigation();
-    const { register } = useEmailPasswordAuth();
-    const [credentials, setCredentials] = useState({ email: '', password: '' });
+
     const [errorState, setErrorState] = useState('');
     const getColor = useColors();
     const trans = useTranslation();
-    const { result, logInWithEmailPassword } = useAuth();
 
     const signupValidationSchema = Yup.object().shape({
         email: Yup.string().required().email().label('Email'),
@@ -35,16 +34,25 @@ export const SignupScreen = () => {
     const { passwordVisibility, handlePasswordVisibility, rightIcon } = useTogglePasswordVisibility();
 
     const handleSignup = async (values: { email: string; password: string }) => {
+        setIsLoading(true);
         const { email, password } = values;
-        register({ email, password });
-        setCredentials({ email, password });
-    };
 
-    useEffect(() => {
-        if (result.success && result.operation === AuthOperationName.Register) {
-            logInWithEmailPassword(credentials);
+        const { error } = await supabase.auth.signUp({
+            email,
+            password,
+        });
+
+        if (error) {
+            setErrorState(error.message);
+        } else {
+            const { error } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            });
         }
-    }, [result, logInWithEmailPassword, credentials.email, credentials.password]);
+
+        setIsLoading(false);
+    };
 
     return (
         <SafeAreaCard>

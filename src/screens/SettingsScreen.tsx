@@ -2,7 +2,6 @@ import { StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaCard } from '../components/UI/SafeAreaCard';
 import { TranslationCodes, useTranslation } from '../hooks/useTranslation';
 import { CustomButton } from '../components/UI/CustomButton';
-
 import { FONTS, PADDING } from '../styles/base';
 import { useContext, useState } from 'react';
 import { TimerSettingsModal } from '../components/timerSettingsModal/TimerSettingsModal';
@@ -16,20 +15,26 @@ import { LinkButton } from '../components/UI/LinkButton';
 import { UserContext } from '../store/user-context';
 import { langMap } from '../locales/langMap';
 import { ListSelectModal } from '../components/ListSelectModal';
-import { useAuth } from '@realm/react';
+import { supabase } from '../utils/supabase';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const SettingsScreen = () => {
     const { setThemeByUser, isDarkTheme } = useContext(ThemeContext);
     const [showLangModal, setShowLangModal] = useState(false);
-    const { lang, updateUser } = useContext(UserContext);
+
+    const { lang, updateUser, userType } = useContext(UserContext);
     const [showTimerSettings, setShowTimerSettings] = useState(false);
-    const { logOut } = useAuth();
 
     const trans = useTranslation();
     const getColor = useColors();
 
-    const logoutHandler = () => {
-        logOut();
+    const logoutHandler = async () => {
+        await AsyncStorage.removeItem('appUser');
+        updateUser({ userType: undefined });
+
+        if (userType === 'registered') {
+            await supabase.auth.signOut();
+        }
     };
 
     return (
@@ -65,7 +70,11 @@ export const SettingsScreen = () => {
                             onSwitch={() => setThemeByUser(isDarkTheme ? 'light' : 'dark')}
                         />
                     </SettingItem>
-                    <CustomButton type="primary" onPress={logoutHandler} title={trans('auth.signout')} />
+                    <CustomButton
+                        type="primary"
+                        onPress={logoutHandler}
+                        title={userType === 'anonymous' ? trans('auth.goToLogin') : trans('auth.signout')}
+                    />
                 </ScrollView>
             </SafeAreaCard>
             <TimerSettingsModal showModal={showTimerSettings} onClose={() => setShowTimerSettings(false)} />

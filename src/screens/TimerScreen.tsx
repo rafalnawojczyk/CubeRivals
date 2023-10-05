@@ -1,14 +1,17 @@
+import { useContext } from 'react';
 import { SafeAreaCard } from '../components/UI/SafeAreaCard';
 import { Timer } from '../components/timer/Timer';
-import { TopTimerBar } from '../components/timer/TopTimerBar';
+import { EnhancedTopTimerBar } from '../components/timer/TopTimerBar';
 import { BottomTimerBar } from '../components/timer/bottomTimerBar/BottomTimerBar';
+import { TimerSettingsContext } from '../store/timer-settings-context';
 
 export const TimerScreen = () => {
+    const { timerSettings } = useContext(TimerSettingsContext);
     return (
         <SafeAreaCard>
-            <TopTimerBar />
+            <EnhancedTopTimerBar cube={timerSettings.cube} />
             <Timer />
-            <BottomTimerBar />
+            {/* <BottomTimerBar /> */}
         </SafeAreaCard>
     );
 };

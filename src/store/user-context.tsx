@@ -1,20 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useState, useLayoutEffect, useCallback } from 'react';
 import * as Localization from 'expo-localization';
-import { CubeType } from '../models/cubes';
 import { TranslationCodes } from '../hooks/useTranslation';
 
-export interface SessionObjectInterface {
-    name: string;
-    id: string;
-    cube: CubeType;
-    lastUsed: number;
-}
-
 interface UserDataInterface {
-    isLoaded: boolean;
-    username: string;
+    // isLoaded: boolean;
+    // username: string;
     lang: TranslationCodes;
+    userType?: 'registered' | 'anonymous';
     updateUser: (updatedUser: PartialUserDataType) => void;
 }
 
@@ -23,16 +16,17 @@ type UserDataType = Omit<UserDataInterface, 'updateUser'>;
 type PartialUserDataType = Partial<UserDataType>;
 
 export const UserContext = createContext<UserDataInterface>({
-    isLoaded: false,
-    username: 'Speedcuber',
+    // isLoaded: false,
+    // username: 'Speedcuber',
+
     lang: 'en',
     updateUser: (updatedUser: PartialUserDataType) => {},
 });
 
 export const UserContextProvider = ({ children }: { children?: React.ReactNode }) => {
-    const [userData, setUserData] = useState<Omit<UserDataType, 'setUser' | 'user'>>({
-        isLoaded: false,
-        username: 'Speedcuber',
+    const [userData, setUserData] = useState<Omit<UserDataType, 'setUser'>>({
+        // isLoaded: false,
+        // username: 'Speedcuber',
         lang: 'en',
     });
 
@@ -47,37 +41,38 @@ export const UserContextProvider = ({ children }: { children?: React.ReactNode }
     }, []);
 
     const value: UserDataInterface = {
-        isLoaded: userData.isLoaded,
-        username: userData.username,
+        // isLoaded: userData.isLoaded,
+        // username: userData.username,
+        userType: userData.userType,
         lang: userData.lang,
         updateUser,
     };
 
-    useLayoutEffect(() => {
-        const getUserDataFromStorage = async () => {
-            try {
-                const savedUserData = await AsyncStorage.getItem('userData');
+    // useLayoutEffect(() => {
+    //     const getUserDataFromStorage = async () => {
+    //         try {
+    //             const savedUserData = await AsyncStorage.getItem('userData');
 
-                if (savedUserData) {
-                    const parsedData = JSON.parse(savedUserData);
+    //             if (savedUserData) {
+    //                 const parsedData = JSON.parse(savedUserData);
 
-                    if (!parsedData.lang) {
-                        parsedData.lang === Localization.locale.slice(0, 2);
+    //                 if (!parsedData.lang) {
+    //                     parsedData.lang === Localization.locale.slice(0, 2);
 
-                        updateUser({ lang: Localization.locale.slice(0, 2) as TranslationCodes });
-                    }
+    //                     updateUser({ lang: Localization.locale.slice(0, 2) as TranslationCodes });
+    //                 }
 
-                    setUserData(prevData => ({ ...prevData, ...parsedData, isLoaded: true }));
-                    return;
-                }
-                setUserData(prevData => ({ ...prevData, isLoaded: true }));
-            } catch (err) {
-                console.log(err);
-            }
-        };
+    //                 setUserData(prevData => ({ ...prevData, ...parsedData, isLoaded: true }));
+    //                 return;
+    //             }
+    //             setUserData(prevData => ({ ...prevData, isLoaded: true }));
+    //         } catch (err) {
+    //             console.log(err);
+    //         }
+    //     };
 
-        getUserDataFromStorage();
-    }, []);
+    //     getUserDataFromStorage();
+    // }, []);
 
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

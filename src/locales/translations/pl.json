@@ -1,5 +1,6 @@
 {
     "time": "Czas",
+    "confirm": "Rozumiem",
     "addSolveComment": "Dodaj komentarz",
     "editSolveComment": "Edytuj komentarz",
     "addNotePlaceholder": "Wpisz komentarz tutaj",
@@ -46,6 +47,7 @@
     "auth.dontHaveAcc": "Nie masz jeszcze konta?",
     "auth.signup": "Utwórz konto",
     "auth.signin": "Zaloguj się",
+    "auth.goToLogin": "Zarejestruj konto",
     "auth.emailRequired": "Email jest wymagany",
     "auth.passwordRequired": "Hasło jest wymagane",
     "auth.createNewAcc": "Stwórz nowe konto!",
@@ -56,6 +58,8 @@
     "auth.confirmPasswordRequired": "Potwierdzenie hasła jest wymagane.",
     "auth.enterValidEmail": "Proszę wpisać prawidłowy adres email.",
     "auth.signout": "Wyloguj się",
+    "auth.useWithoutAcc": "Kontynuuj bez tworzenia konta",
+    "auth.useWithoutAccDesc": "Jeśli zdecydujesz się kontynuować bez tworzenia konta, pamiętaj, że wszelki postęp zostanie utracony w przypadku usunięcia aplikacji!",
     "clickToStop": "Kliknij by zatrzymać",
     "inspectionTime": "Czas inspekcji",
     "newBestBy": "Nowy najlepszy czas! Poprzedni rekord sesji pobity o",

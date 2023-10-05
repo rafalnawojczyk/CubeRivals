@@ -1,19 +1,19 @@
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaCard } from '../components/UI/SafeAreaCard';
 import { useContext } from 'react';
-import { TimesList } from '../components/timesList/TimesList';
+import { EnhancedTimesList } from '../components/timesList/TimesList';
 import { PADDING } from '../styles/base';
-import { TopTimerBar } from '../components/timer/TopTimerBar';
-import { SolvesContext } from '../store/solves-context';
+import { EnhancedTopTimerBar } from '../components/timer/TopTimerBar';
+import { TimerSettingsContext } from '../store/timer-settings-context';
 
 export const TimesListScreen = () => {
-    const { currentSession } = useContext(SolvesContext);
+    const { timerSettings } = useContext(TimerSettingsContext);
 
     return (
         <SafeAreaCard>
-            <TopTimerBar />
+            <EnhancedTopTimerBar cube={timerSettings.cube} />
             <View style={styles.container}>
-                <TimesList data={currentSession?.solves} />
+                <EnhancedTimesList cube={timerSettings.cube} />
             </View>
         </SafeAreaCard>
     );

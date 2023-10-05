@@ -1,18 +1,20 @@
 import { useContext } from 'react';
 import { SafeAreaCard } from '../components/UI/SafeAreaCard';
 import { EmptyFallbackAnimation } from '../components/EmptyFallbackAnimation';
-import { TopTimerBar } from '../components/timer/TopTimerBar';
+import { EnhancedTopTimerBar } from '../components/timer/TopTimerBar';
 import { SolvesContext } from '../store/solves-context';
 import { useTranslation } from '../hooks/useTranslation';
+import { TimerSettingsContext } from '../store/timer-settings-context';
 
 export const StatisticsScreen = () => {
-    const { currentSession } = useContext(SolvesContext);
+    const { timerSettings } = useContext(TimerSettingsContext);
     const trans = useTranslation();
 
     return (
         <SafeAreaCard>
-            <TopTimerBar />
-            {currentSession?.solves.length === 0 && <EmptyFallbackAnimation title={trans('itsEmptyHere')} />}
+            <EnhancedTopTimerBar cube={timerSettings.cube} />
+            {/* {currentSession?.solves.length === 0 && <EmptyFallbackAnimation title={trans('itsEmptyHere')} />} */}
+            <EmptyFallbackAnimation title={trans('itsEmptyHere')} />
         </SafeAreaCard>
     );
 };

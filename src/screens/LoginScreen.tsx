@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Text, StyleSheet, KeyboardAvoidingView, View } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -12,10 +12,15 @@ import { SafeAreaCard } from '../components/UI/SafeAreaCard';
 import { FONTS, PADDING } from '../styles/base';
 import { useTranslation } from '../hooks/useTranslation';
 import { LinkButton } from '../components/UI/LinkButton';
-import { useAuth } from '@realm/react';
+import { supabase } from '../utils/supabase';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ConfirmAnonymousUserModal } from '../components/ConfirmAnonymousUserModal';
+import { UserContext } from '../store/user-context';
 
 export const LoginScreen = () => {
-    const { result, logInWithEmailPassword } = useAuth();
+    const [isLoading, setIsLoading] = useState(false);
+    const { updateUser } = useContext(UserContext);
+    const [showAnonymousModal, setShowAnonymousModal] = useState(false);
     const navigation = useNavigation();
     const getColor = useColors();
     const trans = useTranslation();
@@ -28,14 +33,31 @@ export const LoginScreen = () => {
     const [errorState, setErrorState] = useState('');
     const { passwordVisibility, handlePasswordVisibility, rightIcon } = useTogglePasswordVisibility();
 
-    const handleLogin = (values: { email: string; password: string }) => {
+    const handleLogin = async (values: { email: string; password: string }) => {
+        setIsLoading(true);
+
         const { email, password } = values;
-        logInWithEmailPassword({ email, password });
+
+        const { error } = await supabase.auth.signInWithPassword({
+            email,
+            password,
+        });
+
+        if (error) {
+            setErrorState(error.message);
+            // TODO: fix error messages
+        }
+        await AsyncStorage.setItem('appUser', 'registered');
+        updateUser({ userType: 'registered' });
+        setIsLoading(false);
     };
 
-    // TODO: Here I should make some logic that will be responsible for errors while logging in.
-    // useEffect(() => {
-    // }, [result]);
+    const handleUseWithoutAcc = async () => {
+        setIsLoading(true);
+        await AsyncStorage.setItem('appUser', 'anonymous');
+        updateUser({ userType: 'anonymous' });
+        setIsLoading(false);
+    };
 
     return (
         <>
@@ -103,6 +125,11 @@ export const LoginScreen = () => {
                                             {trans('auth.signin')}
                                         </Text>
                                     </CustomButton>
+                                    <CustomButton type="secondary" onPress={() => setShowAnonymousModal(true)}>
+                                        <Text style={[styles.buttonText, { color: getColor('text') }]}>
+                                            {trans('auth.useWithoutAcc')}
+                                        </Text>
+                                    </CustomButton>
                                 </>
                             )}
                         </Formik>
@@ -122,6 +149,11 @@ export const LoginScreen = () => {
                     </KeyboardAvoidingView>
                 </View>
             </SafeAreaCard>
+            <ConfirmAnonymousUserModal
+                showModal={showAnonymousModal}
+                onClose={() => setShowAnonymousModal(false)}
+                onConfirm={handleUseWithoutAcc}
+            />
         </>
     );
 };
