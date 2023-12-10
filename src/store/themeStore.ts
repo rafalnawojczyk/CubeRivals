@@ -9,7 +9,7 @@ interface ThemeStoreInterface {
     setThemeByUser: (theme: ThemeType) => void;
 }
 
-export const useThemeStore = create<ThemeStoreInterface>(() => ({
+export const useThemeStore = create<ThemeStoreInterface>(set => ({
     isDarkTheme: true,
     setThemeByUser: async (theme: ThemeType) => {
         try {
@@ -17,7 +17,7 @@ export const useThemeStore = create<ThemeStoreInterface>(() => ({
         } catch (err) {
             console.log(err);
         } finally {
-            useThemeStore.setState({ isDarkTheme: theme === 'dark' });
+            set({ isDarkTheme: theme === 'dark' });
         }
     },
 }));

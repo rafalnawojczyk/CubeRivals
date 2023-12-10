@@ -27,7 +27,7 @@ export const useUserStore = create<UserDataInterface>(set => ({
     username: 'Speedcuber',
     lang: 'en',
     updateUser: (updatedUser: PartialUserDataType) => {
-        useUserStore.setState(prevData => {
+        set(prevData => {
             const newUserData = { ...prevData, ...updatedUser };
 
             AsyncStorage.setItem('userData', JSON.stringify(newUserData));

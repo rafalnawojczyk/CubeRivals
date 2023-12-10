@@ -31,7 +31,7 @@ interface TimerSettingsContextInterface extends TimerSettingsType {
 export const useTimerSettingsStore = create<TimerSettingsContextInterface>(set => ({
     ...DEFAULT_TIMER_SETTINGS,
     updateSettings: (newSettings: Partial<TimerSettingsType>) => {
-        useTimerSettingsStore.setState(prevSettings => {
+        set(prevSettings => {
             const updatedSettings = { ...prevSettings, ...newSettings };
             AsyncStorage.setItem('timerSettings', JSON.stringify(updatedSettings));
 
@@ -42,6 +42,6 @@ export const useTimerSettingsStore = create<TimerSettingsContextInterface>(set =
         const { cube, ...newSettings } = {
             ...DEFAULT_TIMER_SETTINGS,
         };
-        useTimerSettingsStore.setState(newSettings);
+        set(newSettings);
     },
 }));
