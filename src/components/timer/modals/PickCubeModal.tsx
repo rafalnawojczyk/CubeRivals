@@ -4,7 +4,6 @@ import { DIMENSIONS, FONTS, PADDING } from '../../../styles/base';
 import { useTranslation } from '../../../hooks/useTranslation';
 import { CUBES_DATA } from '../../../constants/CubesData';
 import { CubeDataInterface, CubeType } from '../../../models/cubes';
-import { useContext } from 'react';
 import { useColors } from '../../../hooks/useColors';
 import { useTimerSettingsStore } from '../../../store/timerSettingsStore';
 

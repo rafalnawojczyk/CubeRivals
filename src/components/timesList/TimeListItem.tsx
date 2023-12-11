@@ -2,7 +2,7 @@ import { Pressable, View, Text, StyleSheet } from 'react-native';
 import { formatTime } from '../../utils/formatTime';
 import { DIMENSIONS, FONTS, PADDING } from '../../styles/base';
 import { useColors } from '../../hooks/useColors';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { formatDateToDDMM } from '../../utils/formatDateToDDMM';
 import { MaterialIcons } from '@expo/vector-icons';
 import { TimeDetailsModal } from './TimeDetailsModal';
