@@ -13,15 +13,16 @@ import { useColors } from '../hooks/useColors';
 import { SettingsIconButtonItem } from '../components/timerSettingsModal/SettingsIconButtonItem';
 import { CustomSettingItem } from '../components/timerSettingsModal/CustomSettingItem';
 import { LinkButton } from '../components/UI/LinkButton';
-import { UserContext } from '../store/user-context';
+
 import { langMap } from '../locales/langMap';
 import { ListSelectModal } from '../components/ListSelectModal';
 import { useAuth } from '@realm/react';
+import { useUserStore } from '../store/userStore';
 
 export const SettingsScreen = () => {
     const { setThemeByUser, isDarkTheme } = useContext(ThemeContext);
     const [showLangModal, setShowLangModal] = useState(false);
-    const { lang, updateUser } = useContext(UserContext);
+    const { lang, updateUser } = useUserStore(state => ({ lang: state.lang, updateUser: state.updateUser }));
     const [showTimerSettings, setShowTimerSettings] = useState(false);
     const { logOut } = useAuth();
 

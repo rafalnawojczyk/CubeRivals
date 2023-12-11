@@ -1,18 +1,16 @@
 import { StyleSheet, View, Text, FlatList, Pressable } from 'react-native';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { CustomModal } from '../../UI/modal/CustomModal';
 import { DIMENSIONS, FONTS, PADDING } from '../../../styles/base';
 import { useColors } from '../../../hooks/useColors';
 import { useTranslation } from '../../../hooks/useTranslation';
 import { CustomButton } from '../../UI/CustomButton';
 import { MaterialIcons } from '@expo/vector-icons';
-import { UserContext } from '../../../store/user-context';
-import { TimerSettingsContext } from '../../../store/timer-settings-context';
 import { AddSessionModal } from './AddNewSessionModal';
 import { SolvesContext } from '../../../store/solves-context';
 import { Session } from '../../../models/realm-models/SessionSchema';
-import { BSON } from 'realm';
 import { ChangeSessionNameModal } from './ChangeSessionNameModal';
+import { useTimerSettingsStore } from '../../../store/timerSettingsStore';
 
 interface ManageSessionModalProps {
     showModal: boolean;
@@ -64,7 +62,7 @@ const SessionModalItem = ({
 };
 
 export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalProps) => {
-    const { timerSettings } = useContext(TimerSettingsContext);
+    const cube = useTimerSettingsStore(state => state.cube);
     const { sessions, addSession } = useContext(SolvesContext);
     const [showAddSessionModal, setShowAddSessionModal] = useState(false);
     const getColor = useColors();
@@ -77,7 +75,7 @@ export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalPro
             return;
         }
 
-        addSession(trimmedSessionName, timerSettings.cube);
+        addSession(trimmedSessionName, cube);
 
         onPickSessionHandler();
     };

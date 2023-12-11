@@ -1,15 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { useContext } from 'react';
 import { CustomModal } from '../UI/modal/CustomModal';
 import { FONTS, PADDING } from '../../styles/base';
 import { useColors } from '../../hooks/useColors';
 import { formatTime } from '../../utils/formatTime';
-import { TimerSettingsContext } from '../../store/timer-settings-context';
 import { MaterialIcons } from '@expo/vector-icons';
 import { ModifyResultBlock } from '../timer/ModifyResultBlock';
 import { formatTimestamp } from '../../utils/formatTimestamp';
 import { Solve } from '../../models/realm-models/SolveSchema';
 import { useTranslation } from '../../hooks/useTranslation';
+import { useTimerSettingsStore } from '../../store/timerSettingsStore';
 
 interface TimeDetailsModalProps {
     showModal: boolean;
@@ -19,7 +18,7 @@ interface TimeDetailsModalProps {
 }
 
 export const TimeDetailsModal = ({ showModal, onClose, onDelete, result }: TimeDetailsModalProps) => {
-    const { timerSettings } = useContext(TimerSettingsContext);
+    const showWholeMs = useTimerSettingsStore(state => state.showWholeMs);
     const getColor = useColors();
     const trans = useTranslation();
 
@@ -30,10 +29,7 @@ export const TimeDetailsModal = ({ showModal, onClose, onDelete, result }: TimeD
             <View style={[styles.topBar, { borderBlockColor: getColor('gray100') }]}>
                 <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
                     <Text style={[styles.timerText, { color: getColor('gray100') }]}>
-                        {formatTime(
-                            result.flag === '+2' ? result.time + 2000 : result.time,
-                            !timerSettings.showWholeMs
-                        )}
+                        {formatTime(result.flag === '+2' ? result.time + 2000 : result.time, !showWholeMs)}
                     </Text>
                     <Text style={[styles.penalty, { color: getColor('error') }]}>
                         {result.flag ? result.flag.toUpperCase() : ''}

@@ -6,10 +6,8 @@ import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 
 import { ThemeContextProvider } from './src/store/theme-context';
-import { UserContextProvider } from './src/store/user-context';
 import { Navigation } from './src/navigation/Navigation';
 import { CubeAnimation } from './src/components/CubeAnimation';
-import { TimerSettingsContextProvider } from './src/store/timer-settings-context';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -65,16 +63,12 @@ export default function App() {
 
     return (
         <ThemeContextProvider>
-            <UserContextProvider>
-                <TimerSettingsContextProvider>
-                    {fontsReady && <Navigation onReady={onApplicationReady} />}
-                    {showAnimation && (
-                        <View pointerEvents="none" style={styles.animationContainer} onLayout={onLayoutRootView}>
-                            <CubeAnimation progress={animationProgress.current} />
-                        </View>
-                    )}
-                </TimerSettingsContextProvider>
-            </UserContextProvider>
+            {fontsReady && <Navigation onReady={onApplicationReady} />}
+            {showAnimation && (
+                <View pointerEvents="none" style={styles.animationContainer} onLayout={onLayoutRootView}>
+                    <CubeAnimation progress={animationProgress.current} />
+                </View>
+            )}
         </ThemeContextProvider>
     );
 }

@@ -7,7 +7,7 @@ import { formatDateToDDMM } from '../../utils/formatDateToDDMM';
 import { MaterialIcons } from '@expo/vector-icons';
 import { TimeDetailsModal } from './TimeDetailsModal';
 import { Solve } from '../../models/realm-models/SolveSchema';
-import { TimerSettingsContext } from '../../store/timer-settings-context';
+import { useTimerSettingsStore } from '../../store/timerSettingsStore';
 
 const showTimeResult = (result: Solve) => {
     if (result.flag === 'dnf') {
@@ -33,8 +33,8 @@ export const TimeListItem = ({
     isSelected: boolean;
     onSelectItem: (item: Solve) => void;
 }) => {
+    const holdDelay = useTimerSettingsStore(state => state.holdDelay);
     const [showTimeDetailsModal, setShowTimeDetailsModal] = useState(false);
-    const { timerSettings } = useContext(TimerSettingsContext);
     const [hideTime, setHideTime] = useState(false);
     const getColor = useColors();
 
@@ -46,7 +46,7 @@ export const TimeListItem = ({
         <>
             <Pressable
                 onPress={() => setShowTimeDetailsModal(true)}
-                delayLongPress={timerSettings.holdDelay}
+                delayLongPress={holdDelay}
                 onLongPress={() => onSelectItem(result)}
             >
                 <View
