@@ -9,7 +9,6 @@ import { Session } from '../../models/realm-models/SessionSchema';
 import { CustomButton } from '../UI/CustomButton';
 import { useCurrentSession } from '../../hooks/useCurrentSession';
 import { useSessions } from '../../hooks/useSessions';
-import { BSON } from 'realm';
 
 export const MoveElementsBar = ({
     amount,

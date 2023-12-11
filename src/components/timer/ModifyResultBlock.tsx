@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import {  useState } from 'react';
+import { useState } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Result } from '../../models/result';
 import { AddNoteModal } from './modals/AddNoteModal';
