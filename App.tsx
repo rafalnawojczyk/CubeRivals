@@ -4,8 +4,6 @@ import { useCallback, useState, useRef, useEffect } from 'react';
 import { StyleSheet, View, Animated, Easing } from 'react-native';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-
-import { ThemeContextProvider } from './src/store/theme-context';
 import { Navigation } from './src/navigation/Navigation';
 import { CubeAnimation } from './src/components/CubeAnimation';
 
@@ -62,14 +60,14 @@ export default function App() {
     const showAnimation = !(isAppReady && isLayoutReady && fontsReady);
 
     return (
-        <ThemeContextProvider>
+        <>
             {fontsReady && <Navigation onReady={onApplicationReady} />}
             {showAnimation && (
                 <View pointerEvents="none" style={styles.animationContainer} onLayout={onLayoutRootView}>
                     <CubeAnimation progress={animationProgress.current} />
                 </View>
             )}
-        </ThemeContextProvider>
+        </>
     );
 }
 

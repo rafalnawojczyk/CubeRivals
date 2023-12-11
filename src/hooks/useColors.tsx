@@ -1,9 +1,8 @@
-import { useContext } from 'react';
 import { ColorsInterface, DARK_THEME, LIGHT_THEME } from '../styles/colors';
-import { ThemeContext } from '../store/theme-context';
+import { useThemeStore } from '../store/themeStore';
 
 export const useColors = () => {
-    const { isDarkTheme } = useContext(ThemeContext);
+    const isDarkTheme = useThemeStore(state => state.isDarkTheme);
 
     const getColor = (color: keyof ColorsInterface) => {
         const colorScheme = isDarkTheme ? DARK_THEME : LIGHT_THEME;

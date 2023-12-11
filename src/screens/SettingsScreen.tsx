@@ -4,10 +4,9 @@ import { TranslationCodes, useTranslation } from '../hooks/useTranslation';
 import { CustomButton } from '../components/UI/CustomButton';
 
 import { FONTS, PADDING } from '../styles/base';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { TimerSettingsModal } from '../components/timerSettingsModal/TimerSettingsModal';
 import { SettingsSwitchItem } from '../components/timerSettingsModal/SettingsSwitchItem';
-import { ThemeContext } from '../store/theme-context';
 import { SettingItem } from '../components/timerSettingsModal/SettingItem';
 import { useColors } from '../hooks/useColors';
 import { SettingsIconButtonItem } from '../components/timerSettingsModal/SettingsIconButtonItem';
@@ -18,9 +17,13 @@ import { langMap } from '../locales/langMap';
 import { ListSelectModal } from '../components/ListSelectModal';
 import { useAuth } from '@realm/react';
 import { useUserStore } from '../store/userStore';
+import { useThemeStore } from '../store/themeStore';
 
 export const SettingsScreen = () => {
-    const { setThemeByUser, isDarkTheme } = useContext(ThemeContext);
+    const { setThemeByUser, isDarkTheme } = useThemeStore(state => ({
+        setThemeByUser: state.setThemeByUser,
+        isDarkTheme: state.isDarkTheme,
+    }));
     const [showLangModal, setShowLangModal] = useState(false);
     const { lang, updateUser } = useUserStore(state => ({ lang: state.lang, updateUser: state.updateUser }));
     const [showTimerSettings, setShowTimerSettings] = useState(false);
