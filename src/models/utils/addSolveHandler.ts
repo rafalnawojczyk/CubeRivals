@@ -4,7 +4,7 @@ import { useRealm } from '@realm/react';
 import { calcDeviation } from '../../utils/calcDeviation';
 import { Result } from '../result';
 
-export const addSolveHandler = (result: Result, currentSession: Session): Solve | undefined => {
+export const addSolve = (result: Result, currentSession: Session): Solve | undefined => {
     const realm = useRealm();
 
     if (currentSession) {

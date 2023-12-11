@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { FONTS, DIMENSIONS } from '../../styles/base';
 import { useColors } from '../../hooks/useColors';
@@ -6,14 +6,15 @@ import { IconButton } from '../UI/IconButton';
 import { TimerSettingsModal } from '../timerSettingsModal/TimerSettingsModal';
 import { ManageSessionModal } from './modals/ManageSessionsModal';
 import { TopBarCubeButton } from './TopBarCubeButton';
-import { SolvesContext } from '../../store/solves-context';
 import { useTimerSettingsStore } from '../../store/timerSettingsStore';
+import { useCurrentSession } from '../../hooks/useCurrentSession';
 
 export const TopTimerBar = () => {
     const [showSettings, setShowSettings] = useState(false);
     const [showSessionModal, setShowSessionModal] = useState(false);
     const cube = useTimerSettingsStore(state => state.cube);
-    const { currentSession: session } = useContext(SolvesContext);
+
+    const session = useCurrentSession();
 
     const getColor = useColors();
 

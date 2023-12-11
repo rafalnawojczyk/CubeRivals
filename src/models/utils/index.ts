@@ -1,15 +1,8 @@
-import { addSessionHandler } from './addSessionHandler';
-import { editSessionHandler } from './editSessionHandler';
-import { addSolveHandler } from './addSolveHandler';
-import { editSolveHandler } from './editSolveHandler';
-import { deleteSolveHandler } from './deleteSolveHandler';
-import { moveSolvesHandler } from './moveSolvesHandler';
+import { addSession } from './addSessionHandler';
+import { editSession } from './editSessionHandler';
+import { addSolve } from './addSolveHandler';
+import { editSolve } from './editSolveHandler';
+import { deleteSolve } from './deleteSolveHandler';
+import { moveSolves } from './moveSolvesHandler';
 
-export {
-    addSessionHandler,
-    editSessionHandler,
-    addSolveHandler,
-    editSolveHandler,
-    deleteSolveHandler,
-    moveSolvesHandler,
-};
+export { addSession, editSession, addSolve, editSolve, deleteSolve, moveSolves };

@@ -8,7 +8,6 @@ import { AppProvider, RealmProvider, UserProvider } from '@realm/react';
 import Constants from 'expo-constants';
 import { schemas } from '../models/realm-models';
 import { OpenRealmBehaviorType, OpenRealmTimeOutBehavior } from 'realm';
-import { SolvesContextProvider } from '../store/solves-context';
 import { useThemeStore } from '../store/themeStore';
 
 export const Navigation = ({ onReady }: { onReady: () => void }) => {
@@ -33,9 +32,7 @@ export const Navigation = ({ onReady }: { onReady: () => void }) => {
                                 },
                             }}
                         >
-                            <SolvesContextProvider>
-                                <AppTabs />
-                            </SolvesContextProvider>
+                            <AppTabs />
                         </RealmProvider>
                     </UserProvider>
                 </AppProvider>

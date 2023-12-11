@@ -1,7 +1,6 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { View, StyleSheet, Pressable } from 'react-native';
 import { BottomTimeStatsItem } from './BottomTimeStatsItem';
-import { SolvesContext } from '../../../store/solves-context';
 import { calcAvg } from '../../../utils/calcAvg';
 import { DIMENSIONS, PADDING } from '../../../styles/base';
 import { formatTime } from '../../../utils/formatTime';
@@ -9,6 +8,7 @@ import { AverageThresholdsModal } from '../averageThresholdsModal/AverageThresho
 import { useColors } from '../../../hooks/useColors';
 import { useTranslation } from '../../../hooks/useTranslation';
 import { useTimerSettingsStore } from '../../../store/timerSettingsStore';
+import { useCurrentSession } from '../../../hooks/useCurrentSession';
 
 const emptyTimePlaceholder = '-- : --';
 
@@ -21,7 +21,7 @@ const getTimeResult = (time: any) => {
 };
 
 export const BottomTimerBar = () => {
-    const { currentSession } = useContext(SolvesContext);
+    const currentSession = useCurrentSession();
     const [avgThresholds, cutEndsInAvgs] = useTimerSettingsStore(state => [state.avgThresholds, state.cutEndsInAvgs]);
     const [showEditThresholds, setShowEditThresholds] = useState(false);
     const getColor = useColors();

@@ -4,7 +4,7 @@ import { useRealm } from '@realm/react';
 import { calcDeviation } from '../../utils/calcDeviation';
 import { removeElementFromArray } from '../../utils/removeElementFromArray';
 
-export const deleteSolveHandler = (solve: Solve, currentSession: Session): void => {
+export const deleteSolve = (solve: Solve, currentSession: Session): void => {
     const realm = useRealm();
 
     realm.write(() => {

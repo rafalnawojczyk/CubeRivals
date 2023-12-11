@@ -1,15 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
-import { CubeType } from '../models/cubes';
 import { TranslationCodes } from '../hooks/useTranslation';
 import * as Localization from 'expo-localization';
 
-export interface SessionObjectInterface {
-    name: string;
-    id: string;
-    cube: CubeType;
-    lastUsed: number;
-}
+
 
 interface UserDataInterface {
     isLoaded: boolean;

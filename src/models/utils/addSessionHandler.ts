@@ -3,7 +3,7 @@ import { CubeType } from '../cubes';
 import { Session } from '../realm-models/SessionSchema';
 import { useRealm } from '@realm/react';
 
-export const addSessionHandler = (name: string, cube: CubeType, userId: string): BSON.ObjectId => {
+export const addSession = (name: string, cube: CubeType, userId: string): BSON.ObjectId => {
     const realm = useRealm();
 
     const item = realm.write(() => {

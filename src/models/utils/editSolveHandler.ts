@@ -4,7 +4,7 @@ import { useRealm } from '@realm/react';
 import { calcDeviation } from '../../utils/calcDeviation';
 import { removeElementFromArray } from '../../utils/removeElementFromArray';
 
-export const editSolveHandler = (solve: Solve, solveEdit: Partial<Solve>, currentSession: Session): void => {
+export const editSolve = (solve: Solve, solveEdit: Partial<Solve>, currentSession: Session): void => {
     const realm = useRealm();
     const keyValPairs = Object.entries(solveEdit);
 

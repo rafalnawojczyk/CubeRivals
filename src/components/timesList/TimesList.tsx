@@ -3,15 +3,16 @@ import { TimeListItem } from './TimeListItem';
 import { Solve } from '../../models/realm-models/SolveSchema';
 import { EmptyFallbackAnimation } from '../EmptyFallbackAnimation';
 import { DIMENSIONS, PADDING } from '../../styles/base';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { TopTimesListBar } from './TopTimesListBar';
 import { useTranslation } from '../../hooks/useTranslation';
 import { LinkButton } from '../UI/LinkButton';
 import { TimesListFiltersList } from './TimesListFiltersList';
 import { MoveElementsBar } from './MoveElementsBar';
 import { Session } from '../../models/realm-models/SessionSchema';
-import { SolvesContext } from '../../store/solves-context';
 import { useColors } from '../../hooks/useColors';
+import { moveSolves } from '../../models/utils';
+import { useCurrentSession } from '../../hooks/useCurrentSession';
 
 interface TimesListProps {
     data: Realm.List<Solve> | undefined;
@@ -88,7 +89,7 @@ export const TimesList = ({ data }: TimesListProps) => {
     const [selectedElements, setSelectedElements] = useState<Solve[]>([]);
     const [search, setSearch] = useState('');
     const [filters, setFilters] = useState<TimesListFilterObj>({ filter: 'createdAt', order: 'asc' });
-    const { currentSession, moveSolves } = useContext(SolvesContext);
+    const currentSession = useCurrentSession();
     const trans = useTranslation();
     const getColor = useColors();
 

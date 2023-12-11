@@ -8,7 +8,7 @@ interface SolvesToMoveInterface extends SolveInterface {
     createdAt: Date;
 }
 
-export const moveSolvesHandler = (delSession: Session, moveSession: Session, solves: Solve[]) => {
+export const moveSolves = (delSession: Session, moveSession: Session, solves: Solve[]) => {
     const realm = useRealm();
 
     realm.write(() => {

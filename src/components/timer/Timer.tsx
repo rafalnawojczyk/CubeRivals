@@ -1,4 +1,4 @@
-import { useState, useRef, useContext, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
 import { Pressable, View, Text, StyleSheet } from 'react-native';
 import { DIMENSIONS, FONTS, PADDING } from '../../styles/base';
@@ -9,13 +9,14 @@ import { Result } from '../../models/result';
 import { ModifyResultBlock } from './ModifyResultBlock';
 import { useTranslation } from '../../hooks/useTranslation';
 import { ScramblePreviewBlock } from './ScramblePreviewBlock';
-import { SolvesContext } from '../../store/solves-context';
 import { Solve, SolveFlagType } from '../../models/realm-models/SolveSchema';
 import { IconButton } from '../UI/IconButton';
 import { InspectionOverlay } from './InspectionOverlay';
 import { generateScramble } from '../../utils/generateScramble';
 import BestTimeAnimation from '../BestTimeAnimation';
 import { useTimerSettingsStore } from '../../store/timerSettingsStore';
+import { addSolve, editSolve } from '../../models/utils';
+import { useCurrentSession } from '../../hooks/useCurrentSession';
 
 const AWAKE_TAG = 'timer';
 
@@ -41,8 +42,17 @@ export const Timer = () => {
     const getColor = useColors();
     const trans = useTranslation();
     const [inspection, cube, inspectionTime, hideUi, hideTime, showWholeMs, scrambleBlockPlacement, holdDelay] =
-        useTimerSettingsStore(state => [state.inspection, state.cube, state.inspectionTime, state.hideUi, state.hideTime, state.showWholeMs, state.scrambleBlockPlacement, state.holdDelay]);
-    const { addSolve, editSolve, currentSession } = useContext(SolvesContext);
+        useTimerSettingsStore(state => [
+            state.inspection,
+            state.cube,
+            state.inspectionTime,
+            state.hideUi,
+            state.hideTime,
+            state.showWholeMs,
+            state.scrambleBlockPlacement,
+            state.holdDelay,
+        ]);
+    const currentSession = useCurrentSession();
 
     const onChangeScramble = (scramble: string, newCube: boolean) => {
         setScramble(prevScramble => {
@@ -128,7 +138,7 @@ export const Timer = () => {
             if (!isWarmup) {
                 checkForBestTime(updatedResult.time, updatedResult.flag);
 
-                const addedSolve = addSolve(updatedResult);
+                const addedSolve = addSolve(updatedResult, currentSession);
 
                 if (addedSolve) {
                     setLastSolve(addedSolve);
@@ -158,7 +168,7 @@ export const Timer = () => {
                 updatedResult.scramble = '';
             }
 
-            const addedSolve = addSolve(updatedResult);
+            const addedSolve = addSolve(updatedResult, currentSession);
 
             if (addedSolve) {
                 setLastSolve(addedSolve);
@@ -208,7 +218,7 @@ export const Timer = () => {
 
                 return newResult;
             });
-            editSolve(lastSolve, { flag: undefined });
+            editSolve(lastSolve, { flag: undefined }, currentSession);
         }
     };
 

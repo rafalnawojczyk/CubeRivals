@@ -1,12 +1,12 @@
-import { useContext } from 'react';
 import { SafeAreaCard } from '../components/UI/SafeAreaCard';
 import { EmptyFallbackAnimation } from '../components/EmptyFallbackAnimation';
 import { TopTimerBar } from '../components/timer/TopTimerBar';
-import { SolvesContext } from '../store/solves-context';
+
 import { useTranslation } from '../hooks/useTranslation';
+import { useCurrentSession } from '../hooks/useCurrentSession';
 
 export const StatisticsScreen = () => {
-    const { currentSession } = useContext(SolvesContext);
+    const currentSession = useCurrentSession();
     const trans = useTranslation();
 
     return (

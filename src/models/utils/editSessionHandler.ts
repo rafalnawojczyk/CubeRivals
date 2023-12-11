@@ -1,7 +1,7 @@
 import { useRealm } from '@realm/react';
 import { Session } from '../realm-models/SessionSchema';
 
-export const editSessionHandler = (session: Session, sessionEdit: Partial<Session>): void => {
+export const editSession = (session: Session, sessionEdit: Partial<Session>): void => {
     const realm = useRealm();
     const keyValPairs = Object.entries(sessionEdit);
 

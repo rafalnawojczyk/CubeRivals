@@ -4,10 +4,12 @@ import { useColors } from '../../hooks/useColors';
 import { CustomSwitch } from '../UI/CustomSwitch';
 import { useTranslation } from '../../hooks/useTranslation';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { useContext, useState } from 'react';
-import { SolvesContext } from '../../store/solves-context';
+import { useState } from 'react';
 import { Session } from '../../models/realm-models/SessionSchema';
 import { CustomButton } from '../UI/CustomButton';
+import { useCurrentSession } from '../../hooks/useCurrentSession';
+import { useSessions } from '../../hooks/useSessions';
+import { BSON } from 'realm';
 
 export const MoveElementsBar = ({
     amount,
@@ -24,26 +26,34 @@ export const MoveElementsBar = ({
 }) => {
     const [moveTo, setMoveTo] = useState<string>();
     const [openPicker, setOpenPicker] = useState(false);
-    const { sessions, currentSession } = useContext(SolvesContext);
+    const currentSession = useCurrentSession();
+    const sessions = useSessions();
     const trans = useTranslation();
     const [sessionsToMove, setSessionsToMove] = useState(
         sessions
             .map((el: Session) =>
                 el._id.toString() === currentSession._id.toString()
                     ? {
-                          value: el._id,
+                          value: el._id.toString(),
                           label: el.name,
                       }
                     : undefined
             )
-            .filter((el: any) => !!el)
+            .filter((el: any) => !!el) as unknown as {
+            value: string;
+            label: string;
+        }[]
     );
     const getColor = useColors();
 
     const moveTimesHandler = () => {
         if (moveTo) {
             const sessionToMove = sessions.find((el: Session) => el._id.toString() === moveTo.toString());
-            onMoveElements(sessionToMove);
+            if (sessionToMove) {
+                onMoveElements(sessionToMove);
+            } else {
+                //  TODO: MAKE SOMETHING HERE
+            }
         }
     };
 
