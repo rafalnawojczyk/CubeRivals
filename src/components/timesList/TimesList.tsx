@@ -122,13 +122,12 @@ export const TimesList = ({ data }: TimesListProps) => {
         setSelectedElements([]);
     };
 
-    if (!currentSession) {
+    if (!currentSession || !data || data.length === 0) {
         return <EmptyFallbackAnimation title={trans('itsEmptyHere')} />;
     }
 
     return (
         <>
-            {(!data || data.length === 0) && <EmptyFallbackAnimation title={trans('itsEmptyHere')} />}
             {currentSession.solves.length >= 0 && (
                 <>
                     <TopTimesListBar filters={filters} search={search} setSearch={setSearch} setFilters={setFilters} />
