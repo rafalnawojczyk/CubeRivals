@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
-import { useColorScheme } from 'react-native';
 
 type ThemeType = 'dark' | 'light';
 
@@ -21,22 +20,3 @@ export const useThemeStore = create<ThemeStoreInterface>(set => ({
         }
     },
 }));
-
-// TODO: MOVE THIS INTO A COMPONENT, BECAUSE IT USES A HOOK
-
-// const getThemeFromStorage = async () => {
-//     const deviceTheme = useColorScheme();
-//     try {
-//         const savedTheme = await AsyncStorage.getItem('theme');
-
-//         if (savedTheme) {
-//             useThemeStore.setState({ isDarkTheme: savedTheme === 'dark' });
-//         } else {
-//             useThemeStore.setState({ isDarkTheme: deviceTheme === 'dark' });
-//         }
-//     } catch (err) {
-//         console.log(err);
-//     }
-// };
-
-// getThemeFromStorage();

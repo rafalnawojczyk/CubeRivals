@@ -126,6 +126,9 @@ export const TimesList = ({ data }: TimesListProps) => {
         return <EmptyFallbackAnimation title={trans('itsEmptyHere')} />;
     }
 
+    // TODO: when solve is selected and user tries to delete it - it crashes app
+    // this shows even when removing element
+
     return (
         <>
             {currentSession.solves.length >= 0 && (
