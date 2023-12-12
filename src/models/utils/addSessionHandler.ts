@@ -1,11 +1,10 @@
 import { BSON } from 'realm';
 import { CubeType } from '../cubes';
 import { Session } from '../realm-models/SessionSchema';
-import { useRealm } from '@realm/react';
 
-export const addSession = (name: string, cube: CubeType, userId: string): BSON.ObjectId => {
-    const realm = useRealm();
+import { Realm } from 'realm/dist/bundle';
 
+export const addSession = (name: string, cube: CubeType, userId: string, realm: Realm): BSON.ObjectId => {
     const item = realm.write(() => {
         return realm.create(Session, {
             name,

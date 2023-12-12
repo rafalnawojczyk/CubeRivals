@@ -8,8 +8,11 @@ export const useCurrentSession = () => {
 
     const realm = useRealm();
     const sessions = useQuery(Session, collection => collection.filtered('cube == $0', cube), [cube]);
+    console.log(sessions);
 
     const session = sessions.sorted('used', true)[0];
+
+    console.log(session);
 
     useEffect(() => {
         realm.subscriptions.update(mutableSubs => {

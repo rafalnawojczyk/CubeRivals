@@ -1,12 +1,10 @@
 import { Session } from '../realm-models/SessionSchema';
 import { Solve } from '../realm-models/SolveSchema';
-import { useRealm } from '@realm/react';
 import { calcDeviation } from '../../utils/calcDeviation';
 import { Result } from '../result';
+import { Realm } from 'realm/dist/bundle';
 
-export const addSolve = (result: Result, currentSession: Session): Solve | undefined => {
-    const realm = useRealm();
-
+export const addSolve = (result: Result, currentSession: Session, realm: Realm): Solve | undefined => {
     if (currentSession) {
         const solve = realm.write(() => {
             currentSession.used = new Date();

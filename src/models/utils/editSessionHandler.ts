@@ -1,8 +1,7 @@
-import { useRealm } from '@realm/react';
 import { Session } from '../realm-models/SessionSchema';
+import { Realm } from 'realm/dist/bundle';
 
-export const editSession = (session: Session, sessionEdit: Partial<Session>): void => {
-    const realm = useRealm();
+export const editSession = (session: Session, sessionEdit: Partial<Session>, realm: Realm): void => {
     const keyValPairs = Object.entries(sessionEdit);
 
     if (keyValPairs.length === 0) {

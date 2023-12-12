@@ -22,19 +22,19 @@ export const useThemeStore = create<ThemeStoreInterface>(set => ({
     },
 }));
 
-const getThemeFromStorage = async () => {
-    const deviceTheme = useColorScheme();
-    try {
-        const savedTheme = await AsyncStorage.getItem('theme');
+// const getThemeFromStorage = async () => {
+//     const deviceTheme = useColorScheme();
+//     try {
+//         const savedTheme = await AsyncStorage.getItem('theme');
 
-        if (savedTheme) {
-            useThemeStore.setState({ isDarkTheme: savedTheme === 'dark' });
-        } else {
-            useThemeStore.setState({ isDarkTheme: deviceTheme === 'dark' });
-        }
-    } catch (err) {
-        console.log(err);
-    }
-};
+//         if (savedTheme) {
+//             useThemeStore.setState({ isDarkTheme: savedTheme === 'dark' });
+//         } else {
+//             useThemeStore.setState({ isDarkTheme: deviceTheme === 'dark' });
+//         }
+//     } catch (err) {
+//         console.log(err);
+//     }
+// };
 
-getThemeFromStorage();
+// getThemeFromStorage();

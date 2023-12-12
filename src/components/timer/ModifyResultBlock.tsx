@@ -11,6 +11,7 @@ import { Solve } from '../../models/realm-models/SolveSchema';
 import { useTranslation } from '../../hooks/useTranslation';
 import { deleteSolve, editSolve } from '../../models/utils';
 import { useCurrentSession } from '../../hooks/useCurrentSession';
+import { useRealm } from '@realm/react';
 
 export type ButtonName = 'remove' | 'dnf' | '+2' | 'note' | 'star';
 
@@ -51,7 +52,7 @@ export const ModifyResultBlock = ({
     onDelete: () => void;
 }) => {
     const currentSession = useCurrentSession();
-
+    const realm = useRealm();
     const [showCommentModal, setShowCommentModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -61,7 +62,7 @@ export const ModifyResultBlock = ({
     const handleConfirmDeleteSolve = () => {
         if (solve) {
             setShowDeleteModal(false);
-            deleteSolve(solve, currentSession);
+            deleteSolve(solve, currentSession, realm);
             onDelete();
         }
     };
@@ -72,7 +73,7 @@ export const ModifyResultBlock = ({
         if (commentTrimmed.length > 0) {
             setSolveResult(prev => ({ ...prev, note: comment }));
             if (solve) {
-                editSolve(solve, { note: commentTrimmed }, currentSession);
+                editSolve(solve, { note: commentTrimmed }, currentSession, realm);
             }
         }
 
@@ -89,7 +90,7 @@ export const ModifyResultBlock = ({
                 setSolveResult(prev => ({ ...prev, flag: undefined }));
 
                 if (solve) {
-                    editSolve(solve, { flag: undefined }, currentSession);
+                    editSolve(solve, { flag: undefined }, currentSession, realm);
                 }
                 return;
             }
@@ -97,7 +98,7 @@ export const ModifyResultBlock = ({
             setSolveResult(prev => ({ ...prev, flag: 'dnf' }));
 
             if (solve) {
-                editSolve(solve, { flag: 'dnf' }, currentSession);
+                editSolve(solve, { flag: 'dnf' }, currentSession, realm);
             }
         }
 
@@ -106,7 +107,7 @@ export const ModifyResultBlock = ({
                 setSolveResult(prev => ({ ...prev, flag: undefined }));
 
                 if (solve) {
-                    editSolve(solve, { flag: undefined }, currentSession);
+                    editSolve(solve, { flag: undefined }, currentSession, realm);
                 }
                 return;
             }
@@ -114,7 +115,7 @@ export const ModifyResultBlock = ({
             setSolveResult(prev => ({ ...prev, flag: '+2' }));
 
             if (solve) {
-                editSolve(solve, { flag: '+2' }, currentSession);
+                editSolve(solve, { flag: '+2' }, currentSession, realm);
             }
         }
 
@@ -136,14 +137,12 @@ export const ModifyResultBlock = ({
                     newStarValue = solve?.star ? !solve.star : true;
                 }
 
-                editSolve(solve, { star: newStarValue }, currentSession);
+                editSolve(solve, { star: newStarValue }, currentSession, realm);
             }
         }
     };
 
     const buttonsToRender = showDelete ? buttonsMap : buttonsMap.filter(button => button.name !== 'remove');
-
-
 
     return (
         <>

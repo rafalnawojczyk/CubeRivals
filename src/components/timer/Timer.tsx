@@ -17,6 +17,7 @@ import BestTimeAnimation from '../BestTimeAnimation';
 import { useTimerSettingsStore } from '../../store/timerSettingsStore';
 import { addSolve, editSolve } from '../../models/utils';
 import { useCurrentSession } from '../../hooks/useCurrentSession';
+import { useRealm } from '@realm/react';
 
 const AWAKE_TAG = 'timer';
 
@@ -41,6 +42,7 @@ export const Timer = () => {
     const requestRef = useRef();
     const getColor = useColors();
     const trans = useTranslation();
+    const realm = useRealm();
     const [inspection, cube, inspectionTime, hideUi, hideTime, showWholeMs, scrambleBlockPlacement, holdDelay] =
         useTimerSettingsStore(state => [
             state.inspection,
@@ -138,7 +140,7 @@ export const Timer = () => {
             if (!isWarmup) {
                 checkForBestTime(updatedResult.time, updatedResult.flag);
 
-                const addedSolve = addSolve(updatedResult, currentSession);
+                const addedSolve = addSolve(updatedResult, currentSession, realm);
 
                 if (addedSolve) {
                     setLastSolve(addedSolve);
@@ -168,7 +170,7 @@ export const Timer = () => {
                 updatedResult.scramble = '';
             }
 
-            const addedSolve = addSolve(updatedResult, currentSession);
+            const addedSolve = addSolve(updatedResult, currentSession, realm);
 
             if (addedSolve) {
                 setLastSolve(addedSolve);
@@ -218,7 +220,7 @@ export const Timer = () => {
 
                 return newResult;
             });
-            editSolve(lastSolve, { flag: undefined }, currentSession);
+            editSolve(lastSolve, { flag: undefined }, currentSession, realm);
         }
     };
 

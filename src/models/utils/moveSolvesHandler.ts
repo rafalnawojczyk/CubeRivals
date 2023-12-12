@@ -1,16 +1,14 @@
 import { Session } from '../realm-models/SessionSchema';
 import { Solve, SolveInterface } from '../realm-models/SolveSchema';
-import { useRealm } from '@realm/react';
 import { calcDeviation } from '../../utils/calcDeviation';
 import { removeElementFromArray } from '../../utils/removeElementFromArray';
+import { Realm } from 'realm/dist/bundle';
 
 interface SolvesToMoveInterface extends SolveInterface {
     createdAt: Date;
 }
 
-export const moveSolves = (delSession: Session, moveSession: Session, solves: Solve[]) => {
-    const realm = useRealm();
-
+export const moveSolves = (delSession: Session, moveSession: Session, solves: Solve[], realm: Realm) => {
     realm.write(() => {
         // solves array STATS
         const solvesToMoveSumTime = solves.reduce((a, b) => {

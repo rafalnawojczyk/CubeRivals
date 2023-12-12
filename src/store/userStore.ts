@@ -31,29 +31,29 @@ export const useUserStore = create<UserDataInterface>(set => ({
     },
 }));
 
-const getUserDataFromStorage = async () => {
-    try {
-        const savedUserData = await AsyncStorage.getItem('userData');
+// const getUserDataFromStorage = async () => {
+//     try {
+//         const savedUserData = await AsyncStorage.getItem('userData');
 
-        if (savedUserData) {
-            const parsedData = JSON.parse(savedUserData);
+//         if (savedUserData) {
+//             const parsedData = JSON.parse(savedUserData);
 
-            const dataToUpdate: Partial<UserDataInterface> = { ...parsedData, isLoaded: true };
+//             const dataToUpdate: Partial<UserDataInterface> = { ...parsedData, isLoaded: true };
 
-            if (!parsedData.lang) {
-                parsedData.lang === Localization.locale.slice(0, 2);
+//             if (!parsedData.lang) {
+//                 parsedData.lang === Localization.locale.slice(0, 2);
 
-                dataToUpdate.lang = Localization.locale.slice(0, 2) as TranslationCodes;
-            }
+//                 dataToUpdate.lang = Localization.locale.slice(0, 2) as TranslationCodes;
+//             }
 
-            useUserStore.setState(dataToUpdate);
-            return;
-        }
+//             useUserStore.setState(dataToUpdate);
+//             return;
+//         }
 
-        useUserStore.setState({ isLoaded: true });
-    } catch (err) {
-        console.log(err);
-    }
-};
+//         useUserStore.setState({ isLoaded: true });
+//     } catch (err) {
+//         console.log(err);
+//     }
+// };
 
-getUserDataFromStorage();
+// getUserDataFromStorage();

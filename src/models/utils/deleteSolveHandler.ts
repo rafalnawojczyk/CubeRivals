@@ -1,12 +1,10 @@
 import { Session } from '../realm-models/SessionSchema';
 import { Solve } from '../realm-models/SolveSchema';
-import { useRealm } from '@realm/react';
 import { calcDeviation } from '../../utils/calcDeviation';
 import { removeElementFromArray } from '../../utils/removeElementFromArray';
+import { Realm } from 'realm/dist/bundle';
 
-export const deleteSolve = (solve: Solve, currentSession: Session): void => {
-    const realm = useRealm();
-
+export const deleteSolve = (solve: Solve, currentSession: Session, realm: Realm): void => {
     realm.write(() => {
         const currentSolveTime = solve.flag === '+2' ? solve.time + 2000 : solve.time;
 

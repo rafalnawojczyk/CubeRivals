@@ -1,11 +1,10 @@
 import { Session } from '../realm-models/SessionSchema';
 import { Solve } from '../realm-models/SolveSchema';
-import { useRealm } from '@realm/react';
 import { calcDeviation } from '../../utils/calcDeviation';
 import { removeElementFromArray } from '../../utils/removeElementFromArray';
+import { Realm } from 'realm/dist/bundle';
 
-export const editSolve = (solve: Solve, solveEdit: Partial<Solve>, currentSession: Session): void => {
-    const realm = useRealm();
+export const editSolve = (solve: Solve, solveEdit: Partial<Solve>, currentSession: Session, realm: Realm): void => {
     const keyValPairs = Object.entries(solveEdit);
 
     if (keyValPairs.length === 0) {

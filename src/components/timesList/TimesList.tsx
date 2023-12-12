@@ -13,6 +13,7 @@ import { Session } from '../../models/realm-models/SessionSchema';
 import { useColors } from '../../hooks/useColors';
 import { moveSolves } from '../../models/utils';
 import { useCurrentSession } from '../../hooks/useCurrentSession';
+import { useRealm } from '@realm/react';
 
 interface TimesListProps {
     data: Realm.List<Solve> | undefined;
@@ -86,6 +87,7 @@ const filterAndSortData = (filters: TimesListFilterObj, search: string, prevData
 };
 
 export const TimesList = ({ data }: TimesListProps) => {
+    const realm = useRealm();
     const [selectedElements, setSelectedElements] = useState<Solve[]>([]);
     const [search, setSearch] = useState('');
     const [filters, setFilters] = useState<TimesListFilterObj>({ filter: 'createdAt', order: 'asc' });
@@ -116,9 +118,13 @@ export const TimesList = ({ data }: TimesListProps) => {
     };
 
     const moveTimesHandler = (session: Session) => {
-        moveSolves(currentSession, session, selectedElements);
+        moveSolves(currentSession, session, selectedElements, realm);
         setSelectedElements([]);
     };
+
+    if (!currentSession) {
+        return <EmptyFallbackAnimation title={trans('itsEmptyHere')} />;
+    }
 
     return (
         <>

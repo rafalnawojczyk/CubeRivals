@@ -13,6 +13,7 @@ import { ChangeSessionNameModal } from './ChangeSessionNameModal';
 import { useTimerSettingsStore } from '../../../store/timerSettingsStore';
 import { addSession, editSession } from '../../../models/utils';
 import { useQuery, useRealm, useUser } from '@realm/react';
+import { Realm } from 'realm/dist/bundle';
 
 interface ManageSessionModalProps {
     showModal: boolean;
@@ -22,9 +23,11 @@ interface ManageSessionModalProps {
 const SessionModalItem = ({
     session,
     onPickSessionHandler,
+    realm,
 }: {
     session: Session;
     onPickSessionHandler: () => void;
+    realm: Realm;
 }) => {
     const [showEditSessionModal, setShowEditSessionModal] = useState(false);
     const getColor = useColors();
@@ -33,7 +36,7 @@ const SessionModalItem = ({
         const trimmedSessionName = sessionName.trim();
 
         if (trimmedSessionName.length > 0) {
-            editSession(session, { name: trimmedSessionName });
+            editSession(session, { name: trimmedSessionName }, realm);
         }
     };
 
@@ -49,7 +52,7 @@ const SessionModalItem = ({
             )}
             <Pressable
                 onPress={() => {
-                    editSession(session, { used: new Date() });
+                    editSession(session, { used: new Date() }, realm);
                     onPickSessionHandler();
                 }}
                 onLongPress={() => setShowEditSessionModal(true)}
@@ -78,8 +81,7 @@ export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalPro
         if (trimmedSessionName.length === 0) {
             return;
         }
-
-        addSession(trimmedSessionName, cube, user.id);
+        addSession(trimmedSessionName, cube, user.id, realm);
 
         onPickSessionHandler();
     };
@@ -112,7 +114,11 @@ export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalPro
                         data={sessions}
                         keyExtractor={item => item._id.toString()}
                         renderItem={({ item }) => (
-                            <SessionModalItem session={item} onPickSessionHandler={onPickSessionHandler} />
+                            <SessionModalItem
+                                session={item}
+                                onPickSessionHandler={onPickSessionHandler}
+                                realm={realm}
+                            />
                         )}
                     />
                 </View>
