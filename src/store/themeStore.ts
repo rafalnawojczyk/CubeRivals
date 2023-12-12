@@ -22,6 +22,8 @@ export const useThemeStore = create<ThemeStoreInterface>(set => ({
     },
 }));
 
+// TODO: MOVE THIS INTO A COMPONENT, BECAUSE IT USES A HOOK
+
 // const getThemeFromStorage = async () => {
 //     const deviceTheme = useColorScheme();
 //     try {
