@@ -1,6 +1,6 @@
-import { useContext, useState } from 'react';
+import {  useState } from 'react';
 import { CustomModal } from '../UI/modal/CustomModal';
-import { TimerSettingsContext, TimerSettingsType } from '../../store/timer-settings-context';
+import { TimerSettingsType } from '../../store/timerSettingsStore';
 import { useTranslation } from '../../hooks/useTranslation';
 import { ScrollView, StyleSheet, View, Text } from 'react-native';
 import { SettingsSwitchItem } from './SettingsSwitchItem';
@@ -12,6 +12,7 @@ import { FONTS, PADDING } from '../../styles/base';
 import { NumberPickerModal } from '../NumberPickerModal';
 import { RemoveConfirmModal } from '../timer/modals/RemoveConfirmModal';
 import { ListSelectModal } from '../ListSelectModal';
+import { useTimerSettingsStore } from '../../store/timerSettingsStore';
 
 interface TimerSettingsModalProps {
     showModal: boolean;
@@ -19,7 +20,7 @@ interface TimerSettingsModalProps {
 }
 
 export const TimerSettingsModal = ({ showModal, onClose }: TimerSettingsModalProps) => {
-    const { timerSettings, updateSettings, resetSettings } = useContext(TimerSettingsContext);
+    const timerState = useTimerSettingsStore(state => state);
     const [showResetConfirmModal, setShowResetConfirmModal] = useState(false);
     const [showHoldDelayModal, setShowHoldDelayModal] = useState(false);
     const [showScramblePlacementModal, setShowScramblePlacementModal] = useState(false);
@@ -60,7 +61,7 @@ export const TimerSettingsModal = ({ showModal, onClose }: TimerSettingsModalPro
     };
 
     const resetTimerSettingsHandler = () => {
-        resetSettings();
+        timerState.resetSettings();
         setShowResetConfirmModal(false);
     };
 
@@ -77,12 +78,14 @@ export const TimerSettingsModal = ({ showModal, onClose }: TimerSettingsModalPro
                     {switchSettingsMap.map(setting => (
                         <SettingItem key={setting.name}>
                             <SettingsSwitchItem
-                                value={timerSettings[setting.name]}
+                                value={timerState[setting.name]}
                                 title={setting.title}
-                                onSwitch={() => updateSettings({ [setting.name]: !timerSettings[setting.name] })}
+                                onSwitch={() =>
+                                    timerState.updateSettings({ [setting.name]: !timerState[setting.name] })
+                                }
                                 subtitle={setting.subtitle}
                             />
-                            {setting.name === 'inspection' && !!timerSettings[setting.name] && (
+                            {setting.name === 'inspection' && !!timerState[setting.name] && (
                                 <LinkButton
                                     title="Inspection settings"
                                     onPress={() => setShowInspectionModal(true)}
@@ -99,7 +102,7 @@ export const TimerSettingsModal = ({ showModal, onClose }: TimerSettingsModalPro
                             </Text>
                             <LinkButton
                                 textStyle={{ fontSize: FONTS.md }}
-                                title={`${timerSettings.holdDelay}ms`}
+                                title={`${timerState.holdDelay}ms`}
                                 onPress={() => setShowHoldDelayModal(true)}
                                 color={getColor('primary200')}
                             />
@@ -113,7 +116,7 @@ export const TimerSettingsModal = ({ showModal, onClose }: TimerSettingsModalPro
                             <LinkButton
                                 textStyle={{ fontSize: FONTS.md }}
                                 title={trans(
-                                    `timerSettings.scrambleBlockPlacement-${timerSettings.scrambleBlockPlacement}`
+                                    `timerSettings.scrambleBlockPlacement-${timerState.scrambleBlockPlacement}`
                                 )}
                                 onPress={() => setShowScramblePlacementModal(true)}
                                 color={getColor('primary200')}
@@ -135,9 +138,9 @@ export const TimerSettingsModal = ({ showModal, onClose }: TimerSettingsModalPro
             <NumberPickerModal
                 showModal={showHoldDelayModal}
                 onClose={() => setShowHoldDelayModal(false)}
-                currentNumber={timerSettings.holdDelay}
+                currentNumber={timerState.holdDelay}
                 modalTitle={trans('timerSettings.holdDelayModalTitle')}
-                onSelect={(newTime: number) => updateSettings({ holdDelay: newTime })}
+                onSelect={(newTime: number) => timerState.updateSettings({ holdDelay: newTime })}
             />
             <ListSelectModal
                 showModal={showScramblePlacementModal}
@@ -146,10 +149,10 @@ export const TimerSettingsModal = ({ showModal, onClose }: TimerSettingsModalPro
                 listNameRender={(item: string) =>
                     trans(`timerSettings.scrambleBlockPlacement-${item as 'top' | 'bottom'}`)
                 }
-                currentItem={timerSettings.scrambleBlockPlacement}
+                currentItem={timerState.scrambleBlockPlacement}
                 modalTitle={trans('timerSettings.scramblePlacementModal')}
                 onSelect={(item: string) => {
-                    updateSettings({ scrambleBlockPlacement: item as 'top' | 'bottom' });
+                    timerState.updateSettings({ scrambleBlockPlacement: item as 'top' | 'bottom' });
                     setShowScramblePlacementModal(false);
                 }}
             />

@@ -2,12 +2,12 @@ import { Pressable, View, Text, StyleSheet } from 'react-native';
 import { formatTime } from '../../utils/formatTime';
 import { DIMENSIONS, FONTS, PADDING } from '../../styles/base';
 import { useColors } from '../../hooks/useColors';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { formatDateToDDMM } from '../../utils/formatDateToDDMM';
 import { MaterialIcons } from '@expo/vector-icons';
 import { TimeDetailsModal } from './TimeDetailsModal';
 import { Solve } from '../../models/realm-models/SolveSchema';
-import { TimerSettingsContext } from '../../store/timer-settings-context';
+import { useTimerSettingsStore } from '../../store/timerSettingsStore';
 
 const showTimeResult = (result: Solve) => {
     if (result.flag === 'dnf') {
@@ -33,20 +33,18 @@ export const TimeListItem = ({
     isSelected: boolean;
     onSelectItem: (item: Solve) => void;
 }) => {
+    const holdDelay = useTimerSettingsStore(state => state.holdDelay);
     const [showTimeDetailsModal, setShowTimeDetailsModal] = useState(false);
-    const { timerSettings } = useContext(TimerSettingsContext);
-    const [hideTime, setHideTime] = useState(false);
+
     const getColor = useColors();
 
-    if (hideTime) {
-        return null;
-    }
+    if (!result || !result.isValid()) return null;
 
     return (
         <>
             <Pressable
                 onPress={() => setShowTimeDetailsModal(true)}
-                delayLongPress={timerSettings.holdDelay}
+                delayLongPress={holdDelay}
                 onLongPress={() => onSelectItem(result)}
             >
                 <View
@@ -89,9 +87,6 @@ export const TimeListItem = ({
                 showModal={showTimeDetailsModal}
                 onClose={() => {
                     setShowTimeDetailsModal(false);
-                }}
-                onDelete={() => {
-                    setHideTime(true);
                 }}
                 result={result}
             />

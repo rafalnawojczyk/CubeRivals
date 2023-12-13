@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Result } from '../../models/result';
 import { AddNoteModal } from './modals/AddNoteModal';
@@ -8,8 +8,10 @@ import { FONTS } from '../../styles/base';
 import { useColors } from '../../hooks/useColors';
 import { RemoveConfirmModal } from './modals/RemoveConfirmModal';
 import { Solve } from '../../models/realm-models/SolveSchema';
-import { SolvesContext } from '../../store/solves-context';
 import { useTranslation } from '../../hooks/useTranslation';
+import { deleteSolve, editSolve } from '../../models/utils';
+import { useCurrentSession } from '../../hooks/useCurrentSession';
+import { useRealm } from '@realm/react';
 
 export type ButtonName = 'remove' | 'dnf' | '+2' | 'note' | 'star';
 
@@ -49,16 +51,18 @@ export const ModifyResultBlock = ({
     solve?: Solve;
     onDelete: () => void;
 }) => {
+    const currentSession = useCurrentSession();
+    const realm = useRealm();
     const [showCommentModal, setShowCommentModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const { deleteSolve, editSolve } = useContext(SolvesContext);
+
     const getColor = useColors();
     const trans = useTranslation();
 
     const handleConfirmDeleteSolve = () => {
         if (solve) {
             setShowDeleteModal(false);
-            deleteSolve(solve);
+            deleteSolve(solve, currentSession, realm);
             onDelete();
         }
     };
@@ -69,7 +73,7 @@ export const ModifyResultBlock = ({
         if (commentTrimmed.length > 0) {
             setSolveResult(prev => ({ ...prev, note: comment }));
             if (solve) {
-                editSolve(solve, { note: commentTrimmed });
+                editSolve(solve, { note: commentTrimmed }, currentSession, realm);
             }
         }
 
@@ -86,7 +90,7 @@ export const ModifyResultBlock = ({
                 setSolveResult(prev => ({ ...prev, flag: undefined }));
 
                 if (solve) {
-                    editSolve(solve, { flag: undefined });
+                    editSolve(solve, { flag: undefined }, currentSession, realm);
                 }
                 return;
             }
@@ -94,7 +98,7 @@ export const ModifyResultBlock = ({
             setSolveResult(prev => ({ ...prev, flag: 'dnf' }));
 
             if (solve) {
-                editSolve(solve, { flag: 'dnf' });
+                editSolve(solve, { flag: 'dnf' }, currentSession, realm);
             }
         }
 
@@ -103,7 +107,7 @@ export const ModifyResultBlock = ({
                 setSolveResult(prev => ({ ...prev, flag: undefined }));
 
                 if (solve) {
-                    editSolve(solve, { flag: undefined });
+                    editSolve(solve, { flag: undefined }, currentSession, realm);
                 }
                 return;
             }
@@ -111,7 +115,7 @@ export const ModifyResultBlock = ({
             setSolveResult(prev => ({ ...prev, flag: '+2' }));
 
             if (solve) {
-                editSolve(solve, { flag: '+2' });
+                editSolve(solve, { flag: '+2' }, currentSession, realm);
             }
         }
 
@@ -133,10 +137,12 @@ export const ModifyResultBlock = ({
                     newStarValue = solve?.star ? !solve.star : true;
                 }
 
-                editSolve(solve, { star: newStarValue });
+                editSolve(solve, { star: newStarValue }, currentSession, realm);
             }
         }
     };
+
+    if (!solve || !solve.isValid()) return null;
 
     const buttonsToRender = showDelete ? buttonsMap : buttonsMap.filter(button => button.name !== 'remove');
 

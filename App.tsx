@@ -1,15 +1,13 @@
 import 'react-native-gesture-handler';
 import 'react-native-get-random-values';
 import { useCallback, useState, useRef, useEffect } from 'react';
-import { StyleSheet, View, Animated, Easing } from 'react-native';
+import { StyleSheet, View, Animated, Easing, useColorScheme } from 'react-native';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-
-import { ThemeContextProvider } from './src/store/theme-context';
-import { UserContextProvider } from './src/store/user-context';
 import { Navigation } from './src/navigation/Navigation';
 import { CubeAnimation } from './src/components/CubeAnimation';
-import { TimerSettingsContextProvider } from './src/store/timer-settings-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useThemeStore } from './src/store/themeStore';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -27,6 +25,21 @@ export default function App() {
     const [fontsReady, setFontsReady] = useState(false);
     const [isAppReady, setAppReady] = useState(false);
     const animationProgress = useRef(new Animated.Value(0));
+    const deviceTheme = useColorScheme();
+
+    const getThemeFromStorage = async () => {
+        try {
+            const savedTheme = await AsyncStorage.getItem('theme');
+
+            if (savedTheme) {
+                useThemeStore.setState({ isDarkTheme: savedTheme === 'dark' });
+            } else {
+                useThemeStore.setState({ isDarkTheme: deviceTheme === 'dark' });
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     useEffect(() => {
         const loadFonts = async () => {
@@ -36,7 +49,7 @@ export default function App() {
         };
 
         loadFonts();
-
+        getThemeFromStorage();
         Animated.loop(
             Animated.timing(animationProgress.current, {
                 toValue: 1,
@@ -64,18 +77,14 @@ export default function App() {
     const showAnimation = !(isAppReady && isLayoutReady && fontsReady);
 
     return (
-        <ThemeContextProvider>
-            <UserContextProvider>
-                <TimerSettingsContextProvider>
-                    {fontsReady && <Navigation onReady={onApplicationReady} />}
-                    {showAnimation && (
-                        <View pointerEvents="none" style={styles.animationContainer} onLayout={onLayoutRootView}>
-                            <CubeAnimation progress={animationProgress.current} />
-                        </View>
-                    )}
-                </TimerSettingsContextProvider>
-            </UserContextProvider>
-        </ThemeContextProvider>
+        <>
+            {fontsReady && <Navigation onReady={onApplicationReady} />}
+            {showAnimation && (
+                <View pointerEvents="none" style={styles.animationContainer} onLayout={onLayoutRootView}>
+                    <CubeAnimation progress={animationProgress.current} />
+                </View>
+            )}
+        </>
     );
 }
 

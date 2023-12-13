@@ -3,6 +3,7 @@
 // Make a clean install of whole repo and check/write down all steps that are essential to run this app
 
 // ********************************** HIGH **********************************
+// 0.  red/red/red - wherever I'm querying for all sessions - maybe query for specific session by ID?
 // 0. There should be feature that saves user preferences/settings inside user? or some other Schema, so it will sync between devices
 // 3. add image of scrambled cube  https://github.com/tdecker91/puzzle-gen
 // 8. Add option to choose "Ready signal", so timer will somehow show user that it is ready to count time. Maybe color some parts of screen/change time color
@@ -50,3 +51,5 @@
 // 19. In Solves list - when user selects times - let him mass edit them?
 // 20. Maybe add option in inspection that will let user solve even when he exceeded inspection?
 // 21. Add indicator that will tell used if current time is better/worse than his last time
+
+

@@ -1,13 +1,13 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { generateScramble } from '../../utils/generateScramble';
-import { TimerSettingsContext } from '../../store/timer-settings-context';
 import { useColors } from '../../hooks/useColors';
 import { DIMENSIONS, FONTS, PADDING } from '../../styles/base';
 import { IconButton } from '../UI/IconButton';
 import { AddScrambleModal } from './modals/AddScrambleModal';
 import { AddTimeModal } from './modals/AddTimeModal';
 import { Result } from '../../models/result';
+import { useTimerSettingsStore } from '../../store/timerSettingsStore';
 
 export const ScramblePreviewBlock = ({
     onChangeScramble,
@@ -26,7 +26,7 @@ export const ScramblePreviewBlock = ({
     toggleWarmup: () => void;
     onSetPrevScramble: () => void;
 }) => {
-    const { timerSettings } = useContext(TimerSettingsContext);
+    const [cube, scrambleBlockPlacement] = useTimerSettingsStore(state => [state.cube, state.scrambleBlockPlacement]);
     const [showAddScrambleModal, setShowAddScrambleModal] = useState(false);
     const [showAddTimeModal, setShowAddTimeModal] = useState(false);
     const getColor = useColors();
@@ -44,7 +44,7 @@ export const ScramblePreviewBlock = ({
     };
 
     const onRegenerateScramble = (newCube: boolean = false) => {
-        const scr = generateScramble(timerSettings.cube);
+        const scr = generateScramble(cube);
         onChangeScramble(scr[0], newCube);
     };
 
@@ -55,7 +55,7 @@ export const ScramblePreviewBlock = ({
 
     useEffect(() => {
         onRegenerateScramble(true);
-    }, [timerSettings.cube]);
+    }, [cube]);
 
     return (
         <>
@@ -75,7 +75,7 @@ export const ScramblePreviewBlock = ({
                 <View
                     style={[
                         styles.container,
-                        { flexDirection: timerSettings.scrambleBlockPlacement === 'top' ? 'column' : 'column-reverse' },
+                        { flexDirection: scrambleBlockPlacement === 'top' ? 'column' : 'column-reverse' },
                     ]}
                 >
                     <Text style={[styles.scramble, { color: getColor('gray100') }]}>

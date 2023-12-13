@@ -1,4 +1,4 @@
-import { useState, useRef, useContext, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
 import { Pressable, View, Text, StyleSheet } from 'react-native';
 import { DIMENSIONS, FONTS, PADDING } from '../../styles/base';
@@ -8,14 +8,16 @@ import { formatTime } from '../../utils/formatTime';
 import { Result } from '../../models/result';
 import { ModifyResultBlock } from './ModifyResultBlock';
 import { useTranslation } from '../../hooks/useTranslation';
-import { TimerSettingsContext } from '../../store/timer-settings-context';
 import { ScramblePreviewBlock } from './ScramblePreviewBlock';
-import { SolvesContext } from '../../store/solves-context';
 import { Solve, SolveFlagType } from '../../models/realm-models/SolveSchema';
 import { IconButton } from '../UI/IconButton';
 import { InspectionOverlay } from './InspectionOverlay';
 import { generateScramble } from '../../utils/generateScramble';
 import BestTimeAnimation from '../BestTimeAnimation';
+import { useTimerSettingsStore } from '../../store/timerSettingsStore';
+import { addSolve, editSolve } from '../../models/utils';
+import { useCurrentSession } from '../../hooks/useCurrentSession';
+import { useRealm } from '@realm/react';
 
 const AWAKE_TAG = 'timer';
 
@@ -40,8 +42,19 @@ export const Timer = () => {
     const requestRef = useRef();
     const getColor = useColors();
     const trans = useTranslation();
-    const { timerSettings } = useContext(TimerSettingsContext);
-    const { addSolve, editSolve, currentSession } = useContext(SolvesContext);
+    const realm = useRealm();
+    const [inspection, cube, inspectionTime, hideUi, hideTime, showWholeMs, scrambleBlockPlacement, holdDelay] =
+        useTimerSettingsStore(state => [
+            state.inspection,
+            state.cube,
+            state.inspectionTime,
+            state.hideUi,
+            state.hideTime,
+            state.showWholeMs,
+            state.scrambleBlockPlacement,
+            state.holdDelay,
+        ]);
+    const currentSession = useCurrentSession();
 
     const onChangeScramble = (scramble: string, newCube: boolean) => {
         setScramble(prevScramble => {
@@ -64,7 +77,7 @@ export const Timer = () => {
     };
 
     const onLongPressHandler = () => {
-        if (!timerSettings.inspection) {
+        if (!inspection) {
             setStartingTime(0);
             setEndingTime(0);
             setShowReadyState(true);
@@ -101,7 +114,7 @@ export const Timer = () => {
         cancelAnimationFrame(requestRef.current!);
         setIsRunning(false);
 
-        const scr = generateScramble(timerSettings.cube);
+        const scr = generateScramble(cube);
         onChangeScramble(scr[0], false);
 
         setResult(prev => {
@@ -120,14 +133,14 @@ export const Timer = () => {
                 updatedResult.scramble = result.scramble;
             }
 
-            if (inspectionDuration - timerSettings.inspectionTime * 1000 >= 0) {
+            if (inspectionDuration - inspectionTime * 1000 >= 0) {
                 updatedResult.flag = '+2';
             }
 
             if (!isWarmup) {
                 checkForBestTime(updatedResult.time, updatedResult.flag);
 
-                const addedSolve = addSolve(updatedResult);
+                const addedSolve = addSolve(updatedResult, currentSession, realm);
 
                 if (addedSolve) {
                     setLastSolve(addedSolve);
@@ -139,7 +152,7 @@ export const Timer = () => {
     };
 
     const onPressInHandler = () => {
-        if (timerSettings.inspection && !isRunning) {
+        if (inspection && !isRunning) {
             setInspectionTimes([Math.floor(performance.now()), 0]);
             setShowInspection(true);
         }
@@ -157,7 +170,7 @@ export const Timer = () => {
                 updatedResult.scramble = '';
             }
 
-            const addedSolve = addSolve(updatedResult);
+            const addedSolve = addSolve(updatedResult, currentSession, realm);
 
             if (addedSolve) {
                 setLastSolve(addedSolve);
@@ -168,7 +181,7 @@ export const Timer = () => {
     };
 
     const startTiming = () => {
-        if (timerSettings.inspection) {
+        if (inspection) {
             setStartingTime(0);
             setEndingTime(0);
             setShowReadyState(true);
@@ -207,7 +220,7 @@ export const Timer = () => {
 
                 return newResult;
             });
-            editSolve(lastSolve, { flag: undefined });
+            editSolve(lastSolve, { flag: undefined }, currentSession, realm);
         }
     };
 
@@ -237,7 +250,7 @@ export const Timer = () => {
 
     useEffect(() => {
         resetTimer();
-    }, [timerSettings.cube, isWarmup]);
+    }, [cube, isWarmup]);
 
     return (
         <>
@@ -248,19 +261,19 @@ export const Timer = () => {
                     onTimeEnd={inspectionEndHandler}
                 />
             )}
-            {timerSettings.hideUi && isRunning && (
+            {hideUi && isRunning && (
                 <Pressable
                     style={[styles.overlay, { backgroundColor: getColor('background') }]}
                     onPress={onPressInHandler}
                 >
-                    {!timerSettings.hideTime && (
+                    {!hideTime && (
                         <Text style={[styles.timerText, { color: getColor('gray100') }]}>
-                            {formatTime(elapsedTime, !timerSettings.showWholeMs)}
+                            {formatTime(elapsedTime, !showWholeMs)}
                         </Text>
                     )}
                 </Pressable>
             )}
-            {timerSettings.scrambleBlockPlacement === 'top' && (
+            {scrambleBlockPlacement === 'top' && (
                 <View>
                     <ScramblePreviewBlock
                         isWarmup={isWarmup}
@@ -275,7 +288,7 @@ export const Timer = () => {
             <Pressable
                 onPressIn={onPressInHandler}
                 onLongPress={onLongPressHandler}
-                delayLongPress={timerSettings.holdDelay}
+                delayLongPress={holdDelay}
                 onPressOut={onPressOutHandler}
                 style={styles.touchableContainer}
             >
@@ -292,12 +305,12 @@ export const Timer = () => {
                                 'newBestBy'
                             )} ${formatTime(isBestTimeBy)}`}</Text>
                         )}
-                        {isRunning && !timerSettings.hideTime && (
+                        {isRunning && !hideTime && (
                             <Text style={[styles.timerText, { color: getColor('gray100') }]}>
-                                {formatTime(elapsedTime, !timerSettings.showWholeMs)}
+                                {formatTime(elapsedTime, !showWholeMs)}
                             </Text>
                         )}
-                        {isRunning && timerSettings.hideTime && (
+                        {isRunning && hideTime && (
                             <Text style={[styles.timerText, { color: getColor('gray100'), fontSize: FONTS.xl }]}>
                                 {trans('clickToStop')}
                             </Text>
@@ -308,7 +321,7 @@ export const Timer = () => {
                                     <Text style={[styles.timerText, { color: getColor('gray100') }]}>
                                         {formatTime(
                                             result?.flag === '+2' ? result.time + 2000 : result.time,
-                                            !timerSettings.showWholeMs
+                                            !showWholeMs
                                         )}
                                     </Text>
                                     {result.flag && (
@@ -355,7 +368,7 @@ export const Timer = () => {
                     </View>
                 </View>
             </Pressable>
-            {timerSettings.scrambleBlockPlacement === 'bottom' && (
+            {scrambleBlockPlacement === 'bottom' && (
                 <View style={{ marginBottom: PADDING.md }}>
                     <ScramblePreviewBlock
                         isWarmup={isWarmup}

@@ -3,18 +3,20 @@ import { TimeListItem } from './TimeListItem';
 import { Solve } from '../../models/realm-models/SolveSchema';
 import { EmptyFallbackAnimation } from '../EmptyFallbackAnimation';
 import { DIMENSIONS, PADDING } from '../../styles/base';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { TopTimesListBar } from './TopTimesListBar';
 import { useTranslation } from '../../hooks/useTranslation';
 import { LinkButton } from '../UI/LinkButton';
 import { TimesListFiltersList } from './TimesListFiltersList';
 import { MoveElementsBar } from './MoveElementsBar';
 import { Session } from '../../models/realm-models/SessionSchema';
-import { SolvesContext } from '../../store/solves-context';
 import { useColors } from '../../hooks/useColors';
+import { moveSolves } from '../../models/utils';
+import { useCurrentSession } from '../../hooks/useCurrentSession';
+import { useRealm } from '@realm/react';
 
 interface TimesListProps {
-    data: Realm.List<Solve> | undefined;
+    // data: Realm.List<Solve> | undefined;
 }
 
 export type filterType = 'time' | 'createdAt' | 'inspection';
@@ -84,11 +86,12 @@ const filterAndSortData = (filters: TimesListFilterObj, search: string, prevData
     return newData;
 };
 
-export const TimesList = ({ data }: TimesListProps) => {
+export const TimesList = () => {
+    const realm = useRealm();
     const [selectedElements, setSelectedElements] = useState<Solve[]>([]);
     const [search, setSearch] = useState('');
     const [filters, setFilters] = useState<TimesListFilterObj>({ filter: 'createdAt', order: 'asc' });
-    const { currentSession, moveSolves } = useContext(SolvesContext);
+    const currentSession = useCurrentSession();
     const trans = useTranslation();
     const getColor = useColors();
 
@@ -115,13 +118,16 @@ export const TimesList = ({ data }: TimesListProps) => {
     };
 
     const moveTimesHandler = (session: Session) => {
-        moveSolves(currentSession, session, selectedElements);
+        moveSolves(currentSession, session, selectedElements, realm);
         setSelectedElements([]);
     };
 
+    if (!currentSession || !currentSession.solves || currentSession.solves.length === 0) {
+        return <EmptyFallbackAnimation title={trans('itsEmptyHere')} />;
+    }
+
     return (
         <>
-            {(!data || data.length === 0) && <EmptyFallbackAnimation title={trans('itsEmptyHere')} />}
             {currentSession.solves.length >= 0 && (
                 <>
                     <TopTimesListBar filters={filters} search={search} setSearch={setSearch} setFilters={setFilters} />
@@ -168,6 +174,10 @@ export const TimesList = ({ data }: TimesListProps) => {
                             renderItem={({ item }) => {
                                 // @ts-ignore
                                 if (item.hasOwnProperty('isEmptyItem') && item.isEmptyItem) {
+                                    return <View style={styles.emptyContainer}></View>;
+                                }
+
+                                if (!item.isValid()) {
                                     return <View style={styles.emptyContainer}></View>;
                                 }
 

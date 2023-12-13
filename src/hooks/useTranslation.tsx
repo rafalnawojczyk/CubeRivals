@@ -1,7 +1,6 @@
 import translationPL from '../locales/translations/pl.json';
 import translationEN from '../locales/translations/en.json';
-import { useContext } from 'react';
-import { UserContext } from '../store/user-context';
+import { useUserStore } from '../store/userStore';
 
 export type TranslationCodes = 'pl' | 'en';
 
@@ -11,8 +10,7 @@ const translationObject: Record<TranslationCodes, any> = {
 };
 
 export const useTranslation = () => {
-    const userData = useContext(UserContext);
-    const lang = userData.lang.toLowerCase();
+    const lang = useUserStore(state => state.lang);
 
     const trans = (stringToTrans: keyof typeof translationEN) => {
         if (Object.keys(translationObject).includes(lang)) {

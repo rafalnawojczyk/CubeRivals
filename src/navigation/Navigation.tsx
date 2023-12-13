@@ -1,7 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { useContext } from 'react';
-import { ThemeContext } from '../store/theme-context';
 
 import { AppTabs } from './AppTabs';
 import { AuthStack } from './AuthStack';
@@ -10,10 +8,10 @@ import { AppProvider, RealmProvider, UserProvider } from '@realm/react';
 import Constants from 'expo-constants';
 import { schemas } from '../models/realm-models';
 import { OpenRealmBehaviorType, OpenRealmTimeOutBehavior } from 'realm';
-import { SolvesContextProvider } from '../store/solves-context';
+import { useThemeStore } from '../store/themeStore';
 
 export const Navigation = ({ onReady }: { onReady: () => void }) => {
-    const { isDarkTheme } = useContext(ThemeContext);
+    const isDarkTheme = useThemeStore(state => state.isDarkTheme);
 
     return (
         <>
@@ -34,9 +32,7 @@ export const Navigation = ({ onReady }: { onReady: () => void }) => {
                                 },
                             }}
                         >
-                            <SolvesContextProvider>
-                                <AppTabs />
-                            </SolvesContextProvider>
+                            <AppTabs />
                         </RealmProvider>
                     </UserProvider>
                 </AppProvider>

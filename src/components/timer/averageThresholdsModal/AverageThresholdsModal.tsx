@@ -1,14 +1,14 @@
 import { StyleSheet, View, Text } from 'react-native';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { CustomModal } from '../../UI/modal/CustomModal';
 import { useTranslation } from '../../../hooks/useTranslation';
-import { TimerSettingsContext } from '../../../store/timer-settings-context';
 import { LinkButton } from '../../UI/LinkButton';
 import { useColors } from '../../../hooks/useColors';
 import { NumberPickerModal } from '../../NumberPickerModal';
 import { SettingsSwitchItem } from '../../timerSettingsModal/SettingsSwitchItem';
 import { FONTS, PADDING } from '../../../styles/base';
 import { SettingItem } from '../../timerSettingsModal/SettingItem';
+import { useTimerSettingsStore } from '../../../store/timerSettingsStore';
 
 interface AverageThresholdsModalProps {
     showModal: boolean;
@@ -18,9 +18,13 @@ interface AverageThresholdsModalProps {
 const unusedNumber = 9;
 
 export const AverageThresholdsModal = ({ showModal, onClose }: AverageThresholdsModalProps) => {
-    const { timerSettings, updateSettings } = useContext(TimerSettingsContext);
+    const [cutEndsInAvgs, updateSettings, avgThresholds] = useTimerSettingsStore(state => [
+        state.cutEndsInAvgs,
+        state.updateSettings,
+        state.avgThresholds,
+    ]);
     const [editThreshold, setEditThreshold] = useState(unusedNumber);
-    const [thresholds, setThresholds] = useState(timerSettings.avgThresholds);
+    const [thresholds, setThresholds] = useState(avgThresholds);
     const getColor = useColors();
 
     const trans = useTranslation();
@@ -37,8 +41,8 @@ export const AverageThresholdsModal = ({ showModal, onClose }: AverageThresholds
                     <SettingsSwitchItem
                         title={trans('timerSettings.cutEndsAvg')}
                         subtitle={trans('timerSettings.cutEndsAvgDesc')}
-                        value={timerSettings.cutEndsInAvgs}
-                        onSwitch={() => updateSettings({ cutEndsInAvgs: !timerSettings.cutEndsInAvgs })}
+                        value={cutEndsInAvgs}
+                        onSwitch={() => updateSettings({ cutEndsInAvgs: !cutEndsInAvgs })}
                     />
                 </SettingItem>
                 <View style={styles.container}>

@@ -1,14 +1,14 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { View, StyleSheet, Pressable } from 'react-native';
 import { BottomTimeStatsItem } from './BottomTimeStatsItem';
-import { SolvesContext } from '../../../store/solves-context';
 import { calcAvg } from '../../../utils/calcAvg';
 import { DIMENSIONS, PADDING } from '../../../styles/base';
 import { formatTime } from '../../../utils/formatTime';
 import { AverageThresholdsModal } from '../averageThresholdsModal/AverageThresholdsModal';
 import { useColors } from '../../../hooks/useColors';
 import { useTranslation } from '../../../hooks/useTranslation';
-import { TimerSettingsContext } from '../../../store/timer-settings-context';
+import { useTimerSettingsStore } from '../../../store/timerSettingsStore';
+import { useCurrentSession } from '../../../hooks/useCurrentSession';
 
 const emptyTimePlaceholder = '-- : --';
 
@@ -21,8 +21,8 @@ const getTimeResult = (time: any) => {
 };
 
 export const BottomTimerBar = () => {
-    const { currentSession } = useContext(SolvesContext);
-    const { timerSettings } = useContext(TimerSettingsContext);
+    const currentSession = useCurrentSession();
+    const [avgThresholds, cutEndsInAvgs] = useTimerSettingsStore(state => [state.avgThresholds, state.cutEndsInAvgs]);
     const [showEditThresholds, setShowEditThresholds] = useState(false);
     const getColor = useColors();
     const trans = useTranslation();
@@ -66,18 +66,15 @@ export const BottomTimerBar = () => {
 
                 <Pressable onPress={() => setShowEditThresholds(true)}>
                     <View style={[styles.statsContainer]}>
-                        {timerSettings.avgThresholds.map(threshold => (
+                        {avgThresholds.map(threshold => (
                             <BottomTimeStatsItem
                                 key={Math.random() + threshold}
-                                title={`${timerSettings.cutEndsInAvgs ? 'Ao' : 'Mo'}${threshold}: `}
+                                title={`${cutEndsInAvgs ? 'Ao' : 'Mo'}${threshold}: `}
                                 amount={
                                     currentSession.fullAmount < threshold
                                         ? emptyTimePlaceholder
                                         : getTimeResult(
-                                              calcAvg(
-                                                  currentSession.solves.slice(0, threshold),
-                                                  timerSettings.cutEndsInAvgs
-                                              )
+                                              calcAvg(currentSession.solves.slice(0, threshold), cutEndsInAvgs)
                                           )
                                 }
                             />

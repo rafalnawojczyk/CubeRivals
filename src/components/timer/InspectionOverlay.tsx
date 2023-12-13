@@ -1,13 +1,14 @@
 import { Pressable, StyleSheet, View, Text } from 'react-native';
 import { DIMENSIONS, FONTS, PADDING } from '../../styles/base';
 import { useColors } from '../../hooks/useColors';
-import { useContext, useState, useEffect } from 'react';
-import { TimerSettingsContext } from '../../store/timer-settings-context';
+import { useState, useEffect } from 'react';
+
 import { INSPECTION_TIME_THRESHOLDS } from '../timerSettingsModal/InspectionSettingsModal';
 import { Audio } from 'expo-av';
 import { INSPECTION_ALERT_SOUNDS } from '../../utils/inspectionAlertSounds';
 import * as Haptics from 'expo-haptics';
 import { IconButton } from '../UI/IconButton';
+import { useTimerSettingsStore } from '../../store/timerSettingsStore';
 
 interface InspectionOverlayProps {
     onStartTimer: () => void;
@@ -16,10 +17,18 @@ interface InspectionOverlayProps {
 }
 
 export const InspectionOverlay = ({ onStartTimer, onTimeEnd, onCancelInspection }: InspectionOverlayProps) => {
-    const { timerSettings } = useContext(TimerSettingsContext);
+    const [inspectionVibrationPattern, inspectionTime, inspectionAlerts, inspectionAudioNumber, holdDelay] =
+        useTimerSettingsStore(state => [
+            state.inspectionVibrationPattern,
+            state.inspectionTime,
+            state.inspectionAlerts,
+            state.inspectionAudioNumber,
+            state.holdDelay,
+        ]);
     const [ready, setReady] = useState(false);
-    const [timeLeft, setTimeLeft] = useState(timerSettings.inspectionTime);
+
     const [intervalId, setIntervalId] = useState<NodeJS.Timeout>();
+    const [timeLeft, setTimeLeft] = useState(inspectionTime);
 
     const getColor = useColors();
 
@@ -31,37 +40,35 @@ export const InspectionOverlay = ({ onStartTimer, onTimeEnd, onCancelInspection 
     }, []);
 
     const playAudio = async () => {
-        const { sound } = await Audio.Sound.createAsync(INSPECTION_ALERT_SOUNDS[timerSettings.inspectionAudioNumber]);
+        const { sound } = await Audio.Sound.createAsync(INSPECTION_ALERT_SOUNDS[inspectionAudioNumber]);
 
         await sound.playAsync();
     };
 
     const playVibration = () => {
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType[timerSettings.inspectionVibrationPattern]);
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType[inspectionVibrationPattern]);
     };
 
     useEffect(() => {
-        const firstThreshold =
-            timerSettings.inspectionTime - Math.floor(timerSettings.inspectionTime * INSPECTION_TIME_THRESHOLDS[0]);
-        const secondThreshold =
-            timerSettings.inspectionTime - Math.floor(timerSettings.inspectionTime * INSPECTION_TIME_THRESHOLDS[1]);
+        const firstThreshold = inspectionTime - Math.floor(inspectionTime * INSPECTION_TIME_THRESHOLDS[0]);
+        const secondThreshold = inspectionTime - Math.floor(inspectionTime * INSPECTION_TIME_THRESHOLDS[1]);
 
         if (timeLeft === firstThreshold) {
-            if (['both', 'sound'].includes(timerSettings.inspectionAlerts)) {
+            if (['both', 'sound'].includes(inspectionAlerts)) {
                 playAudio();
             }
 
-            if (['both', 'vibration'].includes(timerSettings.inspectionAlerts)) {
+            if (['both', 'vibration'].includes(inspectionAlerts)) {
                 playVibration();
             }
         }
 
         if (timeLeft === secondThreshold) {
-            if (['both', 'sound'].includes(timerSettings.inspectionAlerts)) {
+            if (['both', 'sound'].includes(inspectionAlerts)) {
                 playAudio();
             }
 
-            if (['both', 'vibration'].includes(timerSettings.inspectionAlerts)) {
+            if (['both', 'vibration'].includes(inspectionAlerts)) {
                 playVibration();
             }
         }
@@ -74,7 +81,7 @@ export const InspectionOverlay = ({ onStartTimer, onTimeEnd, onCancelInspection 
     return (
         <Pressable
             onLongPress={() => setReady(true)}
-            delayLongPress={timerSettings.holdDelay}
+            delayLongPress={holdDelay}
             style={[styles.container, { backgroundColor: ready ? getColor('primary200') : getColor('background') }]}
             onPressOut={() => {
                 if (ready) {

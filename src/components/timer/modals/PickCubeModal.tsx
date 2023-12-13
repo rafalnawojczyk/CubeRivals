@@ -4,9 +4,8 @@ import { DIMENSIONS, FONTS, PADDING } from '../../../styles/base';
 import { useTranslation } from '../../../hooks/useTranslation';
 import { CUBES_DATA } from '../../../constants/CubesData';
 import { CubeDataInterface, CubeType } from '../../../models/cubes';
-import { useContext } from 'react';
-import { TimerSettingsContext } from '../../../store/timer-settings-context';
 import { useColors } from '../../../hooks/useColors';
+import { useTimerSettingsStore } from '../../../store/timerSettingsStore';
 
 interface PickCubeModalProps {
     showModal: boolean;
@@ -14,8 +13,7 @@ interface PickCubeModalProps {
 }
 
 export const PickCubeModal = ({ showModal, onClose }: PickCubeModalProps) => {
-    const { updateSettings } = useContext(TimerSettingsContext);
-
+    const updateSettings = useTimerSettingsStore(state => state.updateSettings);
     const trans = useTranslation();
     const getColor = useColors();
 

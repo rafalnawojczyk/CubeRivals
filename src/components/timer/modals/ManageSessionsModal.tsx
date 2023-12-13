@@ -1,18 +1,19 @@
 import { StyleSheet, View, Text, FlatList, Pressable } from 'react-native';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { CustomModal } from '../../UI/modal/CustomModal';
 import { DIMENSIONS, FONTS, PADDING } from '../../../styles/base';
 import { useColors } from '../../../hooks/useColors';
 import { useTranslation } from '../../../hooks/useTranslation';
 import { CustomButton } from '../../UI/CustomButton';
 import { MaterialIcons } from '@expo/vector-icons';
-import { UserContext } from '../../../store/user-context';
-import { TimerSettingsContext } from '../../../store/timer-settings-context';
 import { AddSessionModal } from './AddNewSessionModal';
-import { SolvesContext } from '../../../store/solves-context';
+
 import { Session } from '../../../models/realm-models/SessionSchema';
-import { BSON } from 'realm';
 import { ChangeSessionNameModal } from './ChangeSessionNameModal';
+import { useTimerSettingsStore } from '../../../store/timerSettingsStore';
+import { addSession, editSession } from '../../../models/utils';
+import { useQuery, useRealm, useUser } from '@realm/react';
+import { Realm } from 'realm/dist/bundle';
 
 interface ManageSessionModalProps {
     showModal: boolean;
@@ -22,19 +23,20 @@ interface ManageSessionModalProps {
 const SessionModalItem = ({
     session,
     onPickSessionHandler,
+    realm,
 }: {
     session: Session;
     onPickSessionHandler: () => void;
+    realm: Realm;
 }) => {
     const [showEditSessionModal, setShowEditSessionModal] = useState(false);
-    const { editSession } = useContext(SolvesContext);
     const getColor = useColors();
 
     const onEditSessionName = (sessionName: string) => {
         const trimmedSessionName = sessionName.trim();
 
         if (trimmedSessionName.length > 0) {
-            editSession(session, { name: trimmedSessionName });
+            editSession(session, { name: trimmedSessionName }, realm);
         }
     };
 
@@ -50,7 +52,7 @@ const SessionModalItem = ({
             )}
             <Pressable
                 onPress={() => {
-                    editSession(session, { used: new Date() });
+                    editSession(session, { used: new Date() }, realm);
                     onPickSessionHandler();
                 }}
                 onLongPress={() => setShowEditSessionModal(true)}
@@ -64,11 +66,14 @@ const SessionModalItem = ({
 };
 
 export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalProps) => {
-    const { timerSettings } = useContext(TimerSettingsContext);
-    const { sessions, addSession } = useContext(SolvesContext);
+    const cube = useTimerSettingsStore(state => state.cube);
     const [showAddSessionModal, setShowAddSessionModal] = useState(false);
     const getColor = useColors();
     const trans = useTranslation();
+    const user = useUser();
+
+    const realm = useRealm();
+    const sessions = useQuery(Session, collection => collection.filtered('cube == $0', cube), [cube]);
 
     const onAddNewSessionHandler = (sessionName: string) => {
         const trimmedSessionName = sessionName.trim();
@@ -76,8 +81,7 @@ export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalPro
         if (trimmedSessionName.length === 0) {
             return;
         }
-
-        addSession(trimmedSessionName, timerSettings.cube);
+        addSession(trimmedSessionName, cube, user.id, realm);
 
         onPickSessionHandler();
     };
@@ -86,6 +90,12 @@ export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalPro
         setShowAddSessionModal(false);
         onClose();
     };
+
+    useEffect(() => {
+        realm.subscriptions.update(mutableSubs => {
+            mutableSubs.add(sessions);
+        });
+    }, [realm, sessions, cube]);
 
     return (
         <>
@@ -102,9 +112,13 @@ export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalPro
                 <View style={styles.listContainer}>
                     <FlatList
                         data={sessions}
-                        keyExtractor={item => item._id}
+                        keyExtractor={item => item._id.toString()}
                         renderItem={({ item }) => (
-                            <SessionModalItem session={item} onPickSessionHandler={onPickSessionHandler} />
+                            <SessionModalItem
+                                session={item}
+                                onPickSessionHandler={onPickSessionHandler}
+                                realm={realm}
+                            />
                         )}
                     />
                 </View>
