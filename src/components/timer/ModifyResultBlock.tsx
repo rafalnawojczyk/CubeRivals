@@ -142,6 +142,8 @@ export const ModifyResultBlock = ({
         }
     };
 
+    if (!solve || !solve.isValid()) return null;
+
     const buttonsToRender = showDelete ? buttonsMap : buttonsMap.filter(button => button.name !== 'remove');
 
     return (

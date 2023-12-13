@@ -35,12 +35,10 @@ export const TimeListItem = ({
 }) => {
     const holdDelay = useTimerSettingsStore(state => state.holdDelay);
     const [showTimeDetailsModal, setShowTimeDetailsModal] = useState(false);
-    const [hideTime, setHideTime] = useState(false);
+
     const getColor = useColors();
 
-    if (hideTime) {
-        return null;
-    }
+    if (!result || !result.isValid()) return null;
 
     return (
         <>
@@ -89,9 +87,6 @@ export const TimeListItem = ({
                 showModal={showTimeDetailsModal}
                 onClose={() => {
                     setShowTimeDetailsModal(false);
-                }}
-                onDelete={() => {
-                    setHideTime(true);
                 }}
                 result={result}
             />

@@ -13,14 +13,16 @@ import { useTimerSettingsStore } from '../../store/timerSettingsStore';
 interface TimeDetailsModalProps {
     showModal: boolean;
     onClose: () => void;
-    onDelete: () => void;
+
     result: Solve;
 }
 
-export const TimeDetailsModal = ({ showModal, onClose, onDelete, result }: TimeDetailsModalProps) => {
+export const TimeDetailsModal = ({ showModal, onClose, result }: TimeDetailsModalProps) => {
     const showWholeMs = useTimerSettingsStore(state => state.showWholeMs);
     const getColor = useColors();
     const trans = useTranslation();
+
+    if (!result.isValid()) return null;
 
     const date = formatTimestamp(result.createdAt);
 
@@ -59,7 +61,6 @@ export const TimeDetailsModal = ({ showModal, onClose, onDelete, result }: TimeD
                     showDelete
                     setSolveResult={() => {}}
                     onDelete={() => {
-                        onDelete();
                         onClose();
                     }}
                 />

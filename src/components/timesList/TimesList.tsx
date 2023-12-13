@@ -16,7 +16,7 @@ import { useCurrentSession } from '../../hooks/useCurrentSession';
 import { useRealm } from '@realm/react';
 
 interface TimesListProps {
-    data: Realm.List<Solve> | undefined;
+    // data: Realm.List<Solve> | undefined;
 }
 
 export type filterType = 'time' | 'createdAt' | 'inspection';
@@ -86,7 +86,7 @@ const filterAndSortData = (filters: TimesListFilterObj, search: string, prevData
     return newData;
 };
 
-export const TimesList = ({ data }: TimesListProps) => {
+export const TimesList = () => {
     const realm = useRealm();
     const [selectedElements, setSelectedElements] = useState<Solve[]>([]);
     const [search, setSearch] = useState('');
@@ -122,12 +122,9 @@ export const TimesList = ({ data }: TimesListProps) => {
         setSelectedElements([]);
     };
 
-    if (!currentSession || !data || data.length === 0) {
+    if (!currentSession || !currentSession.solves || currentSession.solves.length === 0) {
         return <EmptyFallbackAnimation title={trans('itsEmptyHere')} />;
     }
-
-    // TODO: when solve is selected and user tries to delete it - it crashes app
-    // this shows even when removing element
 
     return (
         <>
@@ -177,6 +174,10 @@ export const TimesList = ({ data }: TimesListProps) => {
                             renderItem={({ item }) => {
                                 // @ts-ignore
                                 if (item.hasOwnProperty('isEmptyItem') && item.isEmptyItem) {
+                                    return <View style={styles.emptyContainer}></View>;
+                                }
+
+                                if (!item.isValid()) {
                                     return <View style={styles.emptyContainer}></View>;
                                 }
 
