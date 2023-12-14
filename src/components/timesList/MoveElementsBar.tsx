@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Alert } from 'react-native';
 import { DIMENSIONS, FONTS, PADDING } from '../../styles/base';
 import { useColors } from '../../hooks/useColors';
 import { CustomSwitch } from '../UI/CustomSwitch';
@@ -51,7 +51,7 @@ export const MoveElementsBar = ({
             if (sessionToMove) {
                 onMoveElements(sessionToMove);
             } else {
-                //  TODO: MAKE SOMETHING HERE
+                Alert.alert('Ooops!', 'There was an error while moving the times');
             }
         }
     };

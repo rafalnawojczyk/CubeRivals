@@ -33,10 +33,6 @@ export const LoginScreen = () => {
         logInWithEmailPassword({ email, password });
     };
 
-    // TODO: Here I should make some logic that will be responsible for errors while logging in.
-    // useEffect(() => {
-    // }, [result]);
-
     return (
         <>
             <SafeAreaCard>
