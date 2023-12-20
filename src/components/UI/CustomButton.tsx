@@ -1,5 +1,6 @@
 import { View, Pressable, Text, StyleSheet, ViewStyle } from 'react-native';
 import { useColors } from '../../hooks/useColors';
+import { FONTS } from '../../styles/base';
 
 export type ButtonType = 'primary' | 'secondary' | 'error' | 'cancel';
 
@@ -16,20 +17,32 @@ export const CustomButton = ({ onPress, children, type, title, style }: CustomBu
 
     const getButtonColor = (type: ButtonType) => {
         if (type === 'primary') {
-            return getColor('primary500');
+            return getColor('primary600');
         }
 
         if (type === 'secondary') {
-            return 'transparent';
+            return getColor('gray800');
         }
 
         if (type === 'error') {
-            return getColor('tertiary');
+            return getColor('error');
         }
 
         if (type === 'cancel') {
-            return getColor('gray100');
+            return 'transparent';
         }
+    };
+
+    const getButtonTextColor = (type: ButtonType) => {
+        if (type === 'cancel') {
+            return getColor('gray700');
+        }
+
+        if (type === 'primary') {
+            return getColor('backgroundLight');
+        }
+
+        return getColor('text');
     };
 
     return (
@@ -39,13 +52,12 @@ export const CustomButton = ({ onPress, children, type, title, style }: CustomBu
                     styles.buttonInnerContainer,
                     pressed && styles.pressed,
                     { backgroundColor: getButtonColor(type) },
-                    type === 'secondary' ? { borderColor: getColor('gray100'), borderWidth: 1 } : { padding: 1 },
                 ]}
                 onPress={onPress}
                 android_ripple={{ color: getButtonColor(type) }}
             >
                 {children}
-                {title && <Text style={[styles.buttonText, { color: getColor('text') }]}>{title}</Text>}
+                {title && <Text style={[styles.buttonText, { color: getButtonTextColor(type) }]}>{title}</Text>}
             </Pressable>
         </View>
     );
@@ -53,18 +65,18 @@ export const CustomButton = ({ onPress, children, type, title, style }: CustomBu
 
 const styles = StyleSheet.create({
     buttonOuterContainer: {
-        borderRadius: 2,
-        margin: 4,
+        borderRadius: 48,
+        width: '100%',
         overflow: 'hidden',
     },
     buttonInnerContainer: {
-        paddingVertical: 12,
-        paddingHorizontal: 16,
-        elevation: 2,
+        paddingVertical: 16,
+        paddingHorizontal: 32,
     },
     buttonText: {
         textAlign: 'center',
-        fontWeight: 'bold',
+        fontSize: FONTS.m,
+        fontFamily: 'robotoMono-medium',
     },
     pressed: {
         opacity: 0.75,

@@ -12,7 +12,7 @@ export const CheckBox = ({ isChecked, onPress }: { onPress: () => void; isChecke
                 <MaterialCommunityIcons
                     name={iconName}
                     size={24}
-                    color={isChecked ? getColor('primary200') : getColor('gray100')}
+                    color={isChecked ? getColor('primary600') : getColor('gray500')}
                 />
             </Pressable>
         </View>

@@ -3,13 +3,13 @@ import { DIMENSIONS, FONTS, PADDING } from '../../../styles/base';
 import { useColors } from '../../../hooks/useColors';
 import { CustomModalButton } from './CustomModalButton';
 import { CustomModalButtonContainer } from './CustomModalButtonContainer';
-import { IconButton } from '../IconButton';
 
 interface CustomModalProps {
     isVisible: boolean;
     onClose: () => void;
     children?: React.ReactNode;
     title?: string;
+    subtitle?: string;
     size?: 'sm' | 'md' | 'lg' | 'xl';
     showCloseX?: boolean;
 }
@@ -19,30 +19,31 @@ export const CustomModal = ({
     onClose,
     children,
     title,
+    subtitle,
     size = 'md',
     showCloseX = false,
 }: CustomModalProps) => {
     const getColor = useColors();
 
+    // TODO: remove close X prop
+
     return (
         <Modal animationType="slide" transparent={true} visible={isVisible} onRequestClose={onClose}>
             <Pressable onPress={() => onClose()}>
                 <View
-                    style={[styles.backdropGradient, { backgroundColor: getColor('background'), opacity: 0.9 }]}
+                    style={[styles.backdropGradient, { backgroundColor: getColor('background'), opacity: 0.95 }]}
                 ></View>
             </Pressable>
             <View style={styles.centeredView}>
-                <View style={[styles.modalView, styles[size], { backgroundColor: getColor('background') }]}>
-                    {showCloseX && (
-                        <IconButton
-                            size={FONTS.xl}
-                            color={getColor('gray100')}
-                            icon="close"
-                            onPress={onClose}
-                            style={styles.closeButton}
-                        />
+                <View style={[styles.modalView, styles[size], { backgroundColor: getColor('backgroundLight') }]}>
+                    {(!!title || !!subtitle) && (
+                        <View style={{ marginBottom: PADDING.md }}>
+                            {title && <Text style={[styles.modalTitle, { color: getColor('text') }]}>{title}</Text>}
+                            {subtitle && (
+                                <Text style={[styles.modalSubtitle, { color: getColor('gray500') }]}>{subtitle}</Text>
+                            )}
+                        </View>
                     )}
-                    {title && <Text style={[styles.modalTitle, { color: getColor('text') }]}>{title}</Text>}
                     {children}
                 </View>
             </View>
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
     modalView: {
         margin: PADDING.micro,
         backgroundColor: 'white',
-        borderRadius: PADDING.micro,
+        borderRadius: PADDING.m,
         padding: PADDING.md,
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -103,10 +104,11 @@ const styles = StyleSheet.create({
     },
     modalTitle: {
         fontSize: FONTS.lg,
+        marginBottom: PADDING.micro,
         fontWeight: 'bold',
-        marginBottom: PADDING.md,
-        alignSelf: 'flex-start',
+        alignSelf: 'center',
     },
+    modalSubtitle: { fontSize: FONTS.m, textAlign: 'center', maxWidth: '80%' },
     buttonsContainer: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
