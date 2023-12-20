@@ -39,13 +39,14 @@ export const ChangeSessionNameModal = ({
                 placeholder={trans('addSessionNamePlaceholder')}
                 multiline={false}
                 maxLength={40}
-                style={[styles.textInput, { backgroundColor: getColor('gray100') }]}
-                textAlignVertical="top"
-                textAlign="center"
+                style={[styles.textInput, { backgroundColor: getColor('gray800'), color: getColor('text') }]}
+                placeholderTextColor={getColor('text')}
+                textAlignVertical="center"
+                textAlign="left"
             />
             <CustomModal.ButtonsContainer>
-                <CustomModal.Button type="cancel" onPress={onClose} title={trans('cancel')} />
                 <CustomModal.Button type="primary" onPress={onChangeNameHandler} title={trans('save')} />
+                <CustomModal.Button type="cancel" onPress={onClose} title={trans('cancel')} />
             </CustomModal.ButtonsContainer>
         </CustomModal>
     );
@@ -54,8 +55,9 @@ export const ChangeSessionNameModal = ({
 const styles = StyleSheet.create({
     textInput: {
         width: '100%',
-        borderRadius: 2,
-        padding: PADDING.sm,
-        fontSize: FONTS.md,
+        borderRadius: 8,
+        padding: PADDING.m,
+        fontSize: FONTS.m,
+        textAlign: 'left',
     },
 });

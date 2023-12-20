@@ -42,9 +42,7 @@ export const AddTimeModal = ({ showModal, onClose, onAddTime }: AddTimeModalProp
                     }}
                 >
                     <View>
-                        <Text style={[styles.time, , { backgroundColor: getColor('gray100') }]}>
-                            {formatNumberInput(time)}
-                        </Text>
+                        <Text style={[styles.time]}>{formatNumberInput(time)}</Text>
                     </View>
                 </Pressable>
             </View>
@@ -53,7 +51,16 @@ export const AddTimeModal = ({ showModal, onClose, onAddTime }: AddTimeModalProp
 
             <View style={[styles.scrambleBlock, { borderTopColor: getColor('gray100') }]}>
                 <CheckBox isChecked={saveScramble} onPress={() => setSaveScramble(prev => !prev)} />
-                <Text style={[styles.scramble, { color: getColor('text') }]}>{trans('useThisScramble')}</Text>
+                <Pressable onPress={() => setSaveScramble(prev => !prev)}>
+                    <Text
+                        style={[
+                            styles.scramble,
+                            { color: saveScramble ? getColor('primary600') : getColor('gray500') },
+                        ]}
+                    >
+                        {trans('useThisScramble')}
+                    </Text>
+                </Pressable>
             </View>
             <CustomModal.ButtonsContainer>
                 <CustomModal.Button type="secondary" onPress={onClose} title={trans('cancel')}></CustomModal.Button>

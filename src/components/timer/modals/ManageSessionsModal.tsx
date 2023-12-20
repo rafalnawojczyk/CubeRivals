@@ -1,19 +1,18 @@
 import { StyleSheet, View, Text, FlatList, Pressable } from 'react-native';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { CustomModal } from '../../UI/modal/CustomModal';
 import { DIMENSIONS, FONTS, PADDING } from '../../../styles/base';
 import { useColors } from '../../../hooks/useColors';
 import { useTranslation } from '../../../hooks/useTranslation';
-import { CustomButton } from '../../UI/CustomButton';
-import { MaterialIcons } from '@expo/vector-icons';
 import { AddSessionModal } from './AddNewSessionModal';
-
 import { Session } from '../../../models/realm-models/SessionSchema';
 import { ChangeSessionNameModal } from './ChangeSessionNameModal';
 import { useTimerSettingsStore } from '../../../store/timerSettingsStore';
 import { addSession, editSession } from '../../../models/utils';
-import { useQuery, useRealm, useUser } from '@realm/react';
+import { useRealm, useUser } from '@realm/react';
 import { Realm } from 'realm/dist/bundle';
+import { useSessions } from '../../../hooks/useSessions';
+import { useCurrentSession } from '../../../hooks/useCurrentSession';
 
 interface ManageSessionModalProps {
     showModal: boolean;
@@ -22,12 +21,14 @@ interface ManageSessionModalProps {
 
 const SessionModalItem = ({
     session,
-    onPickSessionHandler,
     realm,
+    isSelected,
+    onPress,
 }: {
     session: Session;
-    onPickSessionHandler: () => void;
     realm: Realm;
+    isSelected: boolean;
+    onPress: (id: string) => void;
 }) => {
     const [showEditSessionModal, setShowEditSessionModal] = useState(false);
     const getColor = useColors();
@@ -51,14 +52,24 @@ const SessionModalItem = ({
                 />
             )}
             <Pressable
-                onPress={() => {
-                    editSession(session, { used: new Date() }, realm);
-                    onPickSessionHandler();
-                }}
                 onLongPress={() => setShowEditSessionModal(true)}
+                onPress={() => onPress(session._id.toString())}
             >
-                <View style={[styles.listItem, { borderBottomColor: getColor('gray100') }]}>
-                    <Text style={[styles.listText, { color: getColor('text') }]}>{session.name}</Text>
+                <View style={[styles.listItem]}>
+                    <View style={[styles.listIndicatorContainer]}>
+                        <View
+                            style={[
+                                styles.listIndicator,
+                                {
+                                    backgroundColor: isSelected ? getColor('primary600') : getColor('gray500'),
+                                    ...(isSelected ? {} : { border: 2, borderColor: getColor('gray800') }),
+                                },
+                            ]}
+                        />
+                    </View>
+                    <Text style={[styles.listText, { color: isSelected ? getColor('primary600') : getColor('text') }]}>
+                        {session.name}
+                    </Text>
                 </View>
             </Pressable>
         </>
@@ -68,12 +79,13 @@ const SessionModalItem = ({
 export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalProps) => {
     const cube = useTimerSettingsStore(state => state.cube);
     const [showAddSessionModal, setShowAddSessionModal] = useState(false);
-    const getColor = useColors();
+    const currentSession = useCurrentSession();
+    const [currentlySelected, setCurrentlySelected] = useState<string>(currentSession?._id.toString() ?? '');
     const trans = useTranslation();
     const user = useUser();
 
     const realm = useRealm();
-    const sessions = useQuery(Session, collection => collection.filtered('cube == $0', cube), [cube]);
+    const sessions = useSessions();
 
     const onAddNewSessionHandler = (sessionName: string) => {
         const trimmedSessionName = sessionName.trim();
@@ -81,34 +93,40 @@ export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalPro
         if (trimmedSessionName.length === 0) {
             return;
         }
-        addSession(trimmedSessionName, cube, user.id, realm);
+        const newSession = addSession(trimmedSessionName, cube, user.id, realm);
 
-        onPickSessionHandler();
+        onPickSessionHandler(newSession._id.toString());
     };
 
-    const onPickSessionHandler = () => {
+    const onPickSessionHandler = (id: string) => {
         setShowAddSessionModal(false);
+        setCurrentlySelected(id);
+    };
+
+    const onSelectSession = () => {
+        if (currentlySelected === currentSession._id.toString()) {
+            onClose();
+        }
+
+        const sessionToSelect = sessions.find(session => session._id.toString() === currentlySelected);
+
+        if (sessionToSelect) {
+            editSession(sessionToSelect, { used: new Date() }, realm);
+        }
+
         onClose();
     };
 
-    useEffect(() => {
-        realm.subscriptions.update(mutableSubs => {
-            mutableSubs.add(sessions);
-        });
-    }, [realm, sessions, cube]);
-
     return (
         <>
-            <CustomModal isVisible={showModal} onClose={onClose} size="lg" showCloseX={false}>
-                <View style={styles.topContainer}>
-                    <Text style={[styles.modalTitle, { color: getColor('text') }]}>{trans('manageSessionsTitle')}</Text>
-                    <CustomButton type="primary" onPress={() => setShowAddSessionModal(true)}>
-                        <View style={styles.addButtonContainer}>
-                            <MaterialIcons name="my-library-add" size={FONTS.lg} color={getColor('text')} />
-                            <Text style={[styles.buttonText, { color: getColor('text') }]}>{trans('add')}</Text>
-                        </View>
-                    </CustomButton>
-                </View>
+            <CustomModal
+                isVisible={showModal}
+                onClose={onClose}
+                size="lg"
+                showCloseX={false}
+                subtitle={trans('manageSessionsSubtitle')}
+                title={trans('manageSessionsTitle')}
+            >
                 <View style={styles.listContainer}>
                     <FlatList
                         data={sessions}
@@ -116,19 +134,22 @@ export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalPro
                         renderItem={({ item }) => (
                             <SessionModalItem
                                 session={item}
-                                onPickSessionHandler={onPickSessionHandler}
+                                onPress={onPickSessionHandler}
+                                isSelected={currentlySelected === item._id.toString()}
                                 realm={realm}
                             />
                         )}
                     />
                 </View>
-                <View style={[styles.footer, { borderTopColor: getColor('primary200') }]}>
-                    <Text style={[styles.footerText, { color: getColor('gray100') }]}>
-                        {trans('pressToPick')}
-                        {'  /  '}
-                        {trans('holdToEdit')}
-                    </Text>
-                </View>
+                <CustomModal.ButtonsContainer>
+                    <CustomModal.Button type="primary" onPress={onSelectSession} title={trans('select')} />
+                    <CustomModal.Button
+                        type="secondary"
+                        onPress={() => setShowAddSessionModal(true)}
+                        title={trans('add')}
+                    />
+                    <CustomModal.Button type="cancel" onPress={onClose} title={trans('cancel')} />
+                </CustomModal.ButtonsContainer>
             </CustomModal>
             <AddSessionModal
                 showModal={showAddSessionModal}
@@ -142,48 +163,37 @@ export const ManageSessionModal = ({ showModal, onClose }: ManageSessionModalPro
 const styles = StyleSheet.create({
     topContainer: {
         width: '100%',
-        justifyContent: 'space-between',
         alignItems: 'center',
-        flexDirection: 'row',
+        flexDirection: 'column',
         marginBottom: PADDING.md,
-    },
-    modalTitle: {
-        fontSize: FONTS.lg,
-        fontWeight: 'bold',
-    },
-    addButtonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        gap: PADDING.sm,
-    },
-    footer: {
-        marginTop: PADDING.md,
-        borderTopWidth: 1,
-        width: '100%',
-    },
-    footerText: {
-        textAlign: 'center',
-        fontWeight: 'bold',
-        marginTop: PADDING.sm,
     },
     listContainer: {
         width: '100%',
         maxHeight: DIMENSIONS.fullHeight * 0.6,
     },
-    buttonText: {
-        fontWeight: 'bold',
-    },
     listItem: {
         width: '100%',
-        textAlign: 'center',
-        justifyContent: 'center',
+        textAlign: 'left',
+        justifyContent: 'flex-start',
         alignItems: 'center',
-        paddingVertical: PADDING.sm,
-        borderBottomWidth: 1,
+        marginBottom: PADDING.m,
+        flexDirection: 'row',
+        paddingLeft: PADDING.m,
     },
     listText: {
-        fontWeight: 'bold',
-        fontSize: FONTS.md,
+        fontSize: FONTS.m,
+    },
+    listIndicatorContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 34,
+        height: 34,
+    },
+    listIndicator: {
+        width: 22,
+        height: 22,
+        overflow: 'hidden',
+        borderRadius: 99999,
+        marginRight: PADDING.m,
     },
 });
