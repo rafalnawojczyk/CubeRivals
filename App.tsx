@@ -16,6 +16,7 @@ const fonts = {
     // 'poppins-bold': require('./src/assets/fonts/Poppins-Bold.ttf'),
     // 'poppins-light': require('./src/assets/fonts/Poppins-ExtraLight.ttf'),
     robotoMono: require('./assets/fonts/RobotoMono-Regular.ttf'),
+    'robotoMono-medium': require('./assets/fonts/RobotoMono-Medium.ttf'),
     'robotoMono-bold': require('./assets/fonts/RobotoMono-Bold.ttf'),
     'robotoMono-light': require('./assets/fonts/RobotoMono-ExtraLight.ttf'),
 };
