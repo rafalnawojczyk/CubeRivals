@@ -80,7 +80,7 @@ export const ScramblePreviewBlock = ({
 
             <View style={[styles.outerContainer, { backgroundColor: getColor('backgroundLight') }]}>
                 <View style={[{ flexDirection: scrambleBlockPlacement === 'top' ? 'column' : 'column-reverse' }]}>
-                    <Text style={[styles.title, { color: getColor('accentLight') }]}>{trans('currentScramble')}</Text>
+                    <Text style={[styles.title, { color: getColor('gray600') }]}>{trans('currentScramble')}</Text>
 
                     <Text style={[styles.scramble, { color: getColor('gray100') }]}>
                         {scramble[scramble.length - 1]}
