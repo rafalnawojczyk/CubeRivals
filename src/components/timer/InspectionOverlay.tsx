@@ -53,7 +53,7 @@ export const InspectionOverlay = ({ onStartTimer, onTimeEnd, onCancelInspection 
         const firstThreshold = inspectionTime - Math.floor(inspectionTime * INSPECTION_TIME_THRESHOLDS[0]);
         const secondThreshold = inspectionTime - Math.floor(inspectionTime * INSPECTION_TIME_THRESHOLDS[1]);
 
-        if (timeLeft === firstThreshold) {
+        if (timeLeft === firstThreshold || timeLeft === secondThreshold) {
             if (['both', 'sound'].includes(inspectionAlerts)) {
                 playAudio();
             }
