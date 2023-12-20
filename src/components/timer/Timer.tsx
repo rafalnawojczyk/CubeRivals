@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from 'react';
 import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
 import { Pressable, View, Text, StyleSheet } from 'react-native';
 import { DIMENSIONS, FONTS, PADDING } from '../../styles/base';
-import { TimerBorder } from './TimerBorder';
 import { useColors } from '../../hooks/useColors';
 import { formatTime } from '../../utils/formatTime';
 import { Result } from '../../models/result';
@@ -298,7 +297,7 @@ export const Timer = () => {
                             <BestTimeAnimation />
                         </View>
                     )}
-                    <TimerBorder />
+
                     <View style={styles.innerContainer}>
                         {isBestTimeBy > 0 && (
                             <Text style={[styles.newBestText, { color: getColor('primary500') }]}>{`${trans(
