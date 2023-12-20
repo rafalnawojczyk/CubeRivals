@@ -1,20 +1,18 @@
 import { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { FONTS, DIMENSIONS } from '../../styles/base';
+import { View, StyleSheet, Pressable } from 'react-native';
+import { DIMENSIONS } from '../../styles/base';
 import { useColors } from '../../hooks/useColors';
-import { IconButton } from '../UI/IconButton';
 import { TimerSettingsModal } from '../timerSettingsModal/TimerSettingsModal';
 import { ManageSessionModal } from './modals/ManageSessionsModal';
 import { TopBarCubeButton } from './TopBarCubeButton';
 import { useTimerSettingsStore } from '../../store/timerSettingsStore';
-import { useCurrentSession } from '../../hooks/useCurrentSession';
+import SettingsIcon from '../../assets/icons/SettingsIcon';
+import { TopBarSessionButton } from './TopBarSessionButton';
 
 export const TopTimerBar = () => {
     const [showSettings, setShowSettings] = useState(false);
     const [showSessionModal, setShowSessionModal] = useState(false);
     const cube = useTimerSettingsStore(state => state.cube);
-
-    const session = useCurrentSession();
 
     const getColor = useColors();
 
@@ -24,23 +22,20 @@ export const TopTimerBar = () => {
             <TimerSettingsModal showModal={showSettings} onClose={() => setShowSettings(false)} />
             <View style={styles.topBarContainer}>
                 <View style={styles.topBar}>
-                    <IconButton
-                        icon="settings"
-                        size={FONTS.lg}
-                        color={getColor('gray100')}
-                        onPress={() => setShowSettings(true)}
-                    />
-                    <TopBarCubeButton
-                        title={cube}
-                        // @ts-ignore
-                        session={session?.name}
-                    />
-                    <IconButton
-                        icon="list-alt"
-                        size={FONTS.lg}
-                        color={getColor('gray100')}
-                        onPress={() => setShowSessionModal(true)}
-                    />
+                    <View style={styles.barItem}>
+                        <Pressable
+                            onPress={() => setShowSettings(true)}
+                            style={[styles.settingsIcon, { borderColor: getColor('background100') }]}
+                        >
+                            <SettingsIcon color={getColor('gray500')} />
+                        </Pressable>
+                    </View>
+                    <View style={styles.barItem}>
+                        <TopBarCubeButton title={cube} />
+                    </View>
+                    <View style={styles.barItem}>
+                        <TopBarSessionButton onPress={() => setShowSessionModal(true)} />
+                    </View>
                 </View>
             </View>
         </>
@@ -58,5 +53,16 @@ const styles = StyleSheet.create({
     topBarContainer: {
         width: '100%',
         alignItems: 'center',
+    },
+    settingsIcon: {
+        width: 39,
+        height: 39,
+        borderRadius: 9999,
+        borderWidth: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    barItem: {
+        width: '33%',
     },
 });
