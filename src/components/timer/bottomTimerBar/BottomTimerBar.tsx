@@ -43,12 +43,12 @@ export const BottomTimerBar = () => {
             <View style={[styles.container, { backgroundColor: getColor('backgroundLight') }]}>
                 <View style={[styles.statsContainer]}>
                     <BottomTimeStatsItem
-                        title={`${trans('best')} `}
+                        title={`${trans('best')}`}
                         amount={currentSession.best === 0 ? emptyTimePlaceholder : formatTime(currentSession.best)}
                     />
                     <BottomTimeStatsItem
                         key={Math.random() + avgThresholds[0]}
-                        title={`${cutEndsInAvgs ? 'Ao' : 'Mo'}${avgThresholds[0]} `}
+                        title={`${cutEndsInAvgs ? 'Ao' : 'Mo'}${avgThresholds[0]}`}
                         amount={
                             currentSession.fullAmount < avgThresholds[0]
                                 ? emptyTimePlaceholder
@@ -60,7 +60,7 @@ export const BottomTimerBar = () => {
                 </View>
                 <View style={[styles.statsContainer]}>
                     <BottomTimeStatsItem
-                        title={`${trans('average')} `}
+                        title={`${trans('average')}`}
                         amount={
                             currentSession.amount === 0
                                 ? emptyTimePlaceholder
@@ -69,7 +69,7 @@ export const BottomTimerBar = () => {
                     />
                     <BottomTimeStatsItem
                         key={Math.random() + avgThresholds[1]}
-                        title={`${cutEndsInAvgs ? 'Ao' : 'Mo'}${avgThresholds[1]} `}
+                        title={`${cutEndsInAvgs ? 'Ao' : 'Mo'}${avgThresholds[1]}`}
                         amount={
                             currentSession.fullAmount < avgThresholds[1]
                                 ? emptyTimePlaceholder
@@ -80,10 +80,10 @@ export const BottomTimerBar = () => {
                     />
                 </View>
                 <View style={[styles.statsContainer]}>
-                    <BottomTimeStatsItem title={`${trans('solves')} `} amount={currentSession.fullAmount.toString()} />
+                    <BottomTimeStatsItem title={`${trans('solves')}`} amount={currentSession.fullAmount.toString()} />
                     <BottomTimeStatsItem
                         key={Math.random() + avgThresholds[2]}
-                        title={`${cutEndsInAvgs ? 'Ao' : 'Mo'}${avgThresholds[2]} `}
+                        title={`${cutEndsInAvgs ? 'Ao' : 'Mo'}${avgThresholds[2]}`}
                         amount={
                             currentSession.fullAmount < avgThresholds[2]
                                 ? emptyTimePlaceholder
@@ -95,7 +95,7 @@ export const BottomTimerBar = () => {
                 </View>
                 <View style={[styles.statsContainer]}>
                     <BottomTimeStatsItem
-                        title={`${trans('deviation')} `}
+                        title={`${trans('deviation')}`}
                         amount={
                             currentSession.amount === 0
                                 ? emptyTimePlaceholder
@@ -104,7 +104,7 @@ export const BottomTimerBar = () => {
                     />
                     <BottomTimeStatsItem
                         key={Math.random() + avgThresholds[3]}
-                        title={`${cutEndsInAvgs ? 'Ao' : 'Mo'}${avgThresholds[3]} `}
+                        title={`${cutEndsInAvgs ? 'Ao' : 'Mo'}${avgThresholds[3]}`}
                         amount={
                             currentSession.fullAmount < avgThresholds[3]
                                 ? emptyTimePlaceholder
