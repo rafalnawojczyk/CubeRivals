@@ -401,8 +401,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     timerText: {
-        fontSize: FONTS['2xl'],
-        fontFamily: 'robotoMono-light',
+        fontSize: FONTS['3xl'],
     },
     timerHoldText: {
         fontSize: FONTS['xl'],
