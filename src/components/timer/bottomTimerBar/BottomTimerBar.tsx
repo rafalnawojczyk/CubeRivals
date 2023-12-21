@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, StyleSheet, Pressable } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { BottomTimeStatsItem } from './BottomTimeStatsItem';
 import { calcAvg } from '../../../utils/calcAvg';
 import { DIMENSIONS, PADDING } from '../../../styles/base';

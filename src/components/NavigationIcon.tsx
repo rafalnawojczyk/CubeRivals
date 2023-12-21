@@ -1,4 +1,3 @@
-import { MaterialIcons } from '@expo/vector-icons';
 import { StyleSheet, Text, View } from 'react-native';
 import { useColors } from '../hooks/useColors';
 import ClockIcon from '../assets/icons/ClockIcon';
