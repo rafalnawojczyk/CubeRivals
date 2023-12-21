@@ -349,7 +349,7 @@ export const Timer = () => {
                                 )}
                             </>
                         )}
-                        {!showReadyState && !isRunning && (
+                        {!showReadyState && !isRunning && result.time === 0 && (
                             <Text
                                 style={[
                                     styles.timerHoldText,
