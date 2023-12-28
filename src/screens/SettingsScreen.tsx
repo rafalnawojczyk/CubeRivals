@@ -69,7 +69,7 @@ export const SettingsScreen = () => {
                             onSwitch={() => setThemeByUser(isDarkTheme ? 'light' : 'dark')}
                         />
                     </SettingItem>
-                    <CustomButton type="primary" onPress={logoutHandler} title={trans('auth.signout')} />
+                    <CustomButton type="cancel" onPress={logoutHandler} title={trans('auth.signout')} />
                 </ScrollView>
             </SafeAreaCard>
             <TimerSettingsModal showModal={showTimerSettings} onClose={() => setShowTimerSettings(false)} />
