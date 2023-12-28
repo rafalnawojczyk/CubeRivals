@@ -402,6 +402,7 @@ const styles = StyleSheet.create({
     },
     timerText: {
         fontSize: FONTS['3xl'],
+        marginBottom: PADDING.sm,
     },
     timerHoldText: {
         fontSize: FONTS['xl'],
@@ -421,9 +422,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     flagText: {
+        // TODO: fix this positioning with more realistic values
         position: 'absolute',
         right: -35,
-        bottom: 10,
+        bottom: 22,
         width: 30,
         textAlign: 'center',
         fontWeight: 'bold',
@@ -441,6 +443,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         width: '80%',
         textAlign: 'center',
+        pointerEvents: 'none',
         lineHeight: 20,
     },
     bestAnimation: {
@@ -449,7 +452,7 @@ const styles = StyleSheet.create({
         left: 0,
         height: 0.35 * DIMENSIONS.fullHeight,
         width: 0.95 * DIMENSIONS.fullWidth,
-
+        pointerEvents: 'none',
         zIndex: 5001,
     },
 });
