@@ -15,6 +15,7 @@ import WarningIcon from '../../assets/icons/WarningIcon';
 import FlagIcon from '../../assets/icons/FlagIcon';
 import CommentIcon from '../../assets/icons/CommentIcon';
 import StarIcon from '../../assets/icons/StarIcon';
+import { PADDING } from '../../styles/base';
 
 export type ButtonName = 'remove' | 'dnf' | '+2' | 'note' | 'star';
 
@@ -197,7 +198,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     innerContainer: {
-        width: '70%',
+        gap: PADDING.m,
         flexDirection: 'row',
         justifyContent: 'space-around',
     },
