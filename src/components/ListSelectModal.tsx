@@ -1,9 +1,8 @@
 import { StyleSheet, FlatList, Text, View, Pressable } from 'react-native';
 import { CustomModal } from './UI/modal/CustomModal';
-import { DIMENSIONS, FONTS } from '../styles/base';
+import { FONTS, PADDING } from '../styles/base';
 import { useColors } from '../hooks/useColors';
-
-import { SettingItem } from './timerSettingsModal/SettingItem';
+import { useTranslation } from '../hooks/useTranslation';
 
 interface ListSelectModalProps {
     showModal: boolean;
@@ -25,40 +24,73 @@ export const ListSelectModal = ({
     listNameRender,
 }: ListSelectModalProps) => {
     const getColor = useColors();
+    const trans = useTranslation();
 
-    const ListItem = ({ itemName }: { itemName: string }) => (
-        <Pressable onPress={() => onSelect(itemName)}>
-            <SettingItem>
-                <View>
-                    <Text
-                        style={[
-                            styles.itemName,
-                            { color: currentItem === itemName ? getColor('primary200') : getColor('text') },
-                        ]}
-                    >
+    const ListItem = ({ itemName }: { itemName: string }) => {
+        console.log(currentItem);
+        console.log(itemName);
+        const isSelected = currentItem === itemName;
+        return (
+            <Pressable onPress={() => onSelect(itemName)}>
+                <View style={[styles.listItem]}>
+                    <View style={[styles.listIndicatorContainer]}>
+                        <View
+                            style={[
+                                styles.listIndicator,
+                                {
+                                    backgroundColor: isSelected ? getColor('primary600') : getColor('gray500'),
+                                    ...(isSelected ? {} : { border: 2, borderColor: getColor('gray800') }),
+                                },
+                            ]}
+                        />
+                    </View>
+                    <Text style={[styles.listText, { color: isSelected ? getColor('primary600') : getColor('text') }]}>
                         {listNameRender(itemName)}
                     </Text>
                 </View>
-            </SettingItem>
-        </Pressable>
-    );
+            </Pressable>
+        );
+    };
 
     return (
-        <CustomModal isVisible={showModal} onClose={onClose} title={modalTitle} size="md">
+        <CustomModal isVisible={showModal} onClose={onClose} title={modalTitle} size="lg">
             <FlatList
                 data={optionsList}
+                style={{ width: '100%' }}
                 keyExtractor={item => item[0]}
                 renderItem={({ item }) => <ListItem itemName={item} />}
             />
+            <CustomModal.ButtonsContainer>
+                <CustomModal.Button type="secondary" onPress={onClose} title={trans('cancel')} />
+            </CustomModal.ButtonsContainer>
         </CustomModal>
     );
 };
 
 const styles = StyleSheet.create({
-    itemName: {
-        textAlign: 'center',
-        fontWeight: 'bold',
-        width: DIMENSIONS.fullWidth * 0.5,
-        fontSize: FONTS.md,
+    listItem: {
+        width: '100%',
+        textAlign: 'left',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        marginBottom: PADDING.m,
+        flexDirection: 'row',
+        paddingLeft: PADDING.m,
+    },
+    listText: {
+        fontSize: FONTS.m,
+    },
+    listIndicatorContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 34,
+        height: 34,
+    },
+    listIndicator: {
+        width: 22,
+        height: 22,
+        overflow: 'hidden',
+        borderRadius: 99999,
+        marginRight: PADDING.m,
     },
 });

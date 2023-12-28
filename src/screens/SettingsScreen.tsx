@@ -78,7 +78,7 @@ export const SettingsScreen = () => {
                 optionsList={Object.keys(langMap)}
                 showModal={showLangModal}
                 onClose={() => setShowLangModal(false)}
-                currentItem={langMap[lang]}
+                currentItem={lang}
                 listNameRender={(item: string) => langMap[item as TranslationCodes]}
                 onSelect={lang => {
                     const selectedLang = lang as TranslationCodes;
