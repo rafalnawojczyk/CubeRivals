@@ -1,10 +1,8 @@
-import { StyleSheet, View } from 'react-native';
-import { useState } from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
+import { ReactNode, useState } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Result } from '../../models/result';
 import { AddNoteModal } from './modals/AddNoteModal';
-import { IconButton } from '../UI/IconButton';
-import { FONTS } from '../../styles/base';
 import { useColors } from '../../hooks/useColors';
 import { RemoveConfirmModal } from './modals/RemoveConfirmModal';
 import { Solve } from '../../models/realm-models/SolveSchema';
@@ -12,31 +10,40 @@ import { useTranslation } from '../../hooks/useTranslation';
 import { deleteSolve, editSolve } from '../../models/utils';
 import { useCurrentSession } from '../../hooks/useCurrentSession';
 import { useRealm } from '@realm/react';
+import TrashIcon from '../../assets/icons/TrashIcon';
+import WarningIcon from '../../assets/icons/WarningIcon';
+import FlagIcon from '../../assets/icons/FlagIcon';
+import CommentIcon from '../../assets/icons/CommentIcon';
+import StarIcon from '../../assets/icons/StarIcon';
 
 export type ButtonName = 'remove' | 'dnf' | '+2' | 'note' | 'star';
 
 interface ModifyButton {
     name: ButtonName;
     activeIcon?: keyof typeof MaterialIcons.glyphMap;
-    icon: keyof typeof MaterialIcons.glyphMap;
+    icon: (color: string) => ReactNode;
+    condition?: (solve: Solve) => boolean;
 }
 
 export const buttonsMap: ModifyButton[] = [
     {
         name: 'remove',
-        icon: 'delete-forever',
+        icon: color => <TrashIcon color={color} />,
     },
     {
         name: 'dnf',
-        icon: 'warning',
+        icon: color => <WarningIcon color={color} />,
+        condition: (solve: Solve) => solve.flag === 'dnf',
     },
     {
         name: '+2',
-        icon: 'outlined-flag',
+        icon: color => <FlagIcon color={color} />,
+        condition: (solve: Solve) => solve.flag === '+2',
     },
     {
         name: 'note',
-        icon: 'chat',
+        icon: color => <CommentIcon color={color} />,
+        condition: (solve: Solve) => !!solve?.note?.length && solve.note.length > 0,
     },
 ];
 
@@ -164,21 +171,19 @@ export const ModifyResultBlock = ({
             <View style={styles.outerContainer}>
                 <View style={styles.innerContainer}>
                     {buttonsToRender.map(button => (
-                        <IconButton
-                            key={button.name}
-                            onPress={() => onButtonPress(button.name)}
-                            icon={button.icon}
-                            size={FONTS.lg}
-                            color={getColor('gray100')}
-                        />
+                        <View key={button.name} style={styles.iconsContainer}>
+                            <Pressable onPress={() => onButtonPress(button.name)}>
+                                {button.icon(
+                                    button.condition?.(solve) ? getColor('primary600') : getColor('accentLight')
+                                )}
+                            </Pressable>
+                        </View>
                     ))}
-                    <IconButton
-                        key="star"
-                        onPress={() => onButtonPress('star')}
-                        icon={solve?.star ? 'star-rate' : 'star-border'}
-                        size={FONTS.lg}
-                        color={solve?.star ? getColor('primary200') : getColor('gray100')}
-                    />
+                    <View style={styles.iconsContainer}>
+                        <Pressable onPress={() => onButtonPress('star')}>
+                            <StarIcon color={solve?.star ? getColor('primary600') : getColor('accentLight')} />
+                        </Pressable>
+                    </View>
                 </View>
             </View>
         </>
@@ -195,5 +200,11 @@ const styles = StyleSheet.create({
         width: '70%',
         flexDirection: 'row',
         justifyContent: 'space-around',
+    },
+    iconsContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 30,
+        height: 30,
     },
 });
