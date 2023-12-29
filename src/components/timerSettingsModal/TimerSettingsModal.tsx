@@ -70,7 +70,10 @@ export const TimerSettingsModal = ({ showModal, onClose }: TimerSettingsModalPro
             <Modal animationType="slide" transparent={true} visible={showModal} onRequestClose={onClose}>
                 <View style={[styles.modal, { backgroundColor: getColor('background') }]}>
                     <Text style={[styles.title, { color: getColor('text') }]}>{trans('timerSettingsTitle')}</Text>
-                    <ScrollView style={[styles.settingsContainer, { backgroundColor: getColor('backgroundLight') }]}>
+                    <ScrollView
+                        fadingEdgeLength={2000}
+                        style={[styles.settingsContainer, { backgroundColor: getColor('backgroundLight') }]}
+                    >
                         {switchSettingsMap.map(setting => (
                             <SettingItem key={setting.name}>
                                 <SettingsSwitchItem

@@ -1,9 +1,9 @@
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, View, Text } from 'react-native';
 import { SafeAreaCard } from '../components/UI/SafeAreaCard';
 import { TranslationCodes, useTranslation } from '../hooks/useTranslation';
 import { CustomButton } from '../components/UI/CustomButton';
 
-import { FONTS, PADDING } from '../styles/base';
+import { DIMENSIONS, FONTS, PADDING } from '../styles/base';
 import { useState } from 'react';
 import { TimerSettingsModal } from '../components/timerSettingsModal/TimerSettingsModal';
 import { SettingsSwitchItem } from '../components/timerSettingsModal/SettingsSwitchItem';
@@ -39,38 +39,44 @@ export const SettingsScreen = () => {
     return (
         <>
             <SafeAreaCard>
-                <ScrollView style={{ paddingHorizontal: PADDING.sm }} contentContainerStyle={{ alignItems: 'center' }}>
-                    <SettingItem>
-                        <SettingsIconButtonItem
-                            name="settings"
-                            onPress={() => setShowTimerSettings(true)}
-                            title={trans('settings.showTimerSettings')}
-                            subtitle={trans('settings.timerSettingsDesc')}
-                        />
-                    </SettingItem>
-                    <SettingItem>
-                        <CustomSettingItem
-                            title={trans('settings.selectLang')}
-                            rightItem={
-                                <LinkButton
-                                    title={langMap[lang]}
-                                    color={getColor('primary200')}
-                                    textStyle={{ fontSize: FONTS.md }}
-                                    onPress={() => setShowLangModal(true)}
+                <View style={styles.outerContainer}>
+                    <Text style={[styles.title, { color: getColor('text') }]}>{trans('settings.title')}</Text>
+                    <View style={{ maxHeight: DIMENSIONS.fullHeight - 270 }}>
+                        <ScrollView
+                            style={[styles.settingsContainer, { backgroundColor: getColor('backgroundLight') }]}
+                            contentContainerStyle={{ alignItems: 'center' }}
+                        >
+                            <SettingItem>
+                                <CustomSettingItem
+                                    title={trans('settings.selectLang')}
+                                    rightItem={
+                                        <LinkButton
+                                            title={langMap[lang]}
+                                            color={getColor('primary200')}
+                                            textStyle={{ fontSize: FONTS.md }}
+                                            onPress={() => setShowLangModal(true)}
+                                        />
+                                    }
                                 />
-                            }
-                        />
-                    </SettingItem>
-                    <SettingItem>
-                        <SettingsSwitchItem
-                            title={trans('settings.darkMode')}
-                            subtitle={trans('settings.darkModeDesc')}
-                            value={isDarkTheme}
-                            onSwitch={() => setThemeByUser(isDarkTheme ? 'light' : 'dark')}
-                        />
-                    </SettingItem>
+                            </SettingItem>
+                            <SettingItem showBorder={false}>
+                                <SettingsSwitchItem
+                                    title={trans('settings.darkMode')}
+                                    subtitle={trans('settings.darkModeDesc')}
+                                    value={isDarkTheme}
+                                    onSwitch={() => setThemeByUser(isDarkTheme ? 'light' : 'dark')}
+                                />
+                            </SettingItem>
+                        </ScrollView>
+                    </View>
+                    <CustomButton
+                        type="primary"
+                        style={{ marginTop: PADDING.md }}
+                        onPress={() => setShowTimerSettings(true)}
+                        title={trans('settings.goToTimerSettings')}
+                    />
                     <CustomButton type="cancel" onPress={logoutHandler} title={trans('auth.signout')} />
-                </ScrollView>
+                </View>
             </SafeAreaCard>
             <TimerSettingsModal showModal={showTimerSettings} onClose={() => setShowTimerSettings(false)} />
             <ListSelectModal
@@ -90,4 +96,20 @@ export const SettingsScreen = () => {
     );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    outerContainer: {
+        flex: 1,
+        paddingHorizontal: PADDING.m,
+    },
+    settingsContainer: {
+        paddingHorizontal: PADDING.m,
+        borderRadius: 16,
+    },
+    title: {
+        textAlign: 'left',
+        alignSelf: 'flex-start',
+        fontSize: FONTS.lg,
+        fontWeight: 'bold',
+        marginBottom: PADDING.md,
+    },
+});
