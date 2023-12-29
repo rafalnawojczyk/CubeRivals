@@ -36,7 +36,7 @@
     "invalidName": "Nieprawidłowa nazwa",
     "writeValidName": "Nazwa powinna mieć co najmniej 1 znak",
     "selectPuzzle": "Wybierz kostkę",
-    "useThisScramble": "Zapisz ten scramble",
+    "useThisScramble": "Zapisz obecny scramble",
     "itsEmptyHere": "Ale tutaj pusto. Zacznij układać!",
     "date": "Data",
     "ascending": "Rosnąco",
@@ -46,6 +46,8 @@
     "best": "Najlepszy",
     "solves": "Ułożenia",
     "averageOf": "Średnia z",
+    "addTime": "Dodaj czas",
+    "addTimeDesc": "Dodaj ręcznie czas ułożenia",
 
     "auth.welcome": "Witaj ponownie!",
     "auth.email": "Email",

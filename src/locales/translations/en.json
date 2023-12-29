@@ -38,7 +38,7 @@
     "selectPuzzle": "Select puzzle",
     "selectPuzzleSubtitle": "Press on a tile to select puzzle",
     "clickToStop": "Press to stop",
-    "useThisScramble": "Use this scramble",
+    "useThisScramble": "Use current scramble",
     "itsEmptyHere": "It's empty here. Start solving!",
     "inspectionTime": "Inspection time",
     "date": "Date",
@@ -48,6 +48,8 @@
     "average": "Average",
     "best": "Best",
     "solves": "Solves",
+    "addTime": "Add time",
+    "addTimeDesc": "Manually add solve time",
 
     "auth.welcome": "Hi, Welcome Back!",
     "auth.email": "Email",
