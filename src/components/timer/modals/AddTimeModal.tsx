@@ -1,7 +1,7 @@
 import { StyleSheet, TextInput, View, Text, Pressable } from 'react-native';
 import { useRef, useState } from 'react';
 import { CustomModal } from '../../UI/modal/CustomModal';
-import { DIMENSIONS, FONTS, PADDING } from '../../../styles/base';
+import { FONTS, PADDING } from '../../../styles/base';
 import { useColors } from '../../../hooks/useColors';
 import { useTranslation } from '../../../hooks/useTranslation';
 import { ModifyResultBlock } from '../ModifyResultBlock';
@@ -24,7 +24,13 @@ export const AddTimeModal = ({ showModal, onClose, onAddTime }: AddTimeModalProp
     const inputRef = useRef(null);
 
     return (
-        <CustomModal isVisible={showModal} onClose={onClose} title={trans('addTime')} size="lg">
+        <CustomModal
+            isVisible={showModal}
+            onClose={onClose}
+            subtitle={trans('addTimeDesc')}
+            title={trans('addTime')}
+            size="lg"
+        >
             <View style={styles.textInputContainer}>
                 <TextInput
                     ref={inputRef}
@@ -41,15 +47,22 @@ export const AddTimeModal = ({ showModal, onClose, onAddTime }: AddTimeModalProp
                         inputRef?.current?.focus();
                     }}
                 >
-                    <View>
-                        <Text style={[styles.time]}>{formatNumberInput(time)}</Text>
+                    <View
+                        style={[
+                            styles.textContainer,
+                            {
+                                borderColor: getColor('accentLight'),
+                            },
+                        ]}
+                    >
+                        <Text style={[styles.time, { color: getColor('text') }]}>{formatNumberInput(time)}</Text>
                     </View>
                 </Pressable>
             </View>
 
             <ModifyResultBlock setSolveResult={setResult} showDelete={false} onDelete={() => {}} />
 
-            <View style={[styles.scrambleBlock, { borderTopColor: getColor('gray100') }]}>
+            <View style={styles.scrambleBlock}>
                 <CheckBox isChecked={saveScramble} onPress={() => setSaveScramble(prev => !prev)} />
                 <Pressable onPress={() => setSaveScramble(prev => !prev)}>
                     <Text
@@ -94,18 +107,23 @@ const styles = StyleSheet.create({
     },
     time: {
         width: '100%',
-        height: DIMENSIONS.fullHeight * 0.07,
-        padding: PADDING.sm,
-        fontSize: FONTS.lg,
+        fontSize: FONTS.xl,
         fontWeight: 'bold',
-        marginBottom: PADDING.sm,
         textAlign: 'center',
     },
     textInputContainer: {
         width: '100%',
     },
+    textContainer: {
+        borderWidth: 1,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: PADDING.lg,
+        paddingVertical: PADDING.micro,
+        borderRadius: 9999,
+    },
     scrambleBlock: {
-        borderTopWidth: 1,
         width: '100%',
         marginTop: PADDING.md,
         marginBottom: PADDING.sm,
