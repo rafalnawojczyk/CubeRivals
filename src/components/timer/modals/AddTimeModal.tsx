@@ -4,10 +4,12 @@ import { CustomModal } from '../../UI/modal/CustomModal';
 import { FONTS, PADDING } from '../../../styles/base';
 import { useColors } from '../../../hooks/useColors';
 import { useTranslation } from '../../../hooks/useTranslation';
-import { ModifyResultBlock } from '../ModifyResultBlock';
+import { ButtonName, ModifyResultBlock, buttonsMap } from '../ModifyResultBlock';
 import { formatNumberInput } from '../../../utils/formatNumberInput';
 import { CheckBox } from '../../UI/Checkbox';
 import { Result } from '../../../models/result';
+import { ResultIconButton } from '../ResultIconButton';
+import { Solve } from '../../../models/realm-models/SolveSchema';
 
 interface AddTimeModalProps {
     showModal: boolean;
@@ -22,6 +24,27 @@ export const AddTimeModal = ({ showModal, onClose, onAddTime }: AddTimeModalProp
     const getColor = useColors();
     const trans = useTranslation();
     const inputRef = useRef(null);
+
+    const handleSolveModifiers = (name: ButtonName) => {
+        if (name === '+2') {
+            setResult(prev => ({ ...prev, flag: '+2' }));
+            return;
+        }
+
+        if (name === 'dnf') {
+            setResult(prev => ({ ...prev, flag: 'dnf' }));
+            return;
+        }
+
+        if (name === 'star') {
+            setResult(prev => ({ ...prev, star: !prev.star }));
+            return;
+        }
+
+        if (name === 'note') {
+            // TODO: open note modal
+        }
+    };
 
     return (
         <CustomModal
@@ -59,7 +82,17 @@ export const AddTimeModal = ({ showModal, onClose, onAddTime }: AddTimeModalProp
                     </View>
                 </Pressable>
             </View>
-
+            <View style={styles.iconsContainer}>
+                {buttonsMap
+                    .filter(el => el.name !== 'remove')
+                    .map(button => (
+                        <ResultIconButton
+                            isActive={!!button?.condition?.(result as Solve)}
+                            onPress={handleSolveModifiers}
+                            button={button}
+                        />
+                    ))}
+            </View>
             <ModifyResultBlock setSolveResult={setResult} showDelete={false} onDelete={() => {}} />
 
             <View style={styles.scrambleBlock}>
@@ -125,7 +158,6 @@ const styles = StyleSheet.create({
     },
     scrambleBlock: {
         width: '100%',
-        marginTop: PADDING.md,
         marginBottom: PADDING.sm,
         flexDirection: 'row',
         alignItems: 'center',
@@ -135,5 +167,11 @@ const styles = StyleSheet.create({
     scramble: {
         fontSize: FONTS.m,
         marginLeft: 4,
+    },
+    iconsContainer: {
+        gap: PADDING.m,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginTop: PADDING.m,
     },
 });
