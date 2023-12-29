@@ -4,7 +4,7 @@ import { Session } from '../realm-models/SessionSchema';
 
 import { Realm } from 'realm/dist/bundle';
 
-export const addSession = (name: string, cube: CubeType, userId: string, realm: Realm): BSON.ObjectId => {
+export const addSession = (name: string, cube: CubeType, userId: string, realm: Realm): Session => {
     const item = realm.write(() => {
         return realm.create(Session, {
             name,
@@ -15,5 +15,5 @@ export const addSession = (name: string, cube: CubeType, userId: string, realm: 
         });
     });
 
-    return item._id;
+    return item;
 };

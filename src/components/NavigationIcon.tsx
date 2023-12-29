@@ -1,42 +1,51 @@
-import { MaterialIcons } from '@expo/vector-icons';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { useColors } from '../hooks/useColors';
+import ClockIcon from '../assets/icons/ClockIcon';
+import ChartIcon from '../assets/icons/ChartIcon';
+import AwardIcon from '../assets/icons/AwardIcon';
+import SettingIcon from '../assets/icons/SettingIcon';
+import ChecklistIcon from '../assets/icons/ChecklistIcon';
+import { useTranslation } from '../hooks/useTranslation';
+import { FONTS, PADDING } from '../styles/base';
+
+const NavIconsMap = {
+    timer: ClockIcon,
+    stats: ChartIcon,
+    rivals: AwardIcon,
+    settings: SettingIcon,
+    list: ChecklistIcon,
+} as const;
 
 interface NavigationIconProps {
-    icon: keyof typeof MaterialIcons.glyphMap;
-    size: number;
+    icon: keyof typeof NavIconsMap;
     color: string;
-
     isActive: boolean;
-    isMiddleIcon?: boolean;
 }
 
-export const NavigationIcon = ({ icon, size, color, isMiddleIcon, isActive }: NavigationIconProps) => {
+export const NavigationIcon = ({ icon, color, isActive }: NavigationIconProps) => {
     const getColor = useColors();
+    const trans = useTranslation();
 
-    const bgActiveColor = getColor('primary500');
-    const bgInactiveColor = getColor('gray800');
+    const namesMap = {
+        timer: trans('timer'),
+        stats: 'Statistics',
+        rivals: 'Rivals',
+        settings: 'Settings',
+        list: 'Times',
+    } as const;
+
+    const bgActiveColor = getColor('primary600');
+
+    const CurrentItem = NavIconsMap[icon];
 
     return (
-        <View
-            style={[
-                styles.container,
-                { borderTopColor: isMiddleIcon ? 'transparent' : isActive ? bgActiveColor : bgInactiveColor },
-                isMiddleIcon && { transform: [{ scale: 1.2 }] },
-            ]}
-        >
-            <View
-                style={[
-                    styles.innerContainer,
-                    { backgroundColor: isMiddleIcon ? bgActiveColor : 'transparent' },
-                    isMiddleIcon && isActive && { borderWidth: 1, borderColor: getColor('text') },
-                ]}
-            >
-                <MaterialIcons
-                    name={icon}
-                    size={size}
-                    color={isMiddleIcon ? getColor('text') : isActive ? bgActiveColor : color}
-                />
+        <View style={styles.container}>
+            <View style={[styles.innerContainer, { backgroundColor: isActive ? bgActiveColor : 'transparent' }]}>
+                <CurrentItem color={isActive ? getColor('white') : color} />
+                {/* {icon === 'timer' && isActive && (
+                    <Text style={[styles.text, { color: getColor('text') }]}>{trans('timer')}</Text>
+                )} */}
+                {isActive && <Text style={[styles.text, { color: getColor('text') }]}>{namesMap[icon]}</Text>}
             </View>
         </View>
     );
@@ -49,13 +58,19 @@ const styles = StyleSheet.create({
         height: '100%',
         alignItems: 'center',
         justifyContent: 'center',
-        borderTopWidth: 2,
     },
     innerContainer: {
-        height: '70%',
-        aspectRatio: 1,
+        // height: '70%',
+        // aspectRatio: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        paddingHorizontal: PADDING.micro,
+        paddingVertical: 4,
         borderRadius: 9999,
+        flexDirection: 'row',
+    },
+    text: {
+        fontWeight: '600',
+        fontSize: FONTS.micro,
     },
 });

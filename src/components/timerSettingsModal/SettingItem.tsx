@@ -6,7 +6,7 @@ export const SettingItem = ({ children, showBorder = true }: { children: React.R
     const getColor = useColors();
 
     return (
-        <View style={[styles.container, { borderBottomColor: showBorder ? getColor('gray100') : 'transparent' }]}>
+        <View style={[styles.container, { borderBottomColor: showBorder ? getColor('background100') : 'transparent' }]}>
             {children}
         </View>
     );

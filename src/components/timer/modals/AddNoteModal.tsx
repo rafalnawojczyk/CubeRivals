@@ -22,23 +22,25 @@ export const AddNoteModal = ({ showModal, onClose, onAddNote, currentNote }: Add
             isVisible={showModal}
             onClose={onClose}
             title={currentNote ? trans('editSolveComment') : trans('addSolveComment')}
+            subtitle={currentNote ? trans('editSolveCommentSubtitle') : trans('addSolveCommentSubtitle')}
             size="lg"
         >
             <TextInput
                 value={commentInput}
                 onChangeText={setCommentInput}
                 multiline={true}
-                style={[styles.textInput, { backgroundColor: getColor('gray100') }]}
+                style={[styles.textInput, { backgroundColor: getColor('gray800'), color: getColor('text') }]}
                 textAlignVertical="top"
+                placeholderTextColor={getColor('text')}
                 placeholder={trans('addNotePlaceholder')}
             />
             <CustomModal.ButtonsContainer>
-                <CustomModal.Button type="cancel" onPress={onClose} title={trans('cancel')}></CustomModal.Button>
                 <CustomModal.Button
                     type="primary"
                     onPress={() => onAddNote(commentInput)}
                     title={currentNote ? trans('save') : trans('add')}
                 />
+                <CustomModal.Button type="cancel" onPress={onClose} title={trans('cancel')} />
             </CustomModal.ButtonsContainer>
         </CustomModal>
     );
@@ -47,9 +49,9 @@ export const AddNoteModal = ({ showModal, onClose, onAddNote, currentNote }: Add
 const styles = StyleSheet.create({
     textInput: {
         width: '100%',
-        borderRadius: 2,
+        borderRadius: 8,
         minHeight: DIMENSIONS.fullHeight * 0.2,
-        padding: PADDING.sm,
-        fontSize: FONTS.md,
+        padding: PADDING.m,
+        fontSize: FONTS.m,
     },
 });

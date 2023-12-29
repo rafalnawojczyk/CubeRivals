@@ -31,7 +31,7 @@ export const NumberPickerModal = ({
     };
 
     return (
-        <CustomModal isVisible={showModal} onClose={onClose} title={modalTitle} size="md">
+        <CustomModal isVisible={showModal} onClose={onClose} title={modalTitle} size="lg">
             <View>
                 <TextInput
                     style={[styles.textInput, { color: getColor('text'), borderColor: getColor('text') }]}
@@ -43,7 +43,6 @@ export const NumberPickerModal = ({
             </View>
 
             <CustomModal.ButtonsContainer>
-                <CustomModal.Button type="cancel" onPress={onClose} title={trans('cancel')}></CustomModal.Button>
                 <CustomModal.Button
                     type="primary"
                     onPress={() => {
@@ -52,6 +51,7 @@ export const NumberPickerModal = ({
                     }}
                     title={trans('save')}
                 />
+                <CustomModal.Button type="cancel" onPress={onClose} title={trans('cancel')}></CustomModal.Button>
             </CustomModal.ButtonsContainer>
         </CustomModal>
     );

@@ -8,9 +8,10 @@ export const CustomModalButtonContainer = ({ children }: { children: React.React
 const styles = StyleSheet.create({
     buttonsContainer: {
         width: '100%',
-        marginTop: PADDING.sm,
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
+        marginTop: PADDING.md,
+        gap: PADDING.sm,
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
         alignItems: 'center',
     },
 });

@@ -1,29 +1,30 @@
 import { Text, Pressable, View, StyleSheet } from 'react-native';
 import { FONTS, PADDING } from '../../styles/base';
 import { useColors } from '../../hooks/useColors';
-import { useState } from 'react';
-import { CUBES_DATA } from '../../constants/CubesData';
-import { PickCubeModal } from './modals/PickCubeModal';
-import CubeIcon from '../../assets/icons/CubeIcon';
+import { useTranslation } from '../../hooks/useTranslation';
+import { useCurrentSession } from '../../hooks/useCurrentSession';
+import { truncateString } from '../../utils/truncateString';
 
-export const TopBarCubeButton = ({ title }: { title: string }) => {
-    const [showCubePicker, setShowCubePicker] = useState(false);
+export const TopBarSessionButton = ({ onPress }: { onPress: () => void }) => {
+    const currentSession = useCurrentSession();
+    const trans = useTranslation();
     const getColor = useColors();
 
     return (
         <>
-            <PickCubeModal showModal={showCubePicker} onClose={() => setShowCubePicker(false)} />
-            <View style={[styles.container, { backgroundColor: getColor('backgroundLight') }]}>
+            <View style={styles.container}>
                 <Pressable
                     style={styles.container}
                     android_ripple={{ color: getColor('background100') }}
-                    onPress={() => setShowCubePicker(true)}
+                    onPress={onPress}
                 >
                     <View style={[styles.innerContainer]}>
                         <View style={styles.textContainer}>
-                            <CubeIcon color={getColor('gray500')} />
+                            <Text style={[styles.subtitle, { color: getColor('gray500') }]}>
+                                {trans('session').toUpperCase()}
+                            </Text>
                             <Text style={[styles.title, { color: getColor('text') }]}>
-                                {CUBES_DATA.find(el => el.id === title)?.fullName}
+                                {truncateString(currentSession.name, 9)}
                             </Text>
                         </View>
                     </View>
@@ -36,11 +37,11 @@ export const TopBarCubeButton = ({ title }: { title: string }) => {
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
         flexDirection: 'row',
+        alignSelf: 'flex-end',
         borderRadius: 20,
         overflow: 'hidden',
-        alignSelf: 'center',
     },
     innerContainer: {
         padding: PADDING.sm,
@@ -49,14 +50,14 @@ const styles = StyleSheet.create({
     title: {
         fontSize: FONTS.s,
         fontWeight: '600',
-        textAlign: 'center',
+        textAlign: 'right',
+    },
+    subtitle: {
+        fontSize: FONTS.micro,
+        textAlign: 'right',
+        justifyContent: 'flex-end',
     },
     textContainer: {
-        flexDirection: 'row',
-        gap: 4,
-    },
-    icon: {
-        position: 'absolute',
-        right: -10,
+        gap: 2,
     },
 });

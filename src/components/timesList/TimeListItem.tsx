@@ -51,7 +51,7 @@ export const TimeListItem = ({
                     style={[
                         styles.container,
                         {
-                            backgroundColor: getColor('primary200'),
+                            backgroundColor: getColor('background100'),
                             borderColor: isSelected ? getColor('primary800') : 'transparent',
                         },
                     ]}

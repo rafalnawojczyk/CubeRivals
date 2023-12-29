@@ -48,7 +48,7 @@ export const TimesListFiltersList = ({
         };
 
         return (
-            <Pressable style={[styles.item, { borderColor: getColor('primary200') }]} onPress={onPressHandler}>
+            <Pressable style={[styles.item, { borderColor: getColor('accentLight') }]} onPress={onPressHandler}>
                 <IconButton
                     icon="close"
                     size={FONTS.lg}

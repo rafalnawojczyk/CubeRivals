@@ -18,11 +18,11 @@ export const AppTabs = () => {
             screenOptions={{
                 headerShown: false,
                 tabBarActiveTintColor: getColor('text'),
-                tabBarInactiveTintColor: getColor('gray400'),
+                tabBarInactiveTintColor: getColor('accentLight'),
                 tabBarShowLabel: false,
                 tabBarStyle: {
                     borderTopWidth: 0,
-                    backgroundColor: getColor('gray800'),
+                    backgroundColor: getColor('background'),
                     alignItems: 'center',
                     height: 70,
                 },
@@ -33,8 +33,8 @@ export const AppTabs = () => {
                 component={RivalsScreen}
                 options={{
                     title: 'Home',
-                    tabBarIcon: ({ size, color, focused }) => (
-                        <NavigationIcon size={size} color={color} icon="emoji-events" isActive={focused} />
+                    tabBarIcon: ({ color, focused }) => (
+                        <NavigationIcon color={color} icon="rivals" isActive={focused} />
                     ),
                 }}
             />
@@ -43,8 +43,8 @@ export const AppTabs = () => {
                 component={StatisticsScreen}
                 options={{
                     title: 'Statistics',
-                    tabBarIcon: ({ size, color, focused }) => (
-                        <NavigationIcon size={size} color={color} icon="stacked-line-chart" isActive={focused} />
+                    tabBarIcon: ({ color, focused }) => (
+                        <NavigationIcon color={color} icon="stats" isActive={focused} />
                     ),
                 }}
             />
@@ -53,8 +53,8 @@ export const AppTabs = () => {
                 component={TimerScreen}
                 options={{
                     title: 'Timer',
-                    tabBarIcon: ({ size, color, focused }) => (
-                        <NavigationIcon size={size} color={color} icon="timer" isActive={focused} isMiddleIcon={true} />
+                    tabBarIcon: ({ color, focused }) => (
+                        <NavigationIcon color={color} icon="timer" isActive={focused} />
                     ),
                 }}
             />
@@ -63,9 +63,7 @@ export const AppTabs = () => {
                 component={TimesListScreen}
                 options={{
                     title: 'Times List',
-                    tabBarIcon: ({ size, color, focused }) => (
-                        <NavigationIcon size={size} color={color} icon="format-list-bulleted" isActive={focused} />
-                    ),
+                    tabBarIcon: ({ color, focused }) => <NavigationIcon color={color} icon="list" isActive={focused} />,
                 }}
             />
             <BottomTabs.Screen
@@ -73,8 +71,8 @@ export const AppTabs = () => {
                 component={SettingsScreen}
                 options={{
                     title: 'Settings',
-                    tabBarIcon: ({ size, color, focused }) => (
-                        <NavigationIcon size={size} color={color} icon="settings" isActive={focused} />
+                    tabBarIcon: ({ color, focused }) => (
+                        <NavigationIcon color={color} icon="settings" isActive={focused} />
                     ),
                 }}
             />

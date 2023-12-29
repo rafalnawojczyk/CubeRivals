@@ -26,20 +26,27 @@ export const AddSessionModal = ({ showModal, onClose, onAddSession }: AddSession
     };
 
     return (
-        <CustomModal isVisible={showModal} onClose={onClose} title={trans('addSessionName')} size="lg">
+        <CustomModal
+            isVisible={showModal}
+            onClose={onClose}
+            title={trans('addSessionName')}
+            subtitle={trans('addSessionSubtitle')}
+            size="lg"
+        >
             <TextInput
                 value={sessionNameInput}
                 onChangeText={setSessionNameInput}
                 placeholder={trans('addSessionNamePlaceholder')}
                 multiline={false}
                 maxLength={40}
-                style={[styles.textInput, { backgroundColor: getColor('gray100') }]}
-                textAlignVertical="top"
-                textAlign="center"
+                style={[styles.textInput, { backgroundColor: getColor('gray800'), color: getColor('text') }]}
+                placeholderTextColor={getColor('text')}
+                textAlignVertical="center"
+                textAlign="left"
             />
             <CustomModal.ButtonsContainer>
-                <CustomModal.Button type="cancel" onPress={onClose} title={trans('cancel')} />
                 <CustomModal.Button type="primary" onPress={onAddSessionHandler} title={trans('add')} />
+                <CustomModal.Button type="cancel" onPress={onClose} title={trans('cancel')} />
             </CustomModal.ButtonsContainer>
         </CustomModal>
     );
@@ -48,8 +55,8 @@ export const AddSessionModal = ({ showModal, onClose, onAddSession }: AddSession
 const styles = StyleSheet.create({
     textInput: {
         width: '100%',
-        borderRadius: 2,
-        padding: PADDING.sm,
-        fontSize: FONTS.md,
+        borderRadius: 8,
+        padding: PADDING.m,
+        fontSize: FONTS.m,
     },
 });

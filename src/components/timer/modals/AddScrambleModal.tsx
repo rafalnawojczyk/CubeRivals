@@ -23,13 +23,14 @@ export const AddScrambleModal = ({ showModal, onClose, onAddScramble }: AddScram
                 onChangeText={setScrambleInput}
                 multiline={true}
                 maxLength={250}
-                style={[styles.textInput, { backgroundColor: getColor('gray100') }]}
+                style={[styles.textInput, { backgroundColor: getColor('gray800'), color: getColor('text') }]}
+                placeholderTextColor={getColor('text')}
+                placeholder={trans('addOwnScramblePlaceholder')}
                 textAlignVertical="top"
-                textAlign="center"
             />
             <CustomModal.ButtonsContainer>
-                <CustomModal.Button type="cancel" onPress={onClose} title={trans('cancel')} />
                 <CustomModal.Button type="primary" onPress={() => onAddScramble(scrambleInput)} title={trans('add')} />
+                <CustomModal.Button type="cancel" onPress={onClose} title={trans('cancel')} />
             </CustomModal.ButtonsContainer>
         </CustomModal>
     );
@@ -38,9 +39,9 @@ export const AddScrambleModal = ({ showModal, onClose, onAddScramble }: AddScram
 const styles = StyleSheet.create({
     textInput: {
         width: '100%',
-        borderRadius: 2,
+        borderRadius: 8,
         minHeight: DIMENSIONS.fullHeight * 0.2,
-        padding: PADDING.sm,
-        fontSize: FONTS.md,
+        padding: PADDING.m,
+        fontSize: FONTS.m,
     },
 });
