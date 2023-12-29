@@ -10,6 +10,7 @@ import { CheckBox } from '../../UI/Checkbox';
 import { Result } from '../../../models/result';
 import { ResultIconButton } from '../ResultIconButton';
 import { Solve } from '../../../models/realm-models/SolveSchema';
+import { AddNoteModal } from './AddNoteModal';
 
 interface AddTimeModalProps {
     showModal: boolean;
@@ -21,6 +22,7 @@ export const AddTimeModal = ({ showModal, onClose, onAddTime }: AddTimeModalProp
     const [time, setTime] = useState('');
     const [saveScramble, setSaveScramble] = useState(true);
     const [result, setResult] = useState<Result>({ time: 0, scramble: '' });
+    const [showNoteModal, setShowNoteModal] = useState(false);
     const getColor = useColors();
     const trans = useTranslation();
     const inputRef = useRef(null);
@@ -42,92 +44,104 @@ export const AddTimeModal = ({ showModal, onClose, onAddTime }: AddTimeModalProp
         }
 
         if (name === 'note') {
-            // TODO: open note modal
+            setShowNoteModal(true);
         }
     };
 
     return (
-        <CustomModal
-            isVisible={showModal}
-            onClose={onClose}
-            subtitle={trans('addTimeDesc')}
-            title={trans('addTime')}
-            size="lg"
-        >
-            <View style={styles.textInputContainer}>
-                <TextInput
-                    ref={inputRef}
-                    value={time}
-                    onChangeText={setTime}
-                    style={[styles.textInput]}
-                    textAlignVertical="top"
-                    keyboardType="decimal-pad"
-                    autoFocus={true}
-                />
-                <Pressable
-                    onPress={() => {
-                        //@ts-ignore
-                        inputRef?.current?.focus();
-                    }}
-                >
-                    <View
-                        style={[
-                            styles.textContainer,
-                            {
-                                borderColor: getColor('accentLight'),
-                            },
-                        ]}
+        <>
+            <AddNoteModal
+                onAddNote={note => {
+                    setResult(prev => ({ ...prev, note }));
+                    setShowNoteModal(false);
+                }}
+                showModal={showNoteModal}
+                currentNote={result.note ? result.note : ''}
+                onClose={() => setShowNoteModal(false)}
+            />
+            <CustomModal
+                isVisible={showModal}
+                onClose={onClose}
+                subtitle={trans('addTimeDesc')}
+                title={trans('addTime')}
+                size="lg"
+            >
+                <View style={styles.textInputContainer}>
+                    <TextInput
+                        ref={inputRef}
+                        value={time}
+                        onChangeText={setTime}
+                        style={[styles.textInput]}
+                        textAlignVertical="top"
+                        keyboardType="decimal-pad"
+                        autoFocus={true}
+                    />
+                    <Pressable
+                        onPress={() => {
+                            //@ts-ignore
+                            inputRef?.current?.focus();
+                        }}
                     >
-                        <Text style={[styles.time, { color: getColor('text') }]}>{formatNumberInput(time)}</Text>
-                    </View>
-                </Pressable>
-            </View>
-            <View style={styles.iconsContainer}>
-                {buttonsMap
-                    .filter(el => el.name !== 'remove')
-                    .map(button => (
-                        <ResultIconButton
-                            isActive={!!button?.condition?.(result as Solve)}
-                            onPress={handleSolveModifiers}
-                            button={button}
-                        />
-                    ))}
-            </View>
-            <ModifyResultBlock setSolveResult={setResult} showDelete={false} onDelete={() => {}} />
+                        <View
+                            style={[
+                                styles.textContainer,
+                                {
+                                    borderColor: getColor('accentLight'),
+                                },
+                            ]}
+                        >
+                            <Text style={[styles.time, { color: getColor('text') }]}>{formatNumberInput(time)}</Text>
+                        </View>
+                    </Pressable>
+                </View>
+                <View style={styles.iconsContainer}>
+                    {buttonsMap
+                        .filter(el => el.name !== 'remove')
+                        .map(button => (
+                            <ResultIconButton
+                                isActive={!!button?.condition?.(result as Solve)}
+                                onPress={handleSolveModifiers}
+                                button={button}
+                            />
+                        ))}
+                </View>
+                <ModifyResultBlock setSolveResult={setResult} showDelete={false} onDelete={() => {}} />
 
-            <View style={styles.scrambleBlock}>
-                <CheckBox isChecked={saveScramble} onPress={() => setSaveScramble(prev => !prev)} />
-                <Pressable onPress={() => setSaveScramble(prev => !prev)}>
-                    <Text
-                        style={[
-                            styles.scramble,
-                            { color: saveScramble ? getColor('primary600') : getColor('gray500') },
-                        ]}
-                    >
-                        {trans('useThisScramble')}
-                    </Text>
-                </Pressable>
-            </View>
-            <CustomModal.ButtonsContainer>
-                <CustomModal.Button type="secondary" onPress={onClose} title={trans('cancel')}></CustomModal.Button>
-                <CustomModal.Button
-                    type="primary"
-                    onPress={() => {
-                        const resultObj: any = { time: +(time + '0') };
-                        if (result.flag) {
-                            resultObj.flag = result.flag;
-                        }
+                <View style={styles.scrambleBlock}>
+                    <CheckBox isChecked={saveScramble} onPress={() => setSaveScramble(prev => !prev)} />
+                    <Pressable onPress={() => setSaveScramble(prev => !prev)}>
+                        <Text
+                            style={[
+                                styles.scramble,
+                                { color: saveScramble ? getColor('primary600') : getColor('gray500') },
+                            ]}
+                        >
+                            {trans('useThisScramble')}
+                        </Text>
+                    </Pressable>
+                </View>
+                <CustomModal.ButtonsContainer>
+                    <CustomModal.Button
+                        type="primary"
+                        onPress={() => {
+                            const resultObj: any = { time: +(time + '0') };
+                            if (result.flag) {
+                                resultObj.flag = result.flag;
+                            }
 
-                        if (result.note) {
-                            resultObj.note = result.note;
-                        }
-                        onAddTime(resultObj, saveScramble);
-                        setTime('');
-                    }}
-                    title={trans('add')}
-                />
-            </CustomModal.ButtonsContainer>
-        </CustomModal>
+                            if (result.note) {
+                                resultObj.note = result.note;
+                            }
+                            onAddTime(resultObj, saveScramble);
+                            setTime('');
+                            setResult({ time: 0, scramble: '' });
+                        }}
+                        title={trans('addTime')}
+                    />
+                    <CustomModal.Button type="cancel" onPress={onClose} title={trans('cancel')}></CustomModal.Button>
+                </CustomModal.ButtonsContainer>
+            </CustomModal>
+        </>
     );
 };
 
@@ -155,6 +169,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: PADDING.lg,
         paddingVertical: PADDING.micro,
         borderRadius: 9999,
+        minWidth: 150,
     },
     scrambleBlock: {
         width: '100%',
