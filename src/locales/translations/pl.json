@@ -72,8 +72,8 @@
     "inspectionTime": "Czas inspekcji",
     "newBestBy": "Nowy najlepszy czas! Poprzedni rekord sesji pobity o",
 
-    "settings.showTimerSettings": "Pokaż ustawienia timera",
-    "settings.timerSettingsDesc": "Pokaż ustawienia ściśle powiązane z funkcjonalnością timera.",
+    "settings.title": "Ustawienia aplikacji",
+    "settings.goToTimerSettings": "Przejdź do ustawień timera",
     "timerSettings.showEasyAdd": "Tryb ręcznego timera",
     "timerSettings.showEasyAddDesc": "Ukryj timer i pokaż okno łatwego wpisywania czasów.",
     "settings.darkMode": "Włącz tryb ciemny",

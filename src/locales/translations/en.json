@@ -73,10 +73,11 @@
     "averageOf": "Average of",
     "newBestBy": "New best time! You've beaten previous best in session by",
 
-    "settings.showTimerSettings": "Show Timer Settings",
-    "settings.timerSettingsDesc": "Show settings that are specifically related to timer functionalities.",
+    "settings.title": "App settings",
+    "settings.goToTimerSettings": "Go to timer settings",
+
     "settings.darkMode": "Use Dark Mode",
-    "settings.darkModeDesc": "Switch between dark and light mode for whole interface.",
+    "settings.darkModeDesc": "Switch between dark and light mode for the interface.",
     "settings.selectLang": "Select language",
 
     "timerSettings.resetDesc": "Are you sure you want to reset timer settings to default?",
