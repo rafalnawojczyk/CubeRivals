@@ -16,10 +16,11 @@ import FlagIcon from '../../assets/icons/FlagIcon';
 import CommentIcon from '../../assets/icons/CommentIcon';
 import StarIcon from '../../assets/icons/StarIcon';
 import { PADDING } from '../../styles/base';
+import { ResultIconButton } from './ResultIconButton';
 
 export type ButtonName = 'remove' | 'dnf' | '+2' | 'note' | 'star';
 
-interface ModifyButton {
+export interface ModifyButton {
     name: ButtonName;
     activeIcon?: keyof typeof MaterialIcons.glyphMap;
     icon: (color: string) => ReactNode;
@@ -45,6 +46,11 @@ export const buttonsMap: ModifyButton[] = [
         name: 'note',
         icon: color => <CommentIcon color={color} />,
         condition: (solve: Solve) => !!solve?.note?.length && solve.note.length > 0,
+    },
+    {
+        name: 'star',
+        icon: color => <StarIcon color={color} />,
+        condition: (solve: Solve) => !!solve.star,
     },
 ];
 
@@ -172,19 +178,12 @@ export const ModifyResultBlock = ({
             <View style={styles.outerContainer}>
                 <View style={styles.innerContainer}>
                     {buttonsToRender.map(button => (
-                        <View key={button.name} style={styles.iconsContainer}>
-                            <Pressable onPress={() => onButtonPress(button.name)}>
-                                {button.icon(
-                                    button.condition?.(solve) ? getColor('primary600') : getColor('accentLight')
-                                )}
-                            </Pressable>
-                        </View>
+                        <ResultIconButton
+                            isActive={!!button.condition?.(solve)}
+                            button={button}
+                            onPress={onButtonPress}
+                        />
                     ))}
-                    <View style={styles.iconsContainer}>
-                        <Pressable onPress={() => onButtonPress('star')}>
-                            <StarIcon color={solve?.star ? getColor('primary600') : getColor('accentLight')} />
-                        </Pressable>
-                    </View>
                 </View>
             </View>
         </>
@@ -201,11 +200,5 @@ const styles = StyleSheet.create({
         gap: PADDING.m,
         flexDirection: 'row',
         justifyContent: 'space-around',
-    },
-    iconsContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: 30,
-        height: 30,
     },
 });
