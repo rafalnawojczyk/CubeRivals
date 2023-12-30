@@ -14,20 +14,24 @@ export const AddScrambleModal = ({ showModal, onClose, onAddScramble }: AddScram
 
     const trans = useTranslation();
 
+    const onCloseModal = () => {
+        onClose();
+        setScrambleInput(['']);
+    };
+
     return (
-        <CustomModal isVisible={showModal} onClose={onClose} title={trans('addOwnScramble')} size="lg">
+        <CustomModal isVisible={showModal} onClose={onCloseModal} title={trans('addOwnScramble')} size="lg">
             <ScrambleKeyboard setScramble={setScrambleInput} scramble={scrambleInput} />
             <CustomModal.ButtonsContainer>
                 <CustomModal.Button
                     type="primary"
                     onPress={() => {
                         onAddScramble(scrambleInput.join(' '));
-                        setScrambleInput(['']);
-                        onClose();
+                        onCloseModal();
                     }}
                     title={trans('add')}
                 />
-                <CustomModal.Button type="cancel" onPress={onClose} title={trans('cancel')} />
+                <CustomModal.Button type="cancel" onPress={onCloseModal} title={trans('cancel')} />
             </CustomModal.ButtonsContainer>
         </CustomModal>
     );
