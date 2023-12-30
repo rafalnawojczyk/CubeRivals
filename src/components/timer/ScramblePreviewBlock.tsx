@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { generateScramble } from '../../utils/generateScramble';
 import { useColors } from '../../hooks/useColors';
 import { DIMENSIONS, FONTS, PADDING } from '../../styles/base';
-import { AddScrambleModal } from './modals/AddScrambleModal';
+import { AddScrambleModal } from './modals/AddScrambleModal/AddScrambleModal';
 import { AddTimeModal } from './modals/AddTimeModal';
 import { Result } from '../../models/result';
 import { useTimerSettingsStore } from '../../store/timerSettingsStore';
