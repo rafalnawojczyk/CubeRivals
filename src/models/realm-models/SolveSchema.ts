@@ -17,7 +17,7 @@ export class Solve extends Realm.Object<Solve> {
     time!: number; // in ms
     scramble!: string;
     note?: string;
-    flag?: string;
+    flag?: SolveFlagType;
     inspection?: number;
     star?: boolean;
 
